@@ -1,0 +1,146 @@
+{
+  "nav": {
+    "inicio": "Startseite",
+    "servicios": "Leistungen",
+    "ecosistema": "Ökosystem",
+    "nosotros": "Über uns",
+    "contacto": "Kontakt",
+    "cta": "Demo anfordern"
+  },
+  "hero": {
+    "tag": "Fortschrittliche Technologieplattform",
+    "title_1": "Visionen verwandeln in",
+    "title_2": "intelligente Infrastruktur",
+    "subtitle": "Fortschrittliche Lösungen in künstlicher Intelligenz, Cybersicherheit und Softwareentwicklung für das Wachstum Ihres Unternehmens.",
+    "cta_primary": "Ökosystem erkunden",
+    "cta_secondary": "Demo anfordern",
+    "stat_1_label": "Aktive Unternehmen",
+    "stat_2_label": "Jahre Erfahrung",
+    "stat_3_label": "Zufriedenheit",
+    "stat_4_label": "Technischer Support"
+  },
+  "services": {
+    "label": "Kernleistungen",
+    "title": "Modernste Technologie für Ihr Unternehmen",
+    "subtitle": "Eine integrierte Plattform mit den gefragtesten technologischen Lösungen von heute und morgen.",
+    "link": "Mehr erfahren",
+    "items": [
+      {
+        "title": "KI & Automatisierung",
+        "desc": "Einsatz von Sprachmodellen (LLMs), Workflow-Automatisierung mit KI-Agenten und Computer Vision."
+      },
+      {
+        "title": "Cybersicherheit & Compliance",
+        "desc": "Sicherheitsaudits, Datenschutz, Perimeterschutz und regulatorische Compliance für Ihre Infrastruktur."
+      },
+      {
+        "title": "Cloud & DevOps",
+        "desc": "Skalierbare und serverlose Infrastrukturen auf AWS und Google Cloud Platform mit CI/CD und 24/7-Monitoring."
+      },
+      {
+        "title": "Full-Stack-Entwicklung",
+        "desc": "Maßgeschneiderte Softwareentwicklung mit robusten, reaktiven und leistungsoptimierten Architekturen."
+      },
+      {
+        "title": "Tech-Beratung",
+        "desc": "Strategie zur digitalen Transformation für Unternehmen, die Abläufe automatisieren und ihr Geschäftsmodell skalieren möchten."
+      },
+      {
+        "title": "Rechnungsstellung & Verwaltung",
+        "desc": "Elektronische Rechnungsstellung, CRM, Buchhaltung und Steuererklärungen für das umfassende Unternehmensmanagement."
+      }
+    ]
+  },
+  "ecosystem": {
+    "label": "Aktives Ökosystem",
+    "title": "Lösungen im Betrieb",
+    "subtitle": "Von unserem Team entwickelte und betriebene Technologieplattformen, verfügbar für Ihr Unternehmen.",
+    "erp_title": "Enterprise ERP",
+    "erp_desc": "Ressourcenmanagement, Inventar und Echtzeit-Analysen zur Optimierung Ihrer Geschäftsprozesse.",
+    "erp_badge": "Cloud Native",
+    "erp_cta": "App starten",
+    "crm_title": "Next-Gen CRM",
+    "crm_desc": "Intelligente Automatisierung von Verkaufstrichtern und KI-gestütztes Kundenbeziehungsmanagement.",
+    "crm_badge": "KI-gesteuert",
+    "crm_cta": "Live-Demo",
+    "rtms_title": "RTMS",
+    "rtms_sub": "Echtzeit-Managementsystem",
+    "rtms_desc": "Betriebsüberwachung und -steuerung mit Echtzeit-Logistik-Tracking bei null Latenz.",
+    "rtms_badge": "Hochleistung",
+    "rtms_cta": "System öffnen",
+    "ad_title": "Arias Defense",
+    "ad_desc": "Plattform für elektronische Rechnungsstellung und unternehmerisches Finanzmanagement.",
+    "ad_badge": "Enterprise-Sicherheit",
+    "ad_cta": "Seite besuchen"
+  },
+  "stats": {
+    "label": "In Zahlen",
+    "title_1": "Ergebnisse, die",
+    "title_2": "für sich sprechen",
+    "subtitle": "Über ein Jahrzehnt Transformation des Unternehmensmanagements in einer zunehmend digitalen Region.",
+    "items": [
+      { "value": "500+", "label": "Unternehmen vertrauen uns", "desc": "Von KMUs bis zu großen Konzernen in der gesamten Region." },
+      { "value": "10+",  "label": "Jahre am Markt",            "desc": "Über ein Jahrzehnt zuverlässige und skalierbare Software." },
+      { "value": "99%",  "label": "Zufriedenheitsrate",        "desc": "Unsere Kunden empfehlen uns konsequent weiter." },
+      { "value": "24/7", "label": "Technischer Support",       "desc": "Ein Team, das jederzeit zur Verfügung steht." }
+    ]
+  },
+  "about": {
+    "label": "Warum uns wählen?",
+    "title_1": "Über 10 Jahre Schutz",
+    "title_2": "Ihres Unternehmensmanagements",
+    "subtitle": "Arias Defense wurde mit der Mission gegründet, das Finanzmanagement von Unternehmen zu vereinfachen und zu schützen.",
+    "cta": "Mit einem Experten sprechen",
+    "features": [
+      { "title": "Garantierte regulatorische Compliance", "desc": "Software automatisch aktualisiert mit den neuesten Steuervorschriften, damit Sie immer compliant sind." },
+      { "title": "24/7 technischer Support", "desc": "Ein Expertenteam, das jederzeit verfügbar ist, um Fragen zu lösen und Ihren Betrieb aufrechtzuerhalten." },
+      { "title": "Reibungslose Integration", "desc": "Wir verbinden unsere Lösungen einfach mit Ihren bestehenden Systemen (ERP, Banken, Steuerportale)." },
+      { "title": "Skalierbar mit Ihrem Unternehmen", "desc": "Von Startups bis zu großen Konzernen wächst unsere Plattform mit den Bedürfnissen Ihres Unternehmens." }
+    ]
+  },
+  "testimonials": {
+    "label": "Erfahrungsberichte",
+    "title": "Was unsere Kunden sagen",
+    "subtitle": "Unternehmen in der gesamten Region vertrauen Arias Defense für die Transformation ihres Unternehmensmanagements.",
+    "items": [
+      { "quote": "Arias Defense hat unsere Rechnungsstellung revolutioniert. Wir gingen von 50 manuellen Rechnungen täglich auf über 500 vollautomatisierte über. Die Zeitersparnis ist enorm.", "name": "María González", "role": "CFO", "company": "Comercializadora ABC" },
+      { "quote": "Das CRM-Modul half uns, unser gesamtes Kundenportfolio zu organisieren. Wir steigerten unseren Umsatz in nur sechs Monaten um 40%.", "name": "Carlos Rodríguez", "role": "Vertriebsleiter", "company": "Tecnologías XYZ" },
+      { "quote": "Die Implementierung war schnell und das Support-Team war bei jedem Schritt an unserer Seite. Unsere Buchhaltung und Steuererklärungen sind nun vollständig auf dem neuesten Stand.", "name": "Ana Martínez", "role": "Geschäftsführerin", "company": "Distribuidora DEF" }
+    ]
+  },
+  "cta": {
+    "label": "Heute starten",
+    "title_1": "Bereit, Ihr",
+    "title_2": "Unternehmensmanagement zu modernisieren?",
+    "subtitle": "Schließen Sie sich über 500 Unternehmen an, die Arias Defense bereits vertrauen, um ihre Prozesse zu optimieren.",
+    "cta_primary": "Kostenlose Demo anfordern",
+    "cta_secondary": "Mit einem Experten sprechen",
+    "trust_1": "Keine Kreditkarte erforderlich",
+    "trust_2": "Implementierung in 72 Stunden",
+    "trust_3": "24/7-Support inklusive"
+  },
+  "footer": {
+    "tagline": "Unternehmenssoftware für das digitale Zeitalter. Leistung, Sicherheit und Compliance auf einer Plattform.",
+    "empresa": "Unternehmen",
+    "soluciones": "Lösungen",
+    "soporte": "Support",
+    "contacto": "Kontakt",
+    "link_nosotros": "Über uns",
+    "link_servicios": "Leistungen",
+    "link_clientes": "Kunden",
+    "link_blog": "Blog",
+    "link_contacto": "Kontakt",
+    "link_facturacion": "Elektronische Rechnung",
+    "link_crm": "Enterprise CRM",
+    "link_cobrar": "Debitorenbuchhaltung",
+    "link_contabilidad": "Buchhaltungsmodul",
+    "link_declaraciones": "Steuererklärungen",
+    "link_docs": "Dokumentation",
+    "link_ayuda": "Hilfecenter",
+    "link_estado": "Systemstatus",
+    "link_actualizaciones": "Aktualisierungen",
+    "copyright": "Alle Rechte vorbehalten.",
+    "privacy": "Datenschutzrichtlinie",
+    "terms": "Nutzungsbedingungen"
+  }
+}

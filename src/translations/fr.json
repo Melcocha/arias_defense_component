@@ -1,0 +1,146 @@
+{
+  "nav": {
+    "inicio": "Accueil",
+    "servicios": "Services",
+    "ecosistema": "Écosystème",
+    "nosotros": "À propos",
+    "contacto": "Contact",
+    "cta": "Demander une Démo"
+  },
+  "hero": {
+    "tag": "Plateforme Technologique Avancée",
+    "title_1": "Transformer la vision en",
+    "title_2": "infrastructure intelligente",
+    "subtitle": "Solutions avancées en intelligence artificielle, cybersécurité et développement logiciel pour accélérer la croissance de votre entreprise.",
+    "cta_primary": "Explorer l'Écosystème",
+    "cta_secondary": "Demander une Démo",
+    "stat_1_label": "Entreprises actives",
+    "stat_2_label": "Ans d'expérience",
+    "stat_3_label": "Satisfaction",
+    "stat_4_label": "Support technique"
+  },
+  "services": {
+    "label": "Services Principaux",
+    "title": "Technologie de pointe pour votre entreprise",
+    "subtitle": "Une plateforme intégrée avec les solutions technologiques les plus demandées du marché actuel et futur.",
+    "link": "En savoir plus",
+    "items": [
+      {
+        "title": "IA & Automatisation",
+        "desc": "Déploiement de modèles de langage (LLMs), automatisation des flux de travail avec des agents IA et vision par ordinateur."
+      },
+      {
+        "title": "Cybersécurité & Conformité",
+        "desc": "Audits de sécurité, protection des données, défense périmétrique et conformité réglementaire pour votre infrastructure."
+      },
+      {
+        "title": "Cloud & DevOps",
+        "desc": "Infrastructures évolutives et serverless sur AWS et Google Cloud Platform avec CI/CD et surveillance 24/7."
+      },
+      {
+        "title": "Développement Full-Stack",
+        "desc": "Ingénierie logicielle sur mesure avec des architectures robustes, réactives et optimisées pour la haute performance."
+      },
+      {
+        "title": "Conseil Tech",
+        "desc": "Stratégie de transformation numérique pour les entreprises souhaitant automatiser leurs opérations et faire évoluer leur modèle."
+      },
+      {
+        "title": "Facturation & Gestion",
+        "desc": "Facturation électronique, CRM, comptabilité et déclarations fiscales pour une gestion d'entreprise complète."
+      }
+    ]
+  },
+  "ecosystem": {
+    "label": "Écosystème Actif",
+    "title": "Solutions en production",
+    "subtitle": "Plateformes technologiques développées et exploitées par notre équipe, disponibles pour votre entreprise.",
+    "erp_title": "Enterprise ERP",
+    "erp_desc": "Gestion des ressources, des stocks et des analyses en temps réel pour optimiser vos processus d'entreprise.",
+    "erp_badge": "Cloud Native",
+    "erp_cta": "Lancer l'App",
+    "crm_title": "Next-Gen CRM",
+    "crm_desc": "Automatisation intelligente des entonnoirs de vente et gestion des relations clients propulsée par l'IA.",
+    "crm_badge": "Propulsé par IA",
+    "crm_cta": "Démo en Direct",
+    "rtms_title": "RTMS",
+    "rtms_sub": "Système de Gestion en Temps Réel",
+    "rtms_desc": "Surveillance et contrôle des opérations avec suivi logistique en temps réel à latence zéro.",
+    "rtms_badge": "Haute Performance",
+    "rtms_cta": "Accéder au Système",
+    "ad_title": "Arias Defense",
+    "ad_desc": "Plateforme de facturation électronique et de gestion financière d'entreprise.",
+    "ad_badge": "Sécurité Entreprise",
+    "ad_cta": "Visiter le Site"
+  },
+  "stats": {
+    "label": "En chiffres",
+    "title_1": "Des résultats qui",
+    "title_2": "parlent d'eux-mêmes",
+    "subtitle": "Plus d'une décennie à transformer la gestion d'entreprise dans une région de plus en plus numérique.",
+    "items": [
+      { "value": "500+", "label": "Entreprises nous font confiance", "desc": "Des PME aux grandes corporations dans toute la région." },
+      { "value": "10+",  "label": "Ans sur le marché",               "desc": "Plus d'une décennie à construire des logiciels fiables." },
+      { "value": "99%",  "label": "Taux de satisfaction",            "desc": "Nos clients nous recommandent systématiquement." },
+      { "value": "24/7", "label": "Support technique",               "desc": "Une équipe toujours disponible pour résoudre tout problème." }
+    ]
+  },
+  "about": {
+    "label": "Pourquoi nous choisir ?",
+    "title_1": "Plus de 10 ans à défendre",
+    "title_2": "votre gestion d'entreprise",
+    "subtitle": "Arias Defense est né avec la mission de simplifier et de protéger la gestion financière des entreprises.",
+    "cta": "Parler à un expert",
+    "features": [
+      { "title": "Conformité réglementaire garantie", "desc": "Logiciel mis à jour automatiquement avec les dernières réglementations fiscales pour que vous soyez toujours conforme." },
+      { "title": "Support technique 24/7", "desc": "Une équipe de spécialistes disponible à tout moment pour résoudre vos questions et maintenir votre activité sans interruption." },
+      { "title": "Intégration sans friction", "desc": "Nous connectons nos solutions à vos systèmes existants (ERP, banques, portails fiscaux) de manière simple et efficace." },
+      { "title": "Évolutif avec votre entreprise", "desc": "Des startups aux grandes corporations, notre plateforme évolue avec les besoins de votre entreprise." }
+    ]
+  },
+  "testimonials": {
+    "label": "Témoignages",
+    "title": "Ce que disent nos clients",
+    "subtitle": "Des entreprises de toute la région font confiance à Arias Defense pour transformer leur gestion d'entreprise.",
+    "items": [
+      { "quote": "Arias Defense a révolutionné notre facturation. Nous sommes passés de 50 factures manuelles quotidiennes à plus de 500 entièrement automatisées. Le gain de temps est énorme.", "name": "María González", "role": "Directrice Financière", "company": "Comercializadora ABC" },
+      { "quote": "Le module CRM nous a permis d'organiser tout notre portefeuille clients. Nous avons augmenté nos ventes de 40% en seulement six mois grâce à cette plateforme.", "name": "Carlos Rodríguez", "role": "Directeur Commercial", "company": "Tecnologías XYZ" },
+      { "quote": "La mise en œuvre a été rapide et l'équipe de support était avec nous à chaque étape. Notre comptabilité et déclarations fiscales sont désormais parfaitement à jour.", "name": "Ana Martínez", "role": "Directrice Générale", "company": "Distribuidora DEF" }
+    ]
+  },
+  "cta": {
+    "label": "Commencez aujourd'hui",
+    "title_1": "Prêt à moderniser votre",
+    "title_2": "gestion d'entreprise ?",
+    "subtitle": "Rejoignez plus de 500 entreprises qui font déjà confiance à Arias Defense pour optimiser leurs processus et développer leur activité.",
+    "cta_primary": "Demander une Démo Gratuite",
+    "cta_secondary": "Parler à un expert",
+    "trust_1": "Sans carte de crédit",
+    "trust_2": "Mise en œuvre en 72 heures",
+    "trust_3": "Support 24/7 inclus"
+  },
+  "footer": {
+    "tagline": "Logiciel d'entreprise pour l'ère numérique. Puissance, sécurité et conformité sur une seule plateforme.",
+    "empresa": "Entreprise",
+    "soluciones": "Solutions",
+    "soporte": "Support",
+    "contacto": "Contact",
+    "link_nosotros": "À propos",
+    "link_servicios": "Services",
+    "link_clientes": "Clients",
+    "link_blog": "Blog",
+    "link_contacto": "Contact",
+    "link_facturacion": "Facturation Électronique",
+    "link_crm": "CRM Entreprise",
+    "link_cobrar": "Créances Clients",
+    "link_contabilidad": "Module Comptable",
+    "link_declaraciones": "Déclarations Fiscales",
+    "link_docs": "Documentation",
+    "link_ayuda": "Centre d'aide",
+    "link_estado": "Statut du Système",
+    "link_actualizaciones": "Mises à jour",
+    "copyright": "Tous droits réservés.",
+    "privacy": "Politique de confidentialité",
+    "terms": "Conditions d'utilisation"
+  }
+}

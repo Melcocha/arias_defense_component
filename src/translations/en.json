@@ -1,0 +1,146 @@
+{
+  "nav": {
+    "inicio": "Home",
+    "servicios": "Services",
+    "ecosistema": "Ecosystem",
+    "nosotros": "About",
+    "contacto": "Contact",
+    "cta": "Request Demo"
+  },
+  "hero": {
+    "tag": "Advanced Technology Platform",
+    "title_1": "Transforming vision into",
+    "title_2": "intelligent infrastructure",
+    "subtitle": "Advanced solutions in artificial intelligence, cybersecurity, and software development to drive your company's growth.",
+    "cta_primary": "Explore Ecosystem",
+    "cta_secondary": "Request Demo",
+    "stat_1_label": "Active companies",
+    "stat_2_label": "Years of experience",
+    "stat_3_label": "Satisfaction",
+    "stat_4_label": "Technical support"
+  },
+  "services": {
+    "label": "Core Services",
+    "title": "Cutting-edge technology for your business",
+    "subtitle": "An integrated platform with the most in-demand technological solutions of today and the future.",
+    "link": "Learn more",
+    "items": [
+      {
+        "title": "AI & Automation",
+        "desc": "Deployment of language models (LLMs), workflow automation with AI agents, and computer vision at scale."
+      },
+      {
+        "title": "Cybersecurity & Compliance",
+        "desc": "Security audits, data protection, perimeter defense and regulatory compliance for your infrastructure."
+      },
+      {
+        "title": "Cloud & DevOps",
+        "desc": "Scalable and serverless infrastructures on AWS and Google Cloud Platform with CI/CD and 24/7 monitoring."
+      },
+      {
+        "title": "Full-Stack Development",
+        "desc": "Custom software engineering with robust, reactive and performance-optimized architectures."
+      },
+      {
+        "title": "Tech Consulting",
+        "desc": "Digital transformation strategy for companies looking to automate operations and scale their business model."
+      },
+      {
+        "title": "Billing & Management",
+        "desc": "Electronic invoicing, CRM, accounting and tax declarations for comprehensive business management."
+      }
+    ]
+  },
+  "ecosystem": {
+    "label": "Live Ecosystem",
+    "title": "Solutions in production",
+    "subtitle": "Technology platforms developed and operated by our team, available for your business.",
+    "erp_title": "Enterprise ERP",
+    "erp_desc": "Resource management, inventory and real-time analytics for optimizing your business processes.",
+    "erp_badge": "Cloud Native",
+    "erp_cta": "Launch App",
+    "crm_title": "Next-Gen CRM",
+    "crm_desc": "Intelligent automation of sales funnels and customer relationship management powered by AI.",
+    "crm_badge": "AI-Driven",
+    "crm_cta": "Live Demo",
+    "rtms_title": "RTMS",
+    "rtms_sub": "Real-Time Management System",
+    "rtms_desc": "Operations monitoring and control with real-time logistics tracking at zero latency.",
+    "rtms_badge": "High Performance",
+    "rtms_cta": "Access System",
+    "ad_title": "Arias Defense",
+    "ad_desc": "Electronic invoicing and enterprise financial management platform.",
+    "ad_badge": "Enterprise Security",
+    "ad_cta": "Visit Site"
+  },
+  "stats": {
+    "label": "By the numbers",
+    "title_1": "Results that",
+    "title_2": "speak for themselves",
+    "subtitle": "Over a decade transforming enterprise management in an increasingly digital region.",
+    "items": [
+      { "value": "500+", "label": "Companies trust us",    "desc": "From SMEs to large corporations across the region." },
+      { "value": "10+",  "label": "Years in the market",  "desc": "Over a decade building reliable and scalable software." },
+      { "value": "99%",  "label": "Satisfaction rate",    "desc": "Our clients recommend us consistently." },
+      { "value": "24/7", "label": "Technical support",    "desc": "A team always available to resolve any issue." }
+    ]
+  },
+  "about": {
+    "label": "Why choose us?",
+    "title_1": "Over 10 years defending",
+    "title_2": "your enterprise management",
+    "subtitle": "Arias Defense was born with the mission of simplifying and protecting the financial management of companies. Our software combines power, ease of use, and full regulatory compliance.",
+    "cta": "Talk to an expert",
+    "features": [
+      { "title": "Guaranteed regulatory compliance", "desc": "Software automatically updated with the latest tax regulations so you are always compliant." },
+      { "title": "24/7 technical support", "desc": "A team of specialists available at all times to resolve questions and keep your operation running smoothly." },
+      { "title": "Frictionless integration", "desc": "We connect our solutions with your existing systems (ERP, banks, tax portals) in a simple and efficient way." },
+      { "title": "Scalable with your business", "desc": "From startups to large corporations, our platform grows alongside your company's evolving needs." }
+    ]
+  },
+  "testimonials": {
+    "label": "Testimonials",
+    "title": "What our clients say",
+    "subtitle": "Companies across the region trust Arias Defense to transform their enterprise management.",
+    "items": [
+      { "quote": "Arias Defense revolutionized our invoicing. We went from processing 50 invoices daily manually to over 500 completely automated. The time savings are enormous.", "name": "María González", "role": "CFO", "company": "Comercializadora ABC" },
+      { "quote": "The CRM module allowed us to organize our entire client portfolio. We increased our sales by 40% in just six months thanks to this platform.", "name": "Carlos Rodríguez", "role": "Sales Manager", "company": "Tecnologías XYZ" },
+      { "quote": "The implementation was fast and the support team was with us every step of the way. Today our accounting and tax declarations are completely up to date.", "name": "Ana Martínez", "role": "General Manager", "company": "Distribuidora DEF" }
+    ]
+  },
+  "cta": {
+    "label": "Start today",
+    "title_1": "Ready to modernize your",
+    "title_2": "enterprise management?",
+    "subtitle": "Join over 500 companies that already trust Arias Defense to optimize their processes and grow their business.",
+    "cta_primary": "Request Free Demo",
+    "cta_secondary": "Talk to an expert",
+    "trust_1": "No credit card required",
+    "trust_2": "72-hour implementation",
+    "trust_3": "24/7 support included"
+  },
+  "footer": {
+    "tagline": "Enterprise software for the digital age. Power, security, and compliance in one platform.",
+    "empresa": "Company",
+    "soluciones": "Solutions",
+    "soporte": "Support",
+    "contacto": "Contact",
+    "link_nosotros": "About Us",
+    "link_servicios": "Services",
+    "link_clientes": "Clients",
+    "link_blog": "Blog",
+    "link_contacto": "Contact",
+    "link_facturacion": "Electronic Invoicing",
+    "link_crm": "Enterprise CRM",
+    "link_cobrar": "Accounts Receivable",
+    "link_contabilidad": "Accounting Module",
+    "link_declaraciones": "Tax Declarations",
+    "link_docs": "Documentation",
+    "link_ayuda": "Help Center",
+    "link_estado": "System Status",
+    "link_actualizaciones": "Updates",
+    "copyright": "All rights reserved.",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Use"
+  }
+}

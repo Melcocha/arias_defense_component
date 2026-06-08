@@ -1,0 +1,146 @@
+{
+  "nav": {
+    "inicio": "Inicio",
+    "servicios": "Servicios",
+    "ecosistema": "Ecosistema",
+    "nosotros": "Nosotros",
+    "contacto": "Contacto",
+    "cta": "Solicitar Demo"
+  },
+  "hero": {
+    "tag": "Plataforma Tecnológica Avanzada",
+    "title_1": "Transformando visión en",
+    "title_2": "infraestructura inteligente",
+    "subtitle": "Soluciones avanzadas en inteligencia artificial, ciberseguridad y desarrollo de software para impulsar el crecimiento de su empresa.",
+    "cta_primary": "Explorar Ecosistema",
+    "cta_secondary": "Solicitar Demo",
+    "stat_1_label": "Empresas activas",
+    "stat_2_label": "Años de experiencia",
+    "stat_3_label": "Satisfacción",
+    "stat_4_label": "Soporte técnico"
+  },
+  "services": {
+    "label": "Core Services",
+    "title": "Tecnología de vanguardia para su empresa",
+    "subtitle": "Una plataforma integrada con las soluciones más demandadas del mercado actual y futuro.",
+    "link": "Saber más",
+    "items": [
+      {
+        "title": "AI & Automatización",
+        "desc": "Implementación de modelos de lenguaje (LLMs), automatización de flujos con AI agents y visión por computadora."
+      },
+      {
+        "title": "Ciberseguridad & Compliance",
+        "desc": "Auditorías de seguridad, protección de datos, defensa perimetral y cumplimiento normativo para su infraestructura."
+      },
+      {
+        "title": "Cloud & DevOps",
+        "desc": "Infraestructuras escalables y serverless en AWS y Google Cloud Platform con CI/CD y monitoreo 24/7."
+      },
+      {
+        "title": "Desarrollo Full-Stack",
+        "desc": "Ingeniería de software a medida con arquitecturas robustas, reactivas y optimizadas para alto rendimiento."
+      },
+      {
+        "title": "Consultoría Tech",
+        "desc": "Estrategia y transformación digital para empresas que buscan automatizar operaciones y escalar su negocio."
+      },
+      {
+        "title": "Facturación & Gestión",
+        "desc": "Facturación electrónica, CRM, contabilidad y declaraciones fiscales para la gestión empresarial integral."
+      }
+    ]
+  },
+  "ecosystem": {
+    "label": "Ecosistema Activo",
+    "title": "Soluciones en producción",
+    "subtitle": "Plataformas tecnológicas desarrolladas y operadas por nuestro equipo, disponibles para su empresa.",
+    "erp_title": "Enterprise ERP",
+    "erp_desc": "Gestión de recursos, inventarios y analítica en tiempo real para la optimización de sus procesos empresariales.",
+    "erp_badge": "Cloud Native",
+    "erp_cta": "Launch App",
+    "crm_title": "Next-Gen CRM",
+    "crm_desc": "Automatización inteligente de embudos de venta y gestión de relaciones con clientes impulsada por IA.",
+    "crm_badge": "AI-Driven",
+    "crm_cta": "Live Demo",
+    "rtms_title": "RTMS",
+    "rtms_sub": "Real-Time Management System",
+    "rtms_desc": "Monitoreo y control de operaciones con tracking logístico en tiempo real y latencia cero.",
+    "rtms_badge": "High Performance",
+    "rtms_cta": "Access System",
+    "ad_title": "Arias Defense",
+    "ad_desc": "Plataforma de facturación electrónica y gestión financiera empresarial.",
+    "ad_badge": "Enterprise Security",
+    "ad_cta": "Visitar Sitio"
+  },
+  "stats": {
+    "label": "En números",
+    "title_1": "Resultados que",
+    "title_2": "hablan por sí solos",
+    "subtitle": "Más de una década transformando la gestión empresarial en una región cada vez más digital.",
+    "items": [
+      { "value": "500+", "label": "Empresas confían en nosotros", "desc": "Desde PyMEs hasta grandes corporaciones en toda la región." },
+      { "value": "10+",  "label": "Años en el mercado",           "desc": "Más de una década construyendo software confiable y escalable." },
+      { "value": "99%",  "label": "Índice de satisfacción",       "desc": "Nuestros clientes nos recomiendan consistentemente." },
+      { "value": "24/7", "label": "Soporte técnico",              "desc": "Un equipo siempre disponible para resolver cualquier inconveniente." }
+    ]
+  },
+  "about": {
+    "label": "¿Por qué elegirnos?",
+    "title_1": "Más de 10 años defendiendo",
+    "title_2": "su gestión empresarial",
+    "subtitle": "Arias Defense nació con la misión de simplificar y proteger la gestión financiera de las empresas. Nuestro software combina potencia, facilidad de uso y total cumplimiento normativo.",
+    "cta": "Hablar con un experto",
+    "features": [
+      { "title": "Cumplimiento normativo garantizado", "desc": "Software actualizado automáticamente con las últimas regulaciones fiscales para que siempre esté en regla." },
+      { "title": "Soporte técnico 24/7", "desc": "Un equipo de especialistas disponible en todo momento para resolver dudas y mantener su operación sin interrupciones." },
+      { "title": "Integración sin fricciones", "desc": "Conectamos nuestras soluciones con sus sistemas existentes (ERP, bancos, portales fiscales) de forma sencilla." },
+      { "title": "Escalable con su negocio", "desc": "Desde startups hasta grandes corporaciones, nuestra plataforma crece junto con las necesidades de su empresa." }
+    ]
+  },
+  "testimonials": {
+    "label": "Testimonios",
+    "title": "Lo que dicen nuestros clientes",
+    "subtitle": "Empresas de toda la región confían en Arias Defense para transformar su gestión empresarial.",
+    "items": [
+      { "quote": "Arias Defense revolucionó nuestra facturación. Pasamos de procesar 50 facturas diarias de forma manual a más de 500 de manera completamente automatizada.", "name": "María González", "role": "Directora Financiera", "company": "Comercializadora ABC" },
+      { "quote": "El módulo de CRM nos permitió organizar toda nuestra cartera de clientes. Aumentamos nuestras ventas en un 40% en solo seis meses gracias a esta plataforma.", "name": "Carlos Rodríguez", "role": "Gerente Comercial", "company": "Tecnologías XYZ" },
+      { "quote": "La implementación fue rápida y el equipo de soporte estuvo con nosotros en cada paso. Hoy tenemos contabilidad y declaraciones fiscales completamente al día.", "name": "Ana Martínez", "role": "Gerente General", "company": "Distribuidora DEF" }
+    ]
+  },
+  "cta": {
+    "label": "Empiece hoy",
+    "title_1": "¿Listo para modernizar su",
+    "title_2": "gestión empresarial?",
+    "subtitle": "Únase a más de 500 empresas que ya confían en Arias Defense para optimizar sus procesos y hacer crecer su negocio.",
+    "cta_primary": "Solicitar Demo Gratuita",
+    "cta_secondary": "Hablar con un experto",
+    "trust_1": "Sin tarjeta de crédito",
+    "trust_2": "Implementación en 72 horas",
+    "trust_3": "Soporte incluido 24/7"
+  },
+  "footer": {
+    "tagline": "Software empresarial para la era digital. Potencia, seguridad y cumplimiento en una sola plataforma.",
+    "empresa": "Empresa",
+    "soluciones": "Soluciones",
+    "soporte": "Soporte",
+    "contacto": "Contacto",
+    "link_nosotros": "Nosotros",
+    "link_servicios": "Servicios",
+    "link_clientes": "Clientes",
+    "link_blog": "Blog",
+    "link_contacto": "Contacto",
+    "link_facturacion": "Facturación Electrónica",
+    "link_crm": "CRM Empresarial",
+    "link_cobrar": "Cuentas por Cobrar",
+    "link_contabilidad": "Módulo Contable",
+    "link_declaraciones": "Declaraciones Fiscales",
+    "link_docs": "Documentación",
+    "link_ayuda": "Centro de Ayuda",
+    "link_estado": "Estado del Sistema",
+    "link_actualizaciones": "Actualizaciones",
+    "copyright": "Todos los derechos reservados.",
+    "privacy": "Política de Privacidad",
+    "terms": "Términos de Uso"
+  }
+}
