@@ -290,4 +290,7 @@
   .eco-card--crm,
   .eco-card--rtms,
   .eco-card--arias { grid-column: 1; grid-row: auto; }
+
+  .eco-card { padding: 20px; }
+  .eco-card__metrics { gap: 10px; }
 }

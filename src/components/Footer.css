@@ -18,25 +18,10 @@
   margin-bottom: 16px;
 }
 
-.footer__logo-text {
-  display: flex;
-  flex-direction: column;
-  line-height: 1;
-}
-
-.footer__brand-name {
-  font-size: 0.95rem;
-  font-weight: 800;
-  letter-spacing: 0.1em;
-  color: var(--text);
-}
-
-.footer__brand-tag {
-  font-size: 0.5rem;
-  font-weight: 500;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--text-3);
+.footer__logo-img {
+  height: 48px;
+  width: auto;
+  object-fit: contain;
 }
 
 .footer__tagline {
@@ -155,4 +140,11 @@
   .footer__inner { grid-template-columns: 1fr 1fr; gap: 28px; padding-top: 48px; padding-bottom: 48px; }
   .footer__col--contact { grid-column: 1 / -1; }
   .footer__bottom-inner { flex-direction: column; text-align: center; }
+}
+
+@media (max-width: 480px) {
+  .footer__inner { grid-template-columns: 1fr; padding-top: 40px; padding-bottom: 40px; }
+  .footer__brand { max-width: 100%; }
+  .footer__tagline { max-width: 100%; }
+  .footer__bottom-links { gap: 14px; }
 }

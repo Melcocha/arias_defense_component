@@ -209,3 +209,13 @@
 }
 
 .App { overflow-x: hidden; }
+
+@media (max-width: 640px) {
+  .section { padding: 64px 0; }
+  .section__header { margin-bottom: 40px; }
+}
+
+@media (max-width: 480px) {
+  .section { padding: 48px 0; }
+  .container { padding: 0 16px; }
+}

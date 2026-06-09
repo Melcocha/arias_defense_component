@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import logocompleto from '../images/logocompleto.png';
 import './Navbar.css';
 
 const LANGS = ['ES', 'EN', 'DE', 'FR'];
@@ -50,11 +51,7 @@ function Navbar() {
 
         {/* Logo */}
         <a href="#inicio" className="navbar__logo">
-          <ShieldIcon />
-          <div className="navbar__logo-text">
-            <span className="navbar__brand">ARIAS</span>
-            <span className="navbar__tagline">DEFENSE</span>
-          </div>
+          <img src={logocompleto} alt="Arias Defense" className="navbar__logo-img" />
         </a>
 
         {/* Nav links */}

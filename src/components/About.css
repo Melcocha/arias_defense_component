@@ -169,3 +169,9 @@
 @media (max-width: 1024px) {
   .about__inner { grid-template-columns: 1fr; gap: 56px; }
 }
+
+@media (max-width: 640px) {
+  .about__inner { gap: 36px; }
+  .about__card-value { font-size: 1.75rem; }
+  .about__card { padding: 18px; }
+}

@@ -71,3 +71,14 @@
   font-size: 0.75rem;
   color: var(--cyan);
 }
+
+@media (max-width: 640px) {
+  .cta-section { padding: 72px 0; }
+  .cta-section__trust { gap: 16px; }
+}
+
+@media (max-width: 480px) {
+  .cta-section { padding: 56px 0; }
+  .cta-section__actions { flex-direction: column; align-items: stretch; }
+  .cta-section__actions .btn { width: 100%; }
+}

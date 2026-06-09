@@ -1,12 +1,6 @@
 import { useTranslation } from 'react-i18next';
+import logoimagen from '../images/logocompleto.png';
 import './Footer.css';
-
-const ShieldIcon = () => (
-  <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-    <path d="M14 2L25 7.5V14C25 20.075 20.075 25.5 14 27C7.925 25.5 3 20.075 3 14V7.5L14 2Z" fill="rgba(6,182,212,0.12)" stroke="#06B6D4" strokeWidth="1.2"/>
-    <path d="M9.5 14l3 3 6-7" stroke="#06B6D4" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-  </svg>
-);
 
 function Footer() {
   const { t } = useTranslation();
@@ -30,11 +24,7 @@ function Footer() {
 
         <div className="footer__brand">
           <a href="#inicio" className="footer__logo">
-            <ShieldIcon />
-            <div className="footer__logo-text">
-              <span className="footer__brand-name">ARIAS</span>
-              <span className="footer__brand-tag">DEFENSE</span>
-            </div>
+            <img src={logoimagen} alt="Arias Defense" className="footer__logo-img" />
           </a>
           <p className="footer__tagline">{t('footer.tagline')}</p>
           <div className="footer__socials">
