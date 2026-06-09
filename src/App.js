@@ -7,6 +7,7 @@ import Stats from './components/Stats';
 import About from './components/About';
 import Testimonials from './components/Testimonials';
 import CTA from './components/CTA';
+import Contact from './components/Contact';
 import Footer from './components/Footer';
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
       <About />
       <Testimonials />
       <CTA />
+      <Contact />
       <Footer />
     </div>
   );

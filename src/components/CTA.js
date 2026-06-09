@@ -22,7 +22,7 @@ function CTA() {
               <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </a>
-          <a href="tel:+50622220000" className="btn btn--outline btn--lg">
+          <a href="tel:+50379718911" className="btn btn--outline btn--lg">
             {t('cta.cta_secondary')}
           </a>
         </div>
