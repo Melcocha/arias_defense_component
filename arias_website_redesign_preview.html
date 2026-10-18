@@ -3,1337 +3,377 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ARIAS Enterprise El Salvador - Ecosistema de Software Empresarial</title>
+  <title>Arias Defense - Ingeniería de Software & Ecosistema Empresarial El Salvador</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <style>
     :root {
-      /* Official Brand Master Colors */
-      --brand-crimson: #AE0A46;
-      --brand-crimson-hover: #6F062D;
-      --brand-tech-blue: #3860BE;
-      --brand-ui-blue: #216BA5;
-      --brand-charcoal: #1A1A1A;
-      --brand-dark-footer: #0D0D0D;
-      --brand-text-dark: #333333;
-      --brand-bg-neutral: #EAEAEA;
-      --brand-bg-soft: #F8F9FA;
-      --brand-white: #FFFFFF;
-      --brand-border: #D1D5DB;
-      --brand-purple-ai: #8E24AA;
-
-      /* Status Badges */
-      --badge-vende-ya: #10B981;
-      --badge-en-2-meses: #F59E0B;
-
-      /* Radii & Shadows */
-      --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-      --card-hover-shadow: 0 18px 40px rgba(174, 10, 70, 0.12);
-      --radius-sm: 6px;
-      --radius-md: 10px;
-      --radius-lg: 20px;
-      --radius-pill: 50px;
+      --canvas-deep: #050811;
+      --canvas-surface: #090E1D;
+      --canvas-card: #0F172A;
+      --electric-blue: #3B82F6;
+      --vivid-cyan: #06B6D4;
+      --tech-purple: #8B5CF6;
+      --status-emerald: #10B981;
+      --arias-crimson: #EF4444;
+      --warning-amber: #F59E0B;
+      --whatsapp-color: #25D366;
+      --text-pure: #FFFFFF;
+      --text-bright: #F1F5F9;
+      --text-muted: #94A3B8;
+      --text-subtle: #64748B;
+      --border-glass: rgba(255, 255, 255, 0.08);
+      --border-glass-bright: rgba(255, 255, 255, 0.16);
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 22px;
+      --radius-pill: 9999px;
+      --glow-primary: 0 0 35px rgba(59, 130, 246, 0.35);
+      --glow-cyan: 0 0 35px rgba(6, 182, 212, 0.35);
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
     body {
       font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      background-color: var(--brand-bg-soft);
-      color: var(--brand-text-dark);
+      background-color: var(--canvas-deep);
+      color: var(--text-bright);
       line-height: 1.6;
       overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { text-decoration: none; color: inherit; }
+
+    /* AMBIENT GLOWS */
+    .ambient-mesh-glow {
+      position: absolute; border-radius: 50%; filter: blur(140px); pointer-events: none; z-index: 0; opacity: 0.45;
+    }
+    .ambient-glow-top {
+      top: -150px; left: 20%; width: 650px; height: 650px;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.6) 0%, rgba(139, 92, 246, 0.3) 50%, transparent 70%);
     }
 
-    /* TOP HEADER BAR WITH PERFECT SPACING */
-    .top-header-bar {
-      background: var(--brand-white);
-      border-bottom: 1px solid var(--brand-border);
-      padding: 14px 4%;
+    /* UNIFIED NAVBAR */
+    .vibrant-navbar {
+      position: sticky; top: 0; z-index: 1000; background: rgba(5, 8, 17, 0.82); backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07); box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
     }
-    .top-header-inner {
-      max-width: 1400px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 32px;
+    .navbar-container {
+      max-width: 1360px; margin: 0 auto; padding: 0 4%; height: 74px; display: flex; align-items: center; justify-content: space-between; gap: 32px;
     }
-    .header-brand-logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      text-decoration: none;
-      font-weight: 800;
-      font-size: 1.55rem;
-      color: var(--brand-charcoal);
-      line-height: 1;
+    .navbar-logo-img { height: 48px; width: auto; object-fit: contain; }
+    .nav-menu { list-style: none; display: flex; align-items: center; gap: 6px; }
+    .nav-item {
+      font-size: 0.88rem; font-weight: 600; color: rgba(241, 245, 249, 0.72); padding: 8px 14px; border-radius: 8px; transition: all 0.2s;
     }
-    .logo-mark {
-      background: var(--brand-crimson);
-      color: white;
-      padding: 6px 14px;
-      border-radius: var(--radius-sm);
-      font-size: 1.2rem;
-      letter-spacing: 0.5px;
+    .nav-item:hover { color: #FFFFFF; background: rgba(255, 255, 255, 0.06); }
+    .navbar-actions { display: flex; align-items: center; gap: 12px; }
+    .navbar-whatsapp-btn {
+      background: rgba(37, 211, 102, 0.1); border: 1px solid rgba(37, 211, 102, 0.25); color: #4ADE80;
+      font-weight: 600; font-size: 0.84rem; padding: 8px 16px; border-radius: 8px; display: flex; align-items: center; gap: 8px;
     }
-    .header-search-box {
-      flex: 1;
-      max-width: 580px;
-      display: flex;
-      align-items: center;
-    }
-    .header-search-box input {
-      width: 100%;
-      padding: 11px 18px;
-      border: 1px solid var(--brand-border);
-      border-right: none;
-      border-radius: var(--radius-sm) 0 0 var(--radius-sm);
-      font-size: 0.92rem;
-      outline: none;
-      font-family: inherit;
-    }
-    .header-search-box button {
-      background: var(--brand-crimson);
-      color: white;
-      border: none;
-      padding: 0 22px;
-      height: 44px;
-      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-      cursor: pointer;
-      font-size: 1rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: background 0.2s;
-    }
-    .header-search-box button:hover {
-      background: var(--brand-crimson-hover);
-    }
-    .top-header-right {
-      display: flex;
-      align-items: center;
-      gap: 24px;
-      font-size: 0.9rem;
-      font-weight: 700;
-    }
-    .top-header-right a {
-      color: var(--brand-charcoal);
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      transition: color 0.2s;
-    }
-    .top-header-right a:hover {
-      color: var(--brand-crimson);
+    .btn-glow-primary {
+      background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
+      color: white; padding: 9px 20px; border-radius: 8px; font-weight: 700; font-size: 0.86rem;
+      display: flex; align-items: center; gap: 8px; border: 1px solid rgba(255, 255, 255, 0.16); box-shadow: 0 4px 16px rgba(37, 99, 235, 0.35);
     }
 
-    /* MAIN NAVIGATION MENU WITH MEGAMENU */
-    nav.main-navbar {
-      background: var(--brand-white);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
-      border-bottom: 3px solid var(--brand-crimson);
+    /* HERO */
+    .vibrant-hero { position: relative; padding: 85px 4% 60px; text-align: center; }
+    .hero-content-wrap { max-width: 1100px; margin: 0 auto; position: relative; z-index: 2; }
+    .hero-badge-tag {
+      display: inline-flex; align-items: center; gap: 10px; background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(59, 130, 246, 0.35); padding: 7px 18px; border-radius: var(--radius-pill); margin-bottom: 24px;
     }
-    .nav-inner-container {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 0 4%;
-      height: 60px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    .badge-text { font-size: 0.8rem; font-weight: 800; letter-spacing: 0.8px; color: #93C5FD; }
+    .hero-super-title {
+      font-size: clamp(2.4rem, 5.5vw, 4.2rem); font-weight: 900; line-height: 1.12; color: var(--text-pure); margin-bottom: 24px;
     }
-    .nav-links-left {
-      display: flex;
-      gap: 28px;
-      list-style: none;
-      height: 100%;
+    .gradient-text-electric {
+      background: linear-gradient(135deg, #60A5FA 0%, #38BDF8 40%, #A78BFA 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block;
     }
-    .nav-link-item {
-      position: relative;
-      display: flex;
-      align-items: center;
-      height: 100%;
+    .hero-lead-text { font-size: 1.18rem; color: #CBD5E1; max-width: 860px; margin: 0 auto 38px; line-height: 1.7; }
+    .hero-buttons-row { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 16px; margin-bottom: 64px; }
+    .btn-action-glow {
+      background: linear-gradient(135deg, var(--electric-blue) 0%, var(--vivid-cyan) 100%);
+      color: #050811; padding: 15px 30px; border-radius: var(--radius-sm); font-weight: 800; font-size: 1rem;
+      display: inline-flex; align-items: center; gap: 10px; box-shadow: var(--glow-cyan);
     }
-    .nav-link-item > a {
-      text-decoration: none;
-      color: var(--brand-charcoal);
-      font-weight: 700;
-      font-size: 0.94rem;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      height: 100%;
-      padding: 0 8px;
-      transition: color 0.2s;
+    .btn-action-glass {
+      background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-glass-bright); color: var(--text-pure);
+      padding: 15px 28px; border-radius: var(--radius-sm); font-weight: 700; font-size: 1rem; display: inline-flex; align-items: center; gap: 10px;
     }
-    .nav-link-item:hover > a {
-      color: var(--brand-crimson);
-      border-bottom: 3px solid var(--brand-crimson);
+    .btn-action-whatsapp {
+      background: rgba(37, 211, 102, 0.12); border: 1px solid rgba(37, 211, 102, 0.4); color: #4ADE80;
+      padding: 15px 26px; border-radius: var(--radius-sm); font-weight: 800; font-size: 1rem; display: inline-flex; align-items: center; gap: 10px;
     }
 
-    /* MEGAMENU DROPDOWN WITH CLEAN GAPS */
-    .megamenu-box {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      width: 900px;
-      background: var(--brand-white);
-      border: 1px solid var(--brand-border);
-      border-top: 3px solid var(--brand-crimson);
-      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.15);
-      display: none;
-      z-index: 1100;
+    /* STATS */
+    .hero-stats-banner { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: 10px; }
+    .stat-glass-card {
+      background: rgba(15, 23, 42, 0.7); border: 1px solid var(--border-glass); border-radius: var(--radius-md); padding: 24px 18px;
     }
-    .nav-link-item:hover .megamenu-box {
-      display: flex;
-      animation: fadeIn 0.2s ease-in-out;
-    }
-    .megamenu-sidebar {
-      width: 230px;
-      background: var(--brand-bg-soft);
-      padding: 26px 20px;
-      border-right: 1px solid var(--brand-border);
-    }
-    .megamenu-sidebar ul { list-style: none; }
-    .megamenu-sidebar li { margin-bottom: 14px; }
-    .megamenu-sidebar a {
-      text-decoration: none;
-      color: var(--brand-charcoal);
-      font-weight: 700;
-      font-size: 0.92rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .megamenu-sidebar a:hover { color: var(--brand-crimson); }
-    .megamenu-cols {
-      flex: 1;
-      padding: 26px 32px;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 28px;
-    }
-    .megamenu-cols h5 {
-      font-size: 0.95rem;
-      font-weight: 800;
-      color: var(--brand-crimson);
-      margin-bottom: 10px;
-    }
+    .stat-number-glow { font-size: 2.8rem; font-weight: 900; line-height: 1; color: var(--text-pure); margin-bottom: 8px; }
+    .stat-plus { color: var(--vivid-cyan); }
+    .stat-percent { color: var(--status-emerald); }
+    .stat-slash { color: var(--tech-purple); }
+    .stat-text-label { font-size: 0.96rem; font-weight: 800; color: #F8FAFC; margin-bottom: 4px; }
+    .stat-sub { font-size: 0.78rem; color: var(--text-subtle); line-height: 1.35; }
 
-    .ask-ai-pill {
-      background: var(--brand-purple-ai);
-      color: white;
-      padding: 8px 18px;
-      border-radius: var(--radius-pill);
-      font-weight: 700;
-      font-size: 0.88rem;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      box-shadow: 0 4px 12px rgba(142, 36, 170, 0.3);
-      transition: background 0.2s;
+    /* SECTIONS */
+    .vibrant-section { padding: 100px 4%; position: relative; z-index: 2; }
+    .section-inner { max-width: 1360px; margin: 0 auto; }
+    .section-title-block { text-align: center; max-width: 820px; margin: 0 auto 50px; }
+    .tag-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px; background: rgba(59, 130, 246, 0.12);
+      border: 1px solid rgba(59, 130, 246, 0.3); color: #60A5FA; padding: 6px 16px; border-radius: var(--radius-pill);
+      font-size: 0.78rem; font-weight: 800; margin-bottom: 16px;
     }
-    .ask-ai-pill:hover {
-      background: #7B1FA2;
-    }
+    .title-headline { font-size: clamp(2rem, 3.8vw, 3rem); font-weight: 900; color: var(--text-pure); line-height: 1.2; margin-bottom: 14px; }
+    .title-subheadline { font-size: 1.1rem; color: var(--text-muted); line-height: 1.65; }
 
-    /* HERO BANNER WITH SYMMETRICAL SPACING */
-    .hero-banner-section {
-      position: relative;
-      min-height: 530px;
-      background: linear-gradient(135deg, rgba(174, 10, 70, 0.92) 0%, rgba(26, 26, 26, 0.88) 100%), url('assets_redesign/insight_hero_full_bg_1786411352855.png') center/cover no-repeat;
-      color: white;
-      display: flex;
-      align-items: center;
-      padding: 70px 4%;
+    /* BENTO FEATURE */
+    .project-feature-bento {
+      background: rgba(15, 23, 42, 0.75); border: 1px solid var(--border-glass-bright); border-radius: var(--radius-lg);
+      padding: 44px; backdrop-filter: blur(20px);
     }
-    .hero-container {
-      max-width: 1400px;
-      margin: 0 auto;
-      width: 100%;
+    .bento-content-grid { display: grid; grid-template-columns: 1.15fr 1fr; gap: 48px; align-items: center; }
+    .badge-category {
+      background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12); color: #CBD5E1;
+      font-size: 0.78rem; font-weight: 700; padding: 4px 12px; border-radius: var(--radius-pill);
     }
-    .hero-text-box {
-      max-width: 700px;
+    .badge-live-tag {
+      background: rgba(16, 185, 129, 0.15); color: #34D399; border: 1px solid rgba(16, 185, 129, 0.35);
+      font-size: 0.75rem; font-weight: 800; padding: 4px 12px; border-radius: var(--radius-pill);
     }
-    .hero-text-box h1 {
-      font-size: 3.4rem;
-      font-weight: 800;
-      line-height: 1.15;
-      margin-bottom: 22px;
-      letter-spacing: -0.5px;
+    .bento-project-title { font-size: 2.3rem; font-weight: 900; color: var(--text-pure); margin-top: 14px; margin-bottom: 6px; }
+    .bento-project-subtitle { font-size: 1.12rem; color: #38BDF8; font-weight: 700; margin-bottom: 16px; }
+    .bento-project-desc { font-size: 1.02rem; color: #CBD5E1; line-height: 1.68; margin-bottom: 24px; }
+    .bento-metrics-quad { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
+    .quad-metric-box { background: rgba(10, 15, 30, 0.8); border: 1px solid var(--border-glass); padding: 12px 14px; border-radius: var(--radius-sm); }
+    .metric-primary-val { display: block; font-size: 1.25rem; font-weight: 900; color: var(--text-pure); margin-bottom: 3px; }
+    .metric-primary-label { display: block; font-size: 0.75rem; font-weight: 800; color: #60A5FA; }
+    .metric-primary-desc { display: block; font-size: 0.68rem; color: var(--text-subtle); }
+    .bullets-list { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+    .bullets-list li { display: flex; align-items: flex-start; gap: 12px; font-size: 0.94rem; color: #CBD5E1; }
+    .text-cyan { color: var(--vivid-cyan) !important; }
+    .text-emerald { color: var(--status-emerald) !important; }
+    .text-purple { color: var(--tech-purple) !important; }
+    .text-amber { color: var(--warning-amber) !important; }
+    .visual-card-frame {
+      background: #090E1D; border: 1px solid var(--border-glass-bright); border-radius: var(--radius-md); overflow: hidden;
     }
-    .hero-text-box p {
-      font-size: 1.18rem;
-      opacity: 0.95;
-      margin-bottom: 38px;
-      line-height: 1.6;
+    .frame-top-controls {
+      background: #0D1326; padding: 12px 18px; border-bottom: 1px solid var(--border-glass); display: flex;
+      align-items: center; justify-content: space-between; gap: 16px;
     }
-    .hero-pill-buttons {
-      display: flex;
-      gap: 18px;
-      align-items: center;
+    .control-dots { display: flex; gap: 7px; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dot-crimson { background: #EF4444; }
+    .dot-amber { background: #F59E0B; }
+    .dot-green { background: #10B981; }
+    .frame-path-bar {
+      background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.08); color: #94A3B8;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.74rem; padding: 4px 14px; border-radius: 4px; flex: 1; text-align: center;
     }
-    .btn-pill-outline {
-      border: 2px solid white;
-      color: white;
-      padding: 13px 30px;
-      border-radius: var(--radius-pill);
-      font-weight: 700;
-      font-size: 0.95rem;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      transition: all 0.2s;
-    }
-    .btn-pill-outline:hover {
-      background: white;
-      color: var(--brand-crimson);
-    }
-    .btn-pill-solid {
-      background: white;
-      color: var(--brand-crimson);
-      padding: 14px 32px;
-      border-radius: var(--radius-pill);
-      font-weight: 800;
-      font-size: 0.95rem;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      transition: all 0.2s;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    }
-    .btn-pill-solid:hover {
-      background: var(--brand-bg-soft);
-      transform: translateY(-2px);
-    }
+    .showcase-software-image { width: 100%; height: auto; display: block; object-fit: cover; }
 
-    /* FLOATING AI ASSISTANT WIDGET */
-    .floating-ai-widget {
-      position: fixed;
-      bottom: 26px;
-      right: 26px;
-      background: var(--brand-purple-ai);
-      color: white;
-      padding: 14px 24px;
-      border-radius: var(--radius-pill);
-      font-weight: 800;
-      font-size: 0.95rem;
-      box-shadow: 0 8px 25px rgba(142, 36, 170, 0.4);
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      cursor: pointer;
-      z-index: 1500;
-      transition: transform 0.2s;
+    /* FOOTER */
+    .vibrant-footer { background: #04060D; border-top: 1px solid var(--border-glass); padding: 75px 4% 36px; }
+    .footer-inner-wrap { max-width: 1360px; margin: 0 auto; }
+    .footer-top-row {
+      display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 48px; padding-bottom: 48px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
-    .floating-ai-widget:hover {
-      transform: scale(1.04);
+    .footer-logo-img { height: 48px; width: auto; object-fit: contain; margin-bottom: 18px; }
+    .footer-about-text { font-size: 0.92rem; color: var(--text-muted); line-height: 1.65; margin-bottom: 20px; }
+    .footer-links-group h5 { color: var(--text-pure); font-size: 1rem; font-weight: 800; margin-bottom: 20px; }
+    .footer-links-group ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .footer-links-group a { font-size: 0.88rem; color: var(--text-muted); }
+    .footer-bottom-row {
+      display: flex; justify-content: space-between; align-items: center; padding-top: 32px; font-size: 0.84rem; color: var(--text-subtle);
     }
-
-    /* 5-COLUMN CAPABILITIES GRID WITH BALANCED PADDING */
-    .capabilities-section {
-      max-width: 1400px;
-      margin: 65px auto;
-      padding: 0 4%;
-    }
-    .capabilities-grid-5 {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 20px;
-      margin-bottom: 32px;
-    }
-    .capability-card {
-      background: #FFF0F5;
-      border-radius: var(--radius-md);
-      padding: 26px 22px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      min-height: 260px;
-      border: 1px solid rgba(174, 10, 70, 0.12);
-    }
-    .capability-card p {
-      font-size: 0.9rem;
-      color: var(--brand-text-dark);
-      line-height: 1.55;
-    }
-    .card-arrow-btn {
-      width: 34px;
-      height: 34px;
-      border-radius: 50%;
-      background: var(--brand-crimson);
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-top: 22px;
-      font-size: 0.88rem;
-    }
-
-    /* HIGHLIGHT BANNERS BELOW CAPABILITIES */
-    .highlight-banner-1 {
-      background: #E8EAF6;
-      border-radius: var(--radius-md);
-      padding: 24px 36px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 24px;
-      margin-bottom: 18px;
-      font-size: 1.12rem;
-      font-weight: 700;
-      color: var(--brand-charcoal);
-    }
-    .highlight-banner-2 {
-      background: #F3E5F5;
-      border-radius: var(--radius-md);
-      padding: 24px 36px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 24px;
-      font-size: 1.12rem;
-      font-weight: 700;
-      color: var(--brand-charcoal);
-    }
-
-    /* STRATEGIC PARTNERS SECTION */
-    .partners-section {
-      max-width: 1400px;
-      margin: 65px auto;
-      padding: 0 4%;
-      text-align: center;
-    }
-    .partners-header h3 {
-      font-size: 1.55rem;
-      font-weight: 800;
-      color: var(--brand-charcoal);
-      margin-bottom: 26px;
-    }
-    .partners-grid {
-      display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      gap: 22px;
-      align-items: center;
-    }
-    .partner-tile {
-      background: var(--brand-white);
-      border: 1px solid var(--brand-border);
-      border-radius: var(--radius-md);
-      padding: 18px 14px;
-      font-weight: 800;
-      font-size: 0.95rem;
-      color: var(--brand-charcoal);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      box-shadow: var(--card-shadow);
-    }
-
-    /* SPOTLIGHT FEATURE SECTION */
-    .spotlight-section {
-      background: var(--brand-white);
-      padding: 85px 4%;
-      border-top: 1px solid var(--brand-border);
-      border-bottom: 1px solid var(--brand-border);
-    }
-    .spotlight-grid {
-      max-width: 1400px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1fr 1.1fr;
-      gap: 65px;
-      align-items: center;
-    }
-    .spotlight-text h2 {
-      font-size: 3.1rem;
-      font-weight: 800;
-      color: var(--brand-charcoal);
-      line-height: 1.12;
-      margin-bottom: 22px;
-    }
-    .spotlight-text p {
-      font-size: 1.12rem;
-      color: var(--brand-text-dark);
-      margin-bottom: 34px;
-      line-height: 1.6;
-    }
-    .arch-image-frame {
-      border-radius: 180px 180px 20px 20px;
-      overflow: hidden;
-      box-shadow: var(--card-shadow);
-      border: 1px solid var(--brand-border);
-    }
-    .arch-image-frame img {
-      width: 100%;
-      display: block;
-    }
-
-    /* NUESTROS 4 PRODUCTOS - SYMMETRICAL CARDS */
-    .products-section {
-      max-width: 1400px;
-      margin: 75px auto;
-      padding: 0 4%;
-    }
-    .products-grid-4 {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 28px;
-    }
-    .product-card-4 {
-      background: var(--brand-white);
-      border-radius: var(--radius-md);
-      padding: 34px;
-      border: 1px solid var(--brand-border);
-      box-shadow: var(--card-shadow);
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-    .card-top-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .product-icon-sq {
-      width: 56px;
-      height: 56px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.55rem;
-    }
-    .status-badge {
-      padding: 6px 16px;
-      border-radius: 20px;
-      font-size: 0.78rem;
-      font-weight: 800;
-      color: #FFFFFF;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-    .badge-vende-ya { background: var(--badge-vende-ya); }
-    .badge-en-2-meses { background: var(--badge-en-2-meses); }
-
-    .video-demo-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      background: rgba(56, 96, 190, 0.08);
-      border: 1px dashed var(--brand-tech-blue);
-      color: var(--brand-tech-blue);
-      padding: 10px 16px;
-      border-radius: var(--radius-sm);
-      font-size: 0.88rem;
-      font-weight: 700;
-      cursor: pointer;
-      width: fit-content;
-      transition: all 0.2s;
-    }
-    .video-demo-btn:hover {
-      background: var(--brand-tech-blue);
-      color: white;
-    }
-
-    .roadmap-box {
-      background: var(--brand-bg-soft);
-      border-radius: var(--radius-sm);
-      padding: 14px 18px;
-      border-left: 4px solid var(--brand-crimson);
-      margin-top: auto;
-      font-size: 0.88rem;
-      line-height: 1.55;
-    }
-
-    /* SHOWCASE INTERACTIVO DE PESTAÑAS */
-    .showcase-interactive-section {
-      max-width: 1400px;
-      margin: 75px auto;
-      padding: 0 4%;
-    }
-    .showcase-wrapper {
-      background: var(--brand-white);
-      border-radius: var(--radius-lg);
-      padding: 40px;
-      box-shadow: var(--card-shadow);
-      border: 1px solid var(--brand-border);
-    }
-    .showcase-tabs-bar {
-      display: flex;
-      gap: 12px;
-      border-bottom: 2px solid var(--brand-bg-neutral);
-      padding-bottom: 16px;
-      margin-bottom: 32px;
-    }
-    .tab-trigger {
-      background: transparent;
-      border: none;
-      padding: 12px 24px;
-      font-size: 0.94rem;
-      font-weight: 700;
-      color: var(--brand-text-dark);
-      border-radius: var(--radius-sm);
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      transition: all 0.2s;
-    }
-    .tab-trigger.active {
-      background: var(--brand-crimson);
-      color: #FFFFFF;
-      box-shadow: 0 4px 12px rgba(174, 10, 70, 0.25);
-    }
-
-    /* VISIÓN, METAS Y OBJETIVOS */
-    .vision-section {
-      max-width: 1400px;
-      margin: 75px auto;
-      padding: 0 4%;
-    }
-    .vision-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 28px;
-    }
-    .vision-card-box {
-      background: var(--brand-white);
-      border-radius: var(--radius-md);
-      padding: 34px 28px;
-      border: 1px solid var(--brand-border);
-      border-top: 4px solid var(--brand-crimson);
-      box-shadow: var(--card-shadow);
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    /* FORMULARIO DE DEMO ENFOCADO EN PRODUCTO */
-    .lead-section {
-      max-width: 1400px;
-      margin: 75px auto;
-      padding: 0 4%;
-    }
-    .lead-box-container {
-      background: var(--brand-charcoal);
-      color: white;
-      border-radius: var(--radius-lg);
-      padding: 55px 45px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 45px;
-      align-items: center;
-    }
-
-    /* VIDEO MODAL POPUP */
-    .video-modal {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; width: 100vw; height: 100vh;
-      background: rgba(0, 0, 0, 0.8);
-      z-index: 2000;
-      align-items: center; justify-content: center;
-    }
-    .video-modal-card {
-      background: white;
-      padding: 28px;
-      border-radius: var(--radius-md);
-      max-width: 640px;
-      width: 90%;
-      text-align: center;
-      position: relative;
-    }
-
-    /* CLEAN & ELEGANT FOOTER WITH BALANCED PADDING */
-    .footer-top-banner {
-      background: linear-gradient(90deg, #8E24AA 0%, #AE0A46 100%);
-      color: white;
-      padding: 22px 4%;
-      text-align: center;
-      font-size: 1.15rem;
-      font-weight: 700;
-    }
-    footer.main-footer-clean {
-      background: var(--brand-dark-footer);
-      color: #D1D5DB;
-      padding: 65px 4% 35px;
-    }
-    .footer-grid-4 {
-      max-width: 1400px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1.3fr repeat(3, 1fr);
-      gap: 50px;
-      padding-bottom: 50px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-    }
-    .footer-newsletter h4 {
-      color: #FFFFFF;
-      font-size: 1.15rem;
-      font-weight: 800;
-      margin-bottom: 14px;
-    }
-    .footer-newsletter p {
-      font-size: 0.9rem;
-      color: #9CA3AF;
-      margin-bottom: 20px;
-      line-height: 1.55;
-    }
-    .btn-newsletter {
-      background: var(--brand-crimson);
-      color: white;
-      border: none;
-      padding: 12px 26px;
-      border-radius: var(--radius-pill);
-      font-weight: 800;
-      font-size: 0.9rem;
-      cursor: pointer;
-      transition: background 0.2s;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .btn-newsletter:hover {
-      background: var(--brand-crimson-hover);
-    }
-
-    .footer-col h5 {
-      color: #FFFFFF;
-      font-size: 0.98rem;
-      font-weight: 800;
-      margin-bottom: 18px;
-    }
-    .footer-col ul { list-style: none; }
-    .footer-col li { margin-bottom: 12px; }
-    .footer-col a {
-      color: #D1D5DB;
-      text-decoration: none;
-      font-size: 0.88rem;
-      transition: color 0.2s;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .footer-col a:hover {
-      color: #FFFFFF;
-    }
-
-    /* Footer Social Links Centered Row */
-    .footer-social-row {
-      max-width: 1400px;
-      margin: 32px auto;
-      display: flex;
-      justify-content: center;
-      gap: 28px;
-      font-size: 1.35rem;
-    }
-    .footer-social-row a {
-      color: #D1D5DB;
-      transition: color 0.2s;
-    }
-    .footer-social-row a:hover {
-      color: var(--brand-crimson);
-    }
-
-    /* Footer Bottom Legal Bar */
-    .footer-bottom-bar {
-      max-width: 1400px;
-      margin: 24px auto 0;
-      padding-top: 22px;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.84rem;
-      color: #9CA3AF;
-    }
-    .footer-bottom-links {
-      display: flex;
-      gap: 20px;
-    }
-    .footer-bottom-links a {
-      color: #9CA3AF;
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-    .footer-bottom-links a:hover {
-      color: white;
+    .floating-whatsapp-btn {
+      position: fixed; bottom: 28px; right: 28px; width: 62px; height: 62px; background: #25D366; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem;
+      box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4), 0 0 30px rgba(37, 211, 102, 0.3); z-index: 999;
     }
   </style>
 </head>
 <body>
 
-  <!-- TOP HEADER BAR WITH SEARCH - BALANCED ICON & TEXT SPACING -->
-  <div class="top-header-bar">
-    <div class="top-header-inner">
-      <a href="#" class="header-brand-logo">
-        <span class="logo-mark">ARIAS</span> DEFENSE
-      </a>
-
-      <div class="header-search-box">
-        <input type="text" placeholder="Buscar soluciones ERP, CRM, SIPLE Lotificadoras, Gasolinera y módulos...">
-        <button title="Buscar"><i class="fa-solid fa-magnifying-glass"></i></button>
-      </div>
-
-      <div class="top-header-right">
-        <a href="#contacto"><i class="fa-solid fa-headset" style="margin-right: 2px;"></i> Soporte 24/7</a>
-        <a href="#"><i class="fa-solid fa-location-dot" style="color: var(--brand-crimson); margin-right: 2px;"></i> 🇸🇻 El Salvador (ES)</a>
-        <a href="#contacto"><i class="fa-solid fa-phone" style="margin-right: 2px;"></i> +503 2200-ARIAS</a>
-      </div>
-    </div>
-  </div>
-
-  <!-- MAIN NAVIGATION MENU WITH MEGAMENU -->
-  <nav class="main-navbar">
-    <div class="nav-inner-container">
-      <ul class="nav-links-left">
-        
-        <!-- Megamenu Item 1: Productos & Módulos -->
-        <li class="nav-link-item">
-          <a href="#productos">Productos & Módulos <i class="fa-solid fa-chevron-down" style="font-size: 0.75rem;"></i></a>
-          <div class="megamenu-box">
-            <div class="megamenu-sidebar">
-              <ul>
-                <li><a href="#productos" class="active">Nuestros 4 Productos <span>›</span></a></li>
-                <li><a href="#soluciones">Especialidades <span>›</span></a></li>
-                <li><a href="#nosotros">Empresa <span>›</span></a></li>
-              </ul>
-              <a href="#productos" style="color: var(--brand-crimson); font-size: 0.85rem; margin-top: 30px; display: inline-flex; align-items: center; gap: 6px;">Ver todas las soluciones ➔</a>
-            </div>
-
-            <div class="megamenu-cols">
-              <div>
-                <h5>o ERP ARIAS</h5>
-                <p style="font-size: 0.82rem;">Facturación electrónica masiva y gestión contable multi-empresa.</p>
-
-                <h5>o CRM ARIAS</h5>
-                <p style="font-size: 0.82rem;">Pipeline comercial, gestión de clientes y cotizaciones automáticas.</p>
-              </div>
-
-              <div>
-                <h5>o SIPLE (Lotificadoras)</h5>
-                <p style="font-size: 0.82rem;">Administración de terrenos, cuotas de lotes y desarrollo inmobiliario.</p>
-
-                <h5>o Gasolinera</h5>
-                <p style="font-size: 0.82rem;">Control de pistas, surtidores de combustible y turnos.</p>
-              </div>
-
-              <div>
-                <h5>o Facturación DTE El Salvador</h5>
-                <p style="font-size: 0.82rem;">Documentos tributarios electrónicos autorizados por Hacienda.</p>
-
-                <h5>o Módulo de Bancos & Planillas</h5>
-                <p style="font-size: 0.82rem;">Conciliación contable automática y pago de nóminas.</p>
-              </div>
-            </div>
-          </div>
-        </li>
-
-        <li class="nav-link-item"><a href="#soluciones">Soluciones por Sector ▾</a></li>
-        <li class="nav-link-item"><a href="#socios">Socios Estratégicos</a></li>
-        <li class="nav-link-item"><a href="#nosotros">Misión & Objetivos</a></li>
+  <!-- UNIFIED NAVBAR -->
+  <header class="vibrant-navbar">
+    <div class="navbar-container">
+      <a href="#inicio"><img src="public/logocompleto.png" alt="Arias Defense" class="navbar-logo-img" /></a>
+      <ul class="nav-menu">
+        <li><a href="#inicio" class="nav-item">Inicio</a></li>
+        <li><a href="#proyectos" class="nav-item">Proyectos & Software</a></li>
+        <li><a href="#empresa" class="nav-item">Sobre la Empresa</a></li>
+        <li><a href="#servicios" class="nav-item">Servicios</a></li>
+        <li><a href="#contacto" class="nav-item">Contacto</a></li>
       </ul>
-
-      <div>
-        <a href="#contacto" class="ask-ai-pill"><i class="fa-solid fa-sparkles"></i> ✨ Preguntar a ARIAS AI</a>
+      <div class="navbar-actions">
+        <a href="https://wa.me/50379718911" target="_blank" class="navbar-whatsapp-btn"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
+        <a href="#contacto" class="btn-glow-primary"><span>Solicitar Demo</span> <i class="fa-solid fa-arrow-right"></i></a>
       </div>
     </div>
-  </nav>
+  </header>
 
-  <!-- HERO BANNER WITH BALANCED SYMMETRY -->
-  <section class="hero-banner-section">
-    <div class="hero-container">
-      <div class="hero-text-box">
-        <h1>El Ecosistema Tecnológico Líder en El Salvador</h1>
-        <p>Centraliza la gestión contable multi-empresa, ventas comerciales, desarrollos de lotificadoras y estaciones de servicio con la plataforma cloud más avanzada.</p>
-
-        <div class="hero-pill-buttons">
-          <a href="#soluciones" class="btn-pill-outline"><i class="fa-solid fa-layer-group"></i> Descubrir Soluciones Enterprise</a>
-          <a href="#productos" class="btn-pill-solid"><i class="fa-solid fa-grid-2"></i> Ver Nuestros 4 Productos</a>
+  <!-- HERO -->
+  <section id="inicio" class="vibrant-hero">
+    <div class="hero-content-wrap">
+      <div class="hero-badge-tag">
+        <span class="badge-text">FIRMA SALVADOREÑA DE INGENIERÍA DE SOFTWARE & SOLUCIONES CLOUD</span>
+      </div>
+      <h1 class="hero-super-title">
+        Potencia tu Empresa con <span class="gradient-text-electric">Tecnología de Alto Impacto</span> y Cumplimiento Total
+      </h1>
+      <p class="hero-lead-text">
+        Con más de <strong>10 años de experiencia</strong> y más de <strong>500 empresas activas</strong>, construimos y operamos plataformas empresariales de alto rendimiento: 
+        <strong>Facturación Electrónica DTE</strong> homologada con Hacienda, <strong>ERP Multi-Empresa</strong>, <strong>CRM Comercial</strong>, 
+        <strong>SIPLE Lotificadoras</strong> y <strong>Sistemas para Gasolineras</strong>.
+      </p>
+      <div class="hero-buttons-row">
+        <a href="#proyectos" class="btn-action-glow"><i class="fa-solid fa-layer-group"></i> Ver Catálogo de Proyectos</a>
+        <a href="#empresa" class="btn-action-glass"><i class="fa-solid fa-building-columns"></i> Conoce Nuestra Historia</a>
+        <a href="https://wa.me/50379718911" target="_blank" class="btn-action-whatsapp"><i class="fa-brands fa-whatsapp"></i> Chat en Vivo (+503)</a>
+      </div>
+      <div class="hero-stats-banner">
+        <div class="stat-glass-card">
+          <div class="stat-number-glow">10<span class="stat-plus">+</span></div>
+          <div class="stat-text-label">Años de Trayectoria</div>
+          <div class="stat-sub">Construyendo software robusto</div>
+        </div>
+        <div class="stat-glass-card">
+          <div class="stat-number-glow">500<span class="stat-plus">+</span></div>
+          <div class="stat-text-label">Empresas en Producción</div>
+          <div class="stat-sub">PyMEs y corporaciones activas</div>
+        </div>
+        <div class="stat-glass-card">
+          <div class="stat-number-glow">100<span class="stat-percent">%</span></div>
+          <div class="stat-text-label">Autorizado DTE Hacienda</div>
+          <div class="stat-sub">Cumplimiento tributario oficial</div>
+        </div>
+        <div class="stat-glass-card">
+          <div class="stat-number-glow">24<span class="stat-slash">/</span>7</div>
+          <div class="stat-text-label">Soporte Técnico Local</div>
+          <div class="stat-sub">Ingenieros en San Salvador</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 5-COLUMN CAPABILITIES GRID -->
-  <section class="capabilities-section">
-    <div class="capabilities-grid-5">
-      <div class="capability-card">
-        <p>Construye una estructura contable escalable en la nube que administre hasta 40 empresas por contador en ERP ARIAS.</p>
-        <div class="card-arrow-btn"><i class="fa-solid fa-arrow-right"></i></div>
+  <!-- PROYECTOS -->
+  <section id="proyectos" class="vibrant-section">
+    <div class="section-inner">
+      <div class="section-title-block">
+        <span class="tag-eyebrow"><i class="fa-solid fa-cubes"></i> ECOSISTEMA TECNOLÓGICO ARIAS</span>
+        <h2 className="title-headline">Proyectos y Plataformas de Software Desarrolladas</h2>
+        <p className="title-subheadline">Sistemas probados en campo diseñados para resolver problemas operativos reales.</p>
       </div>
 
-      <div class="capability-card">
-        <p>Maximiza el rendimiento comercial canalizando prospectos, cotizaciones y clientes al 100% en CRM ARIAS.</p>
-        <div class="card-arrow-btn"><i class="fa-solid fa-arrow-right"></i></div>
-      </div>
-
-      <div class="capability-card">
-        <p>Administra desarrollos inmobiliarios, cuotas de lotes y proyectos de terrenos con la plataforma especializada SIPLE.</p>
-        <div class="card-arrow-btn"><i class="fa-solid fa-arrow-right"></i></div>
-      </div>
-
-      <div class="capability-card">
-        <p>Controla estaciones de servicio con arqueo de mangueras por turno, lectura de tanques y facturación en Gasolinera.</p>
-        <div class="card-arrow-btn"><i class="fa-solid fa-arrow-right"></i></div>
-      </div>
-
-      <div class="capability-card">
-        <p>Emite Facturación Electrónica DTE autorizada por el Ministerio de Hacienda de El Salvador de forma automatizada.</p>
-        <div class="card-arrow-btn"><i class="fa-solid fa-arrow-right"></i></div>
-      </div>
-    </div>
-
-    <!-- Highlight Banners Below Capabilities -->
-    <div class="highlight-banner-1">
-      <div>La Inteligencia Artificial de ARIAS optimiza la gestión empresarial en El Salvador.</div>
-      <a href="#contacto" class="btn-pill-outline" style="border-color: var(--brand-crimson); color: var(--brand-crimson); padding: 10px 22px;"><i class="fa-solid fa-sparkles"></i> Ver cómo ayudamos</a>
-    </div>
-
-    <div class="highlight-banner-2">
-      <div>¿El 2026 requiere multiplicar x2.6 la capacidad contable de tu firma de contadores?</div>
-      <a href="#contacto" class="btn-pill-outline" style="border-color: var(--brand-crimson); color: var(--brand-crimson); padding: 10px 22px;"><i class="fa-solid fa-calculator"></i> Conocer la solución ERP</a>
-    </div>
-  </section>
-
-  <!-- STRATEGIC PARTNERS SECTION -->
-  <section id="socios" class="partners-section">
-    <div class="partners-header">
-      <h3>Nuestros Socios Estratégicos & Alianzas Tecnológicas</h3>
-    </div>
-    <div class="partners-grid">
-      <div class="partner-tile"><i class="fa-brands fa-aws" style="color: #FF9900; font-size: 1.4rem;"></i> AWS Cloud</div>
-      <div class="partner-tile"><i class="fa-brands fa-microsoft" style="color: #00A4EF; font-size: 1.4rem;"></i> MS Azure</div>
-      <div class="partner-tile"><i class="fa-brands fa-google" style="color: #4285F4; font-size: 1.4rem;"></i> Google Cloud</div>
-      <div class="partner-tile"><i class="fa-solid fa-database" style="color: #F80000; font-size: 1.4rem;"></i> Oracle Cloud</div>
-      <div class="partner-tile"><i class="fa-solid fa-building-columns" style="color: #10B981; font-size: 1.4rem;"></i> DTE El Salvador</div>
-      <div class="partner-tile"><i class="fa-brands fa-stripe" style="color: #635BFF; font-size: 1.4rem;"></i> Stripe Payments</div>
-    </div>
-  </section>
-
-  <!-- SPOTLIGHT FEATURE SECTION -->
-  <section class="spotlight-section">
-    <div class="spotlight-grid">
-      <div class="spotlight-text">
-        <h2>Una mejor manera de gestionar tu software empresarial</h2>
-        <p>Simplifica y optimiza tus procesos operativos. Hacemos que adquirir y administrar la tecnología que necesitas sea más fácil que nunca en El Salvador.</p>
-        
-        <div style="display: flex; gap: 18px; align-items: center;">
-          <a href="#contacto" class="btn-pill-solid" style="background: var(--brand-crimson); color: white;"><i class="fa-solid fa-rocket"></i> Comenzar ahora</a>
-          <a href="#productos" style="color: var(--brand-crimson); font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">Explorar soluciones ➔</a>
-        </div>
-      </div>
-
-      <div>
-        <div class="arch-image-frame">
-          <img src="assets_redesign/insight_arch_team_mockup_1786411365493.png" alt="Arch Team Mockup ARIAS">
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- NUESTROS 4 PRODUCTOS - CON DATOS REALES -->
-  <section id="productos" class="products-section">
-    <div style="text-align: center; margin-bottom: 45px;">
-      <span style="color: var(--brand-crimson); font-weight: 800; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px;">02 · LO QUE VENDEMOS</span>
-      <h2 style="font-size: 2.4rem; font-weight: 800; color: var(--brand-charcoal); margin-top: 4px;">Nuestros 4 Productos</h2>
-      <p style="color: var(--brand-text-dark); font-size: 1.08rem; margin-top: 6px;">Tres ya se venden hoy. El cuarto sale en 2 meses.</p>
-    </div>
-
-    <!-- NOTA: LA IMAGEN 2 HA SIDO ELIMINADA DE ACUERDO A TU INSTRUCCIÓN -->
-
-    <div class="products-grid-4">
-
-      <!-- PRODUCTO 1: ERP -->
-      <div class="product-card-4">
-        <div class="card-top-header">
-          <div class="product-icon-sq" style="background: rgba(174, 10, 70, 0.08); color: var(--brand-crimson);">
-            <i class="fa-solid fa-calculator"></i>
+      <div class="project-feature-bento">
+        <div class="bento-content-grid">
+          <div>
+            <div class="badge-category" style="display: inline-block; margin-bottom: 12px;">Finanzas, Tributación & Contabilidad</div>
+            <h3 class="bento-project-title">ERP ARIAS</h3>
+            <h4 class="bento-project-subtitle">Gestión Financiera Multi-Empresa & Facturación Electrónica DTE</h4>
+            <p class="bento-project-desc">
+              El ERP insignia de Arias Defense diseñado específicamente para la legislación contable y tributaria de El Salvador. Integra en tiempo real facturación electrónica DTE, planillas laborales, cuentas por cobrar/pagar y control de múltiples empresas con un único inicio de sesión.
+            </p>
+            <div class="bento-metrics-quad">
+              <div class="quad-metric-box">
+                <span class="metric-primary-val">40 Empresas</span>
+                <span class="metric-primary-label">Capacidad Contable</span>
+              </div>
+              <div class="quad-metric-box">
+                <span class="metric-primary-val">&lt; 0.8 seg</span>
+                <span class="metric-primary-label">Transmisión MH</span>
+              </div>
+              <div class="quad-metric-box">
+                <span class="metric-primary-val">100% Oficial</span>
+                <span class="metric-primary-label">Homologación DTE</span>
+              </div>
+              <div class="quad-metric-box">
+                <span class="metric-primary-val">Automatizada</span>
+                <span class="metric-primary-label">Conciliación Bancaria</span>
+              </div>
+            </div>
+            <ul class="bullets-list">
+              <li><i class="fa-solid fa-check text-cyan"></i> Un solo contador administra hasta 40 empresas en lugar de 15.</li>
+              <li><i class="fa-solid fa-check text-cyan"></i> Emisión masiva de Documentos Tributarios Electrónicos con sello de Hacienda.</li>
+              <li><i class="fa-solid fa-check text-cyan"></i> Módulo de planillas con cálculo automático de ISSS, AFP y Renta.</li>
+            </ul>
           </div>
-          <span class="status-badge badge-vende-ya">SE VENDE YA</span>
-        </div>
-        <h3 style="font-size: 1.55rem; font-weight: 800; color: var(--brand-charcoal);">ERP ARIAS</h3>
-        <p style="font-size: 0.98rem; color: var(--brand-text-dark);">Facturación electrónica DTE El Salvador y manejo de muchas empresas en un solo sistema.</p>
-
-        <div class="video-demo-btn" onclick="openModal('ERP ARIAS', 'Facturación masiva DTE El Salvador y control contable multi-empresa.')">
-          <i class="fa-solid fa-circle-play" style="color: var(--brand-crimson);"></i> Ver Video Demo / GIF 30s
-        </div>
-
-        <div class="roadmap-box">
-          <strong>En 2 meses:</strong> incluirá contabilidad, planillas y bancos — el contador podrá llevar 40 empresas en vez de 15.
-        </div>
-      </div>
-
-      <!-- PRODUCTO 2: CRM -->
-      <div class="product-card-4">
-        <div class="card-top-header">
-          <div class="product-icon-sq" style="background: rgba(56, 96, 190, 0.1); color: var(--brand-tech-blue);">
-            <i class="fa-solid fa-address-book"></i>
+          <div>
+            <div class="visual-card-frame">
+              <div class="frame-top-controls">
+                <div class="control-dots">
+                  <span class="dot dot-crimson"></span>
+                  <span class="dot dot-amber"></span>
+                  <span class="dot dot-green"></span>
+                </div>
+                <div class="frame-path-bar">app.ariasdefense.com/enterprise/erp</div>
+              </div>
+              <img src="src/assets_redesign/arias_solution_showcase_1786402080627.png" alt="ERP Arias" class="showcase-software-image" />
+            </div>
           </div>
-          <span class="status-badge badge-vende-ya">SE VENDE YA</span>
-        </div>
-        <h3 style="font-size: 1.55rem; font-weight: 800; color: var(--brand-charcoal);">CRM ARIAS</h3>
-        <p style="font-size: 0.98rem; color: var(--brand-text-dark);">Para que las empresas gestionen sus clientes y sus ventas comercialmente.</p>
-
-        <div class="video-demo-btn" onclick="openModal('CRM ARIAS', 'Pipeline de ventas y cotizaciones automatizadas.')">
-          <i class="fa-solid fa-circle-play" style="color: var(--brand-crimson);"></i> Ver Video Demo / GIF 30s
-        </div>
-
-        <div class="roadmap-box">
-          <strong>El producto de ticket más alto:</strong> Al 100% en 3 semanas. (integrar con facturación electrónica)
         </div>
       </div>
-
-      <!-- PRODUCTO 3: SIPLE LOTIFICADORAS -->
-      <div class="product-card-4">
-        <div class="card-top-header">
-          <div class="product-icon-sq" style="background: rgba(33, 107, 165, 0.1); color: var(--brand-ui-blue);">
-            <i class="fa-solid fa-city"></i>
-          </div>
-          <span class="status-badge badge-vende-ya">SE VENDE YA</span>
-        </div>
-        <h3 style="font-size: 1.55rem; font-weight: 800; color: var(--brand-charcoal);">SIPLE (Lotificadoras)</h3>
-        <p style="font-size: 0.98rem; color: var(--brand-text-dark);">Sistema especializado para administradores de lotificadoras y desarrollos de terrenos.</p>
-
-        <div class="video-demo-btn" onclick="openModal('SIPLE Lotificadoras', 'Gestión de terrenos, cuotas de lotes y proyectos inmobiliarios.')">
-          <i class="fa-solid fa-circle-play" style="color: var(--brand-crimson);"></i> Ver Video Demo / GIF 30s
-        </div>
-
-        <div class="roadmap-box">
-          <strong>En 2 meses:</strong> multi-empresa que ya está pero tendrá contabilidad, planillas y bancos
-        </div>
-      </div>
-
-      <!-- PRODUCTO 4: GASOLINERA -->
-      <div class="product-card-4">
-        <div class="card-top-header">
-          <div class="product-icon-sq" style="background: #FFF8E1; color: #E67E22;">
-            <i class="fa-solid fa-gas-pump"></i>
-          </div>
-          <span class="status-badge badge-en-2-meses">EN 2 MESES</span>
-        </div>
-        <h3 style="font-size: 1.55rem; font-weight: 800; color: var(--brand-charcoal);">Gasolinera</h3>
-        <p style="font-size: 0.98rem; color: var(--brand-text-dark);">Sistema completo para estaciones de servicio (pistas, mangueras y turnos).</p>
-
-        <div class="video-demo-btn" onclick="openModal('ARIAS Gasolinera', 'Control de surtidores de combustible y arqueo de turnos.')">
-          <i class="fa-solid fa-circle-play" style="color: var(--brand-crimson);"></i> Ver Video Demo / GIF 30s
-        </div>
-
-        <div class="roadmap-box">
-          <strong>Producto terminado en 2 meses:</strong> con contabilidad, planilla y bancos
-        </div>
-      </div>
-
     </div>
   </section>
 
-  <!-- SHOWCASE INTERACTIVO (IMAGEN 3 DINÁMICA) -->
-  <section id="soluciones" class="showcase-interactive-section">
-    <div style="text-align: center; margin-bottom: 36px;">
-      <span style="color: var(--brand-crimson); font-weight: 800; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px;">Demostrador Interactivo Dinámico</span>
-      <h2 style="font-size: 2.3rem; font-weight: 800; color: var(--brand-charcoal); margin-top: 4px;">Elige un Producto para Ver su Interfaz</h2>
-    </div>
-
-    <div class="showcase-wrapper">
-      <div class="showcase-tabs-bar">
-        <button class="tab-trigger active" onclick="changeTab('erp', this)"><i class="fa-solid fa-calculator"></i> ERP ARIAS</button>
-        <button class="tab-trigger" onclick="changeTab('crm', this)"><i class="fa-solid fa-address-book"></i> CRM ARIAS</button>
-        <button class="tab-trigger" onclick="changeTab('siple', this)"><i class="fa-solid fa-city"></i> SIPLE Lotificadoras</button>
-        <button class="tab-trigger" onclick="changeTab('gasolinera', this)"><i class="fa-solid fa-gas-pump"></i> Gasolinera</button>
-      </div>
-
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;">
+  <!-- FOOTER -->
+  <footer class="vibrant-footer">
+    <div class="footer-inner-wrap">
+      <div class="footer-top-row">
         <div>
-          <h3 id="interactive-title" style="font-size: 1.8rem; font-weight: 800; color: var(--brand-charcoal); margin-bottom: 14px;">ERP ARIAS: Gestión Financiera Multi-Empresa</h3>
-          <p id="interactive-desc" style="font-size: 1.02rem; color: var(--brand-text-dark); margin-bottom: 22px; line-height: 1.6;">Permite administrar múltiples razones sociales, facturación DTE El Salvador y flujos de caja en tiempo real.</p>
-          
-          <ul id="interactive-bullets" style="list-style: none; margin-bottom: 26px;">
-            <li style="margin-bottom: 12px; display: flex; align-items: flex-start; gap: 12px;"><i class="fa-solid fa-circle-check" style="color: var(--brand-crimson); margin-top: 3px; font-size: 1.1rem;"></i> <span>Un solo contador podrá administrar hasta 40 empresas en vez de 15.</span></li>
-            <li style="margin-bottom: 12px; display: flex; align-items: flex-start; gap: 12px;"><i class="fa-solid fa-circle-check" style="color: var(--brand-crimson); margin-top: 3px; font-size: 1.1rem;"></i> <span>Integración con planillas de empleados, bancos y conciliación contable.</span></li>
-            <li style="margin-bottom: 12px; display: flex; align-items: flex-start; gap: 12px;"><i class="fa-solid fa-circle-check" style="color: var(--brand-crimson); margin-top: 3px; font-size: 1.1rem;"></i> <span>Facturación electrónica masiva DTE autorizada en El Salvador.</span></li>
+          <img src="public/logocompleto.png" alt="Arias Defense" class="footer-logo-img" />
+          <p class="footer-about-text">
+            Firma salvadoreña de ingeniería de software e infraestructura tecnológica. Facturación DTE, ERP Multi-Empresa, CRM comercial y desarrollo por industria.
+          </p>
+          <div style="color: #CBD5E1; font-size: 0.84rem;"><i class="fa-solid fa-location-dot text-cyan"></i> Calle la Mascota, Edif. 533, Col. San Benito, San Salvador, El Salvador.</div>
+        </div>
+        <div class="footer-links-group">
+          <h5>Proyectos</h5>
+          <ul>
+            <li><a href="#proyectos">ERP ARIAS</a></li>
+            <li><a href="#proyectos">CRM ARIAS</a></li>
+            <li><a href="#proyectos">SIPLE (Lotificadoras)</a></li>
+            <li><a href="#proyectos">Gasolinera</a></li>
           </ul>
-
-          <a href="#contacto" id="interactive-btn" class="btn-pill-solid" style="background: var(--brand-crimson); color: white; display: inline-flex;"><i class="fa-solid fa-arrow-right"></i> Solicitar Demo de ERP ARIAS</a>
         </div>
-
-        <div style="border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--brand-border); box-shadow: var(--card-shadow);">
-          <img id="interactive-img" src="assets_redesign/arias_solution_showcase_1786402080627.png" alt="Showcase Tab Image" style="width: 100%; display: block; transition: opacity 0.3s;">
+        <div class="footer-links-group">
+          <h5>Servicios</h5>
+          <ul>
+            <li><a href="#servicios">Facturación DTE</a></li>
+            <li><a href="#servicios">Desarrollo a Medida</a></li>
+            <li><a href="#servicios">Cloud & DevOps</a></li>
+          </ul>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- VISIÓN, METAS Y OBJETIVOS -->
-  <section id="nosotros" class="vision-section">
-    <div style="text-align: center; margin-bottom: 40px;">
-      <span style="color: var(--brand-crimson); font-weight: 800; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px;">Filosofía Corporativa</span>
-      <h2 style="font-size: 2.3rem; font-weight: 800; color: var(--brand-charcoal); margin-top: 4px;">Misión, Visión y Objetivos de ARIAS Enterprise</h2>
-    </div>
-
-    <div class="vision-grid">
-      <div class="vision-card-box">
-        <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(174, 10, 70, 0.08); color: var(--brand-crimson); display: flex; align-items: center; justify-content: center; font-size: 1.4rem;"><i class="fa-solid fa-bullseye"></i></div>
-        <h4 style="font-weight: 800; color: var(--brand-charcoal); font-size: 1.25rem;">Nuestra Misión</h4>
-        <p style="font-size: 0.95rem; color: var(--brand-text-dark); line-height: 1.6;">Transformar y simplificar la gestión operativa y financiera en El Salvador con un ecosistema cloud integrado y automatizado.</p>
-      </div>
-
-      <div class="vision-card-box">
-        <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(174, 10, 70, 0.08); color: var(--brand-crimson); display: flex; align-items: center; justify-content: center; font-size: 1.4rem;"><i class="fa-solid fa-eye"></i></div>
-        <h4 style="font-weight: 800; color: var(--brand-charcoal); font-size: 1.25rem;">Nuestra Visión</h4>
-        <p style="font-size: 0.95rem; color: var(--brand-text-dark); line-height: 1.6;">Ser la plataforma SaaS de referencia para contadores multi-empresa, equipos comerciales, lotificadoras y estaciones de servicio.</p>
-      </div>
-
-      <div class="vision-card-box">
-        <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(174, 10, 70, 0.08); color: var(--brand-crimson); display: flex; align-items: center; justify-content: center; font-size: 1.4rem;"><i class="fa-solid fa-chart-line"></i></div>
-        <h4 style="font-weight: 800; color: var(--brand-charcoal); font-size: 1.25rem;">Metas y Objetivos</h4>
-        <p style="font-size: 0.95rem; color: var(--brand-text-dark); line-height: 1.6;">Multiplicar x2.6 la capacidad de los contadores y digitalizar el 100% de los procesos de ventas, facturación DTE y cuotas de terrenos.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- FORMULARIO DE DEMO ENFOCADO EN PRODUCTO -->
-  <section id="contacto" class="lead-section">
-    <div class="lead-box-container">
-      <div>
-        <h2 style="font-size: 2.3rem; font-weight: 800; margin-bottom: 16px;">Solicita tu Demostración Personalizada</h2>
-        <p style="color: var(--brand-bg-neutral); margin-bottom: 26px; font-size: 1.02rem;">Selecciona el producto de tu interés y un especialista técnico configurará una demo en vivo.</p>
-
-        <div style="font-size: 0.92rem; font-weight: 700; margin-bottom: 12px; color: var(--brand-bg-neutral);">Selecciona tus productos:</div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-          <div style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 12px 16px; border-radius: var(--radius-sm); font-weight: 700; font-size: 0.88rem; display: flex; align-items: center; gap: 8px;"><i class="fa-solid fa-calculator"></i> ERP ARIAS</div>
-          <div style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 12px 16px; border-radius: var(--radius-sm); font-weight: 700; font-size: 0.88rem; display: flex; align-items: center; gap: 8px;"><i class="fa-solid fa-address-book"></i> CRM ARIAS</div>
-          <div style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 12px 16px; border-radius: var(--radius-sm); font-weight: 700; font-size: 0.88rem; display: flex; align-items: center; gap: 8px;"><i class="fa-solid fa-city"></i> SIPLE Lotificadoras</div>
-          <div style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 12px 16px; border-radius: var(--radius-sm); font-weight: 700; font-size: 0.88rem; display: flex; align-items: center; gap: 8px;"><i class="fa-solid fa-gas-pump"></i> Gasolinera</div>
+        <div class="footer-links-group">
+          <h5>Contacto</h5>
+          <ul>
+            <li><a href="tel:+50379718911">(503) 7971-8911</a></li>
+            <li><a href="mailto:info@ariasdefense.com">info@ariasdefense.com</a></li>
+          </ul>
         </div>
       </div>
-
-      <div style="background: white; padding: 32px; border-radius: var(--radius-md); color: var(--brand-charcoal);">
-        <h4 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 18px;">Contactar a Ventas</h4>
-        <form onsubmit="event.preventDefault(); alert('¡Gracias! Un especialista de ARIAS en El Salvador te contactará a la brevedad.');">
-          <div style="margin-bottom: 14px;">
-            <label style="display: block; font-size: 0.82rem; font-weight: 700; margin-bottom: 6px;">Nombre Completo</label>
-            <input type="text" placeholder="Ej. Carlos Mendoza" required style="width: 100%; padding: 10px 14px; border: 1px solid var(--brand-border); border-radius: var(--radius-sm); font-family: inherit;">
-          </div>
-          <div style="margin-bottom: 14px;">
-            <label style="display: block; font-size: 0.82rem; font-weight: 700; margin-bottom: 6px;">Correo Corporativo</label>
-            <input type="email" placeholder="carlos@empresa.com.sv" required style="width: 100%; padding: 10px 14px; border: 1px solid var(--brand-border); border-radius: var(--radius-sm); font-family: inherit;">
-          </div>
-          <div style="margin-bottom: 18px;">
-            <label style="display: block; font-size: 0.82rem; font-weight: 700; margin-bottom: 6px;">Producto de Interés</label>
-            <select required style="width: 100%; padding: 10px 14px; border: 1px solid var(--brand-border); border-radius: var(--radius-sm); font-family: inherit;">
-              <option value="ERP">ERP ARIAS (Se vende ya)</option>
-              <option value="CRM">CRM ARIAS (Se vende ya)</option>
-              <option value="SIPLE">SIPLE Lotificadoras (Se vende ya)</option>
-              <option value="Gasolinera">Gasolinera (En 2 meses)</option>
-            </select>
-          </div>
-          <button type="submit" class="btn-pill-solid" style="background: var(--brand-crimson); color: white; width: 100%; text-align: center; border: none; justify-content: center;"><i class="fa-solid fa-paper-plane"></i> Solicitar Demo Personalizada</button>
-        </form>
-      </div>
-    </div>
-  </section>
-
-  <!-- FLOATING AI ASSISTANT WIDGET -->
-  <div class="floating-ai-widget" onclick="alert('ARIAS AI Assistant: ¿En qué puedo ayudarte hoy con ERP, CRM, SIPLE Lotificadoras o Gasolinera?')">
-    <i class="fa-solid fa-sparkles"></i> ✨ Preguntar a ARIAS AI
-  </div>
-
-  <!-- VIDEO MODAL POPUP -->
-  <div id="videoModal" class="video-modal">
-    <div class="video-modal-card">
-      <span onclick="closeModal()" style="position: absolute; top: 12px; right: 16px; font-size: 1.5rem; cursor: pointer;">&times;</span>
-      <h3 id="modal-title" style="font-size: 1.4rem; color: var(--brand-charcoal); margin-bottom: 8px;">Demo de Producto</h3>
-      <p id="modal-desc" style="color: var(--brand-text-dark); margin-bottom: 20px; font-size: 0.9rem;">Vista previa animada del módulo.</p>
-
-      <div style="background: var(--brand-charcoal); height: 250px; border-radius: var(--radius-sm); display: flex; flex-direction: column; align-items: center; justify-content: center; color: white;">
-        <i class="fa-solid fa-circle-play" style="font-size: 3.5rem; color: var(--brand-crimson); margin-bottom: 10px;"></i>
-        <p style="font-weight: 700;">[ Reproduciendo GIF / Video Demo de 30 Segundos ]</p>
-      </div>
-
-      <button onclick="closeModal()" class="btn-pill-solid" style="background: var(--brand-crimson); color: white; width: 100%; margin-top: 18px; border: none; justify-content: center;">Cerrar Vista Previa</button>
-    </div>
-  </div>
-
-  <!-- NEW CLEAN & ELEGANT FOOTER MATCHING USER SCREENSHOT REPLICA -->
-  <div class="footer-top-banner">
-    Como el ecosistema de software líder en El Salvador, resolvemos los desafíos operacionales y financieros de tu empresa.
-  </div>
-
-  <footer class="main-footer-clean">
-    <div class="footer-grid-4">
-      <!-- Col 1: Newsletter -->
-      <div class="footer-newsletter">
-        <h4>Boletín Informativo ARIAS</h4>
-        <p>Suscríbete para recibir actualizaciones sobre Facturación Electrónica DTE, gestión de lotificadoras y nuevas funciones de ARIAS.</p>
-        <button class="btn-newsletter" onclick="alert('¡Gracias por suscribirte al boletín de ARIAS El Salvador!')"><i class="fa-solid fa-envelope"></i> Suscribirme al Boletín</button>
-      </div>
-
-      <!-- Col 2: Sobre ARIAS -->
-      <div class="footer-col">
-        <h5>Sobre ARIAS Defense</h5>
-        <ul>
-          <li><a href="#nosotros"><i class="fa-solid fa-chevron-right" style="font-size: 0.7rem; color: var(--brand-crimson);"></i> Visión General</a></li>
-          <li><a href="#"><i class="fa-solid fa-chevron-right" style="font-size: 0.7rem; color: var(--brand-crimson);"></i> Certificación DTE Hacienda</a></li>
-          <li><a href="#nosotros"><i class="fa-solid fa-chevron-right" style="font-size: 0.7rem; color: var(--brand-crimson);"></i> Misión y Objetivos</a></li>
-          <li><a href="#"><i class="fa-solid fa-chevron-right" style="font-size: 0.7rem; color: var(--brand-crimson);"></i> Sostenibilidad Digital</a></li>
-          <li><a href="#nosotros"><i class="fa-solid fa-chevron-right" style="font-size: 0.7rem; color: var(--brand-crimson);"></i> Equipo Directivo</a></li>
-          <li><a href="#"><i class="fa-solid fa-chevron-right" style="font-size: 0.7rem; color: var(--brand-crimson);"></i> Empleos en El Salvador</a></li>
-        </ul>
-      </div>
-
-      <!-- Col 3: Prensa y Alianzas -->
-      <div class="footer-col">
-        <h5>Prensa y Alianzas</h5>
-        <ul>
-          <li><a href="#"><i class="fa-solid fa-chevron-right" style="font-size: 0.7rem; color: var(--brand-crimson);"></i> Eventos & Webinars</a></li>
-          <li><a href="#"><i class="fa-solid fa-chevron-right" style="font-size: 0.7rem; color: var(--brand-crimson);"></i> Noticias del Sector</a></li>
-          <li><a href="#socios"><i class="fa-solid fa-chevron-right" style="font-size: 0.7rem; color: var(--brand-crimson);"></i> Alianzas Cloud (AWS/Azure)</a></li>
-          <li><a href="#socios"><i class="fa-solid fa-chevron-right" style="font-size: 0.7rem; color: var(--brand-crimson);"></i> Relaciones Empresariales</a></li>
-        </ul>
-      </div>
-
-      <!-- Col 4: Ayuda y Soporte -->
-      <div class="footer-col">
-        <h5>Ayuda y Soporte</h5>
-        <ul>
-          <li><a href="#contacto"><i class="fa-solid fa-chevron-right" style="font-size: 0.7rem; color: var(--brand-crimson);"></i> Contactar Soporte 24/7</a></li>
-          <li><a href="#"><i class="fa-solid fa-chevron-right" style="font-size: 0.7rem; color: var(--brand-crimson);"></i> Documentación DTE El Salvador</a></li>
-          <li><a href="#"><i class="fa-solid fa-chevron-right" style="font-size: 0.7rem; color: var(--brand-crimson);"></i> Base de Conocimientos</a></li>
-          <li><a href="#contacto"><i class="fa-solid fa-chevron-right" style="font-size: 0.7rem; color: var(--brand-crimson);"></i> Asistencia Telefónica +503</a></li>
-          <li><a href="#"><i class="fa-solid fa-chevron-right" style="font-size: 0.7rem; color: var(--brand-crimson);"></i> Estado del Sistema</a></li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- Centered Social Links Row -->
-    <div class="footer-social-row">
-      <a href="#" title="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
-      <a href="#" title="Facebook"><i class="fa-brands fa-facebook"></i></a>
-      <a href="#" title="X (Twitter)"><i class="fa-brands fa-x-twitter"></i></a>
-      <a href="#" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
-      <a href="#" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
-    </div>
-
-    <!-- Bottom Legal Bar -->
-    <div class="footer-bottom-bar">
-      <div>© 2026 ARIAS Defense Component. Todos los derechos reservados. San Salvador, El Salvador.</div>
-      <div class="footer-bottom-links">
-        <a href="#">Privacidad</a>
-        <a href="#">Términos y Condiciones</a>
-        <a href="#">Accesibilidad Web</a>
-        <a href="#">Glosario Técnico</a>
-        <a href="#">Configurar Cookies</a>
+      <div class="footer-bottom-row">
+        <div>© 2026 Arias Defense Component. San Salvador, El Salvador.</div>
       </div>
     </div>
   </footer>
 
-  <!-- DYNAMIC TAB SWITCHING JAVASCRIPT -->
-  <script>
-    const tabData = {
-      erp: {
-        title: "ERP ARIAS: Gestión Financiera Multi-Empresa",
-        desc: "Permite administrar múltiples razones sociales, facturación DTE El Salvador y flujos de caja en tiempo real.",
-        bullets: [
-          "Un solo contador podrá administrar hasta 40 empresas en vez de 15.",
-          "Integración con planillas de empleados, bancos y conciliación contable.",
-          "Facturación electrónica masiva DTE autorizada en El Salvador."
-        ],
-        btn: "Solicitar Demo de ERP ARIAS",
-        img: "assets_redesign/arias_solution_showcase_1786402080627.png"
-      },
-      crm: {
-        title: "CRM ARIAS: Pipeline de Ventas & Clientes",
-        desc: "El producto de ticket más alto. Diseñado para que las empresas gestionen sus clientes, oportunidades de venta y cotizaciones.",
-        bullets: [
-          "Integrado 100% con facturación electrónica en 3 semanas.",
-          "Control de prospectos comerciales y embudo de conversión.",
-          "Generación instantánea de cotizaciones y alertas de seguimiento."
-        ],
-        btn: "Solicitar Demo de CRM ARIAS",
-        img: "assets_redesign/arias_crm_showcase_tab_1786411127962.png"
-      },
-      siple: {
-        title: "SIPLE: Sistema Especializado para Lotificadoras",
-        desc: "Para administradores que llevan proyectos de terrenos, lotes y desarrollos inmobiliarios multi-empresa a la vez.",
-        bullets: [
-          "Mapeo de lotes disponibles, reservados y vendidos por proyecto.",
-          "Cobro de cuotas periódicas a compradores y cronograma de pagos.",
-          "En 2 meses incluirá contabilidad, planillas y módulos bancarios."
-        ],
-        btn: "Solicitar Demo de SIPLE Lotificadoras",
-        img: "assets_redesign/arias_siple_showcase_tab_1786411141225.png"
-      },
-      gasolinera: {
-        title: "Gasolinera: Sistema Integral para Estaciones de Servicio",
-        desc: "Solución completa para control de dispensadores de combustible, arqueo de caja por turno en pista y facturación inmediata.",
-        bullets: [
-          "Monitoreo de tanques de combustible e inventarios en tiempo real.",
-          "Control de cierres de caja por turno y manguera surtidora.",
-          "Producto terminado en 2 meses con contabilidad, planilla y bancos."
-        ],
-        btn: "Solicitar Demo de Gasolinera",
-        img: "assets_redesign/arias_gasolinera_showcase_tab_1786411155869.png"
-      }
-    };
-
-    function changeTab(key, btnElem) {
-      const data = tabData[key];
-      if (!data) return;
-
-      document.querySelectorAll('.tab-trigger').forEach(b => b.classList.remove('active'));
-      btnElem.classList.add('active');
-
-      document.getElementById('interactive-title').innerText = data.title;
-      document.getElementById('interactive-desc').innerText = data.desc;
-      document.getElementById('interactive-btn').innerHTML = `<i class="fa-solid fa-arrow-right"></i> ${data.btn}`;
-
-      const bullets = document.getElementById('interactive-bullets');
-      bullets.innerHTML = '';
-      data.bullets.forEach(b => {
-        const li = document.createElement('li');
-        li.style.marginBottom = '12px';
-        li.style.display = 'flex';
-        li.style.alignItems = 'flex-start';
-        li.style.gap = '12px';
-        li.innerHTML = `<i class="fa-solid fa-circle-check" style="color: var(--brand-crimson); margin-top: 3px; font-size: 1.1rem;"></i> <span>${b}</span>`;
-        bullets.appendChild(li);
-      });
-
-      const img = document.getElementById('interactive-img');
-      img.style.opacity = '0.2';
-      setTimeout(() => {
-        img.src = data.img;
-        img.style.opacity = '1';
-      }, 150);
-    }
-
-    function openModal(title, desc) {
-      document.getElementById('modal-title').innerText = 'Video Demo: ' + title;
-      document.getElementById('modal-desc').innerText = desc;
-      document.getElementById('videoModal').style.display = 'flex';
-    }
-
-    function closeModal() {
-      document.getElementById('videoModal').style.display = 'none';
-    }
-  </script>
+  <!-- FLOATING WHATSAPP -->
+  <a href="https://wa.me/50379718911" target="_blank" class="floating-whatsapp-btn" title="Contactar por WhatsApp">
+    <i class="fa-brands fa-whatsapp"></i>
+  </a>
 
 </body>
 </html>
