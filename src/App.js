@@ -1,952 +1,957 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
-import logoCompleto from './images/logocompleto.png';
+import logo from './images/logo_light.png';
+import erpImg from './images/products/erp.png';
+import crmImg from './images/products/crm.png';
+import gasImg from './images/products/gasolinera.png';
+import { CONTENT, CONTACT, PRODUCT_LINKS } from './content';
 
-function App() {
-  const [activeProjectTab, setActiveProjectTab] = useState('erp');
-  const [modalOpen, setModalOpen] = useState(false);
-  const [modalData, setModalData] = useState({ title: '', desc: '', tech: '', stats: [] });
-  const [selectedServices, setSelectedServices] = useState(['ERP ARIAS (DTE El Salvador)']);
-  const [formSubmitted, setFormSubmitted] = useState(false);
+/* Capturas de cada producto. SIPLE: agregar su imagen en src/images/products/ y registrarla aquí. */
+const PRODUCT_IMAGES = {
+  erp: erpImg,
+  crm: crmImg,
+  siple: null,
+  gasolinera: gasImg,
+};
 
-  const projects = {
-    erp: {
-      id: 'erp',
-      title: 'ERP ARIAS',
-      subtitle: 'Gestión Financiera Multi-Empresa & Facturación Electrónica DTE',
-      category: 'Finanzas, Tributación & Contabilidad',
-      badge: 'EN PRODUCCIÓN ACTIVA',
-      badgeType: 'status-live',
-      gradient: 'from-blue-to-cyan',
-      tagline: 'Multiplica x2.6 la capacidad de los contadores y centraliza hasta 40 razones sociales en un solo panel.',
-      highlights: [
-        { label: 'Capacidad Contable', val: '40 Empresas', desc: 'Por contador sin sobrecarga' },
-        { label: 'Transmisión MH', val: '< 0.8 seg', desc: 'Validación directa en Hacienda' },
-        { label: 'Homologación DTE', val: '100% Oficial', desc: 'Factura, CCF, Retención, Exp.' },
-        { label: 'Conciliación Bancaria', val: 'Automatizada', desc: 'Bancos de El Salvador' }
-      ],
-      description: 'El ERP insignia de Arias Defense diseñado específicamente para la legislación contable y tributaria de El Salvador. Integra en tiempo real facturación electrónica DTE, planillas laborales, cuentas por cobrar/pagar y control de múltiples empresas con un único inicio de sesión.',
-      bullets: [
-        'Un solo contador administra hasta 40 empresas en lugar de 15, automatizando cierres contables.',
-        'Emisión masiva de Documentos Tributarios Electrónicos con firma y sello de recepción del Ministerio de Hacienda.',
-        'Módulo de planillas con cálculo automático de ISSS, AFP y Renta según tabla oficial salvadoreña.',
-        'Conciliación bancaria inteligente con importación de estados de cuenta de los principales bancos.'
-      ],
-      techStack: ['React', 'Laravel 11', 'PostgreSQL', 'API Ministerio de Hacienda', 'AWS Cloud (S3, EC2)'],
-      img: 'assets_redesign/arias_solution_showcase_1786402080627.png'
-    },
-    crm: {
-      id: 'crm',
-      title: 'CRM ARIAS',
-      subtitle: 'Pipeline de Ventas Comercial, Cotizaciones & Fidelización',
-      category: 'Ventas, Prospección & Clientes',
-      badge: 'EN PRODUCCIÓN ACTIVA',
-      badgeType: 'status-live',
-      gradient: 'from-purple-to-blue',
-      tagline: 'El producto de ticket más alto: centraliza el embudo de ventas, prospectos y cotizaciones en PDF inmediatas.',
-      highlights: [
-        { label: 'Conversión de Leads', val: '+40% Cierres', desc: 'Optimización de embudos' },
-        { label: 'Cotizaciones PDF', val: 'Instantáneas', desc: 'Conversión directa a DTE' },
-        { label: 'Seguimiento', val: 'Omnicanal', desc: 'WhatsApp, Correo y Llamadas' },
-        { label: 'Pronóstico de Ventas', val: 'Tiempo Real', desc: 'Métricas de productividad' }
-      ],
-      description: 'Plataforma para directores comerciales y ejecutivos de ventas. Canaliza oportunidades de negocio, registra cada interacción con el cliente y permite emitir cotizaciones comerciales en segundos vinculadas al catálogo de productos e inventario.',
-      bullets: [
-        'Embudo Kanban visual con etapas personalizables según el ciclo comercial de su empresa.',
-        'Generador instantáneo de cotizaciones formales con cálculo de impuestos y botón para convertir en factura DTE.',
-        'Métricas de desempeño por asesor de ventas, volumen negociado y tasa de conversión mensual.',
-        'Registro histórico de llamadas, minutas de reunión y recordatorios automáticos de seguimiento.'
-      ],
-      techStack: ['React', 'Node.js', 'PostgreSQL', 'WebSockets', 'PDF Engine', 'WhatsApp Business API'],
-      img: 'assets_redesign/arias_crm_showcase_tab_1786411127962.png'
-    },
-    siple: {
-      id: 'siple',
-      title: 'SIPLE (Lotificadoras)',
-      subtitle: 'Sistema Especializado para Urbanizadoras & Terrenos',
-      category: 'Desarrollo Inmobiliario & Cobranza',
-      badge: 'EN PRODUCCIÓN ACTIVA',
-      badgeType: 'status-live',
-      gradient: 'from-emerald-to-teal',
-      tagline: 'Control integral de lotificaciones: mapeo de parcelas, cobranza de cuotas mensuales y contratos de compraventa.',
-      highlights: [
-        { label: 'Gestión de Lotes', val: 'Multi-Proyecto', desc: 'Disponibles, reservados y vendidos' },
-        { label: 'Mora Reducida', val: '-35% Atrasos', desc: 'Alertas automáticas de pago' },
-        { label: 'Cronograma', val: 'Amortización', desc: 'Cálculo de capital e intereses' },
-        { label: 'Emisión Recibos', val: 'DTE Vinculado', desc: 'Comprobantes oficiales' }
-      ],
-      description: 'Software vertical concebido para empresas lotificadoras, desarrolladores inmobiliarios y propietarios de parcelaciones en El Salvador. Resuelve el dolor de cabeza del cobro mensual de cuotas, el cálculo de intereses moratorios y el control de planos.',
-      bullets: [
-        'Mapeo digital de proyectos por polígonos, manzanas y lotes con estado en tiempo real (disponible, reservado, vendido).',
-        'Cronogramas automáticos de pagos mensuales con desglose de abono a capital, intereses y cargos por mora.',
-        'Generación de recibos de cobro y facturas electrónicas de cuota mensual avaladas por Hacienda.',
-        'Próxima fase en 2 meses: integración nativa con contabilidad general, planillas de cobradores y bancos.'
-      ],
-      techStack: ['Vue.js / React', 'Laravel', 'PostgreSQL', 'GIS Mapping', 'Facturación DTE El Salvador'],
-      img: 'assets_redesign/arias_siple_showcase_tab_1786411141225.png'
-    },
-    gasolinera: {
-      id: 'gasolinera',
-      title: 'ARIAS Gasolinera',
-      subtitle: 'Sistema de Estaciones de Servicio, Dispensadores & Pistas',
-      category: 'Sector Combustibles & Pistas de Carga',
-      badge: 'LANZAMIENTO EN 2 MESES',
-      badgeType: 'status-roadmap',
-      gradient: 'from-amber-to-orange',
-      tagline: 'Control de tanques de combustible, arqueos de turno por manguera y facturación inmediata al consumidor.',
-      highlights: [
-        { label: 'Arqueo de Turnos', val: 'Por Manguera', desc: 'Lecturas iniciales y finales' },
-        { label: 'Control de Tanques', val: 'Monitoreo IoT', desc: 'Inventario físico y mermas' },
-        { label: 'Facturación Pista', val: 'Instantánea', desc: 'DTE Consumidor y Crédito Fiscal' },
-        { label: 'Cierre de Caja', val: 'Cuadre 100%', desc: 'Efectivo, tarjetas y vales' }
-      ],
-      description: 'Desarrollado para resolver el ritmo de alto tráfico de las estaciones de servicio. Monitorea los dispensadores, audita los litros despachados en cada turno de pistero, controla los inventarios en tanques subterráneos y emite facturas electrónicas al instante.',
-      bullets: [
-        'Cierre de turnos de pista con auditoría milimétrica entre la lectura del marcador mecánico/digital y el dinero en caja.',
-        'Emisión de Factura de Consumidor Final y Crédito Fiscal para flotas corporativas en segundos.',
-        'Monitoreo de tanques con control de mermas por temperatura y alertas de stock mínimo de combustible.',
-        'Totalmente terminado en 2 meses con módulos integrados de contabilidad general, planillas de personal y bancos.'
-      ],
-      techStack: ['IoT Protocols', 'React High-Speed UI', 'Go / Node Microservices', 'DTE Hacienda', 'Offline Sync'],
-      img: 'assets_redesign/arias_gasolinera_showcase_tab_1786411155869.png'
-    },
-    rtms: {
-      id: 'rtms',
-      title: 'RTMS (Real-Time Management)',
-      subtitle: 'Monitoreo Operativo & Logística en Tiempo Real',
-      category: 'Operaciones Críticas & Tracking',
-      badge: 'ALTO RENDIMIENTO',
-      badgeType: 'status-live',
-      gradient: 'from-cyan-to-blue',
-      tagline: 'Control y supervisión de operaciones distribuidas con telemetría en vivo y latencia cero.',
-      highlights: [
-        { label: 'Latencia de Datos', val: '< 50ms', desc: 'Comunicación en vivo WebSockets' },
-        { label: 'Disponibilidad', val: '99.98% SLA', desc: 'Infraestructura redundante' },
-        { label: 'Seguridad', val: 'TLS 1.3', desc: 'Cifrado perimetral de extremo a extremo' },
-        { label: 'Monitoreo', val: '24/7', desc: 'Alertas automáticas de incidentes' }
-      ],
-      description: 'Sistema de telemetría y supervisión operativa en tiempo real. Permite a grandes operaciones y flotas logísticas monitorizar estados, despachos y eventos críticos con tableros reactivos y mapas dinámicos.',
-      bullets: [
-        'Tablero de control en tiempo real con actualización de eventos sin recargar el navegador.',
-        'Registro de trazabilidad y auditoría inmutable de cada acción operativa ejecutada.',
-        'Arquitectura distribuida en clústeres cloud de alta disponibilidad con failover automático.'
-      ],
-      techStack: ['React', 'Go / Rust', 'Redis', 'WebSockets', 'AWS Global Accelerator'],
-      img: 'assets_redesign/arias_hero_3d_mockup_1786402018621.png'
-    }
-  };
+/* Número que se anima de 0 al valor final al entrar en pantalla y se repite cada cierto tiempo. */
+function CountUp({ end, suffix = '', duration = 1600, cycle = 8000 }) {
+  const ref = useRef(null);
+  const [value, setValue] = useState(0);
+  const [visible, setVisible] = useState(false);
 
-  const openTechModal = (proj) => {
-    setModalData({
-      title: proj.title + ' — ' + proj.subtitle,
-      desc: proj.description,
-      tech: proj.techStack.join(' • '),
-      stats: proj.highlights
-    });
-    setModalOpen(true);
-  };
+  useEffect(() => {
+    const io = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting), { threshold: 0.4 });
+    if (ref.current) io.observe(ref.current);
+    return () => io.disconnect();
+  }, []);
 
-  const toggleService = (srv) => {
-    if (selectedServices.includes(srv)) {
-      setSelectedServices(selectedServices.filter(s => s !== srv));
-    } else {
-      setSelectedServices([...selectedServices, srv]);
-    }
-  };
+  useEffect(() => {
+    if (!visible) return undefined;
+    let raf;
+    const run = () => {
+      const start = performance.now();
+      const tick = (now) => {
+        const p = Math.min((now - start) / duration, 1);
+        setValue(Math.round(end * (1 - Math.pow(1 - p, 3))));
+        if (p < 1) raf = requestAnimationFrame(tick);
+      };
+      raf = requestAnimationFrame(tick);
+    };
+    run();
+    const timer = setInterval(run, cycle);
+    return () => {
+      cancelAnimationFrame(raf);
+      clearInterval(timer);
+    };
+  }, [visible, end, duration, cycle]);
 
-  const handleContactSubmit = (e) => {
-    e.preventDefault();
-    setFormSubmitted(true);
-  };
+  return <span ref={ref}>{value}{suffix}</span>;
+}
+
+function ProductRow({ p, idx, isEven, url, img, onSelect, lang, t }) {
+  const ref = useRef(null);
+  const [isInView, setIsInView] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInView(true);
+        }
+      },
+      { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  const slideDir = idx % 2 === 0 ? 'slide-from-right' : 'slide-from-left';
 
   return (
-    <div className="vibrant-app">
-      {/* BACKGROUND AMBIENT GLOWS */}
-      <div className="ambient-mesh-glow ambient-glow-top"></div>
-      <div className="ambient-mesh-glow ambient-glow-middle"></div>
-      <div className="ambient-mesh-glow ambient-glow-bottom"></div>
+    <article 
+      ref={ref}
+      className={`product-row ${isEven ? 'product-row--reverse' : ''} ${slideDir} ${isInView ? 'is-in-view' : ''}`}
+    >
+      {/* Columna de Información con texto ligero y directo */}
+      <div className="product-row__info">
+        {/* Encabezado Único: Ícono + Título + Métrica */}
+        <div className="product-row__header">
+          <div className="product-row__title-group">
+            <div className="product-row__icon-badge">
+              <i className={`fa-solid ${p.icon}`} aria-hidden="true"></i>
+            </div>
+            <h3 className="product-row__title">{p.name}</h3>
+          </div>
+          <span className="product-row__metric">
+            <i className="fa-solid fa-circle-check text-crimson" aria-hidden="true"></i> {p.metric}
+          </span>
+        </div>
 
-      {/* SINGLE UNIFIED MODERN NAVBAR */}
-      <header className="vibrant-navbar">
-        <div className="navbar-container">
-          <a href="#inicio" className="navbar-logo-link">
-            <img src={logoCompleto} alt="Arias Defense" className="navbar-logo-img" />
+        <p className="product-row__desc">{p.short}</p>
+
+        <ul className="product-row__features">
+          {p.bullets.slice(0, 3).map((b) => (
+            <li key={b}>
+              <i className="fa-solid fa-check text-crimson" aria-hidden="true"></i>
+              <span>{b}</span>
+            </li>
+          ))}
+        </ul>
+
+        <div className="product-row__actions">
+          {url ? (
+            <a href={url} target="_blank" rel="noopener noreferrer" className="btn btn--primary btn--sm">
+              {t.products.open} <i className="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+            </a>
+          ) : (
+            <a href="#contacto" className="btn btn--primary btn--sm">
+              {lang === 'es' ? 'Consultar Solución' : 'Inquire Solution'} <i className="fa-solid fa-arrow-right" aria-hidden="true"></i>
+            </a>
+          )}
+          <button type="button" className="btn btn--outline btn--sm" onClick={() => onSelect(p.id)}>
+            <i className="fa-solid fa-circle-info" aria-hidden="true"></i> {t.products.details}
+          </button>
+        </div>
+      </div>
+
+      {/* Columna Visual: Mockup de Software con Captura Real */}
+      <div className="product-row__visual">
+        <div className="product-mockup">
+          <div className="product-mockup__bar">
+            <div className="product-mockup__dots">
+              <span className="dot dot--red"></span>
+              <span className="dot dot--yellow"></span>
+              <span className="dot dot--green"></span>
+            </div>
+            <span className="product-mockup__url">
+              <i className="fa-solid fa-lock text-crimson" aria-hidden="true"></i>
+              {p.id === 'erp' ? 'ariasfintech.com // contable' :
+               p.id === 'crm' ? 'crm-app-v2.vercel.app // pipeline' :
+               p.id === 'siple' ? '3.17.174.137 // lotificaciones' :
+               'ariasgas.com // pista-turnos'}
+            </span>
+            <span className="product-mockup__status">
+              <span className="pulse-dot"></span> {lang === 'es' ? 'Online' : 'Live'}
+            </span>
+          </div>
+
+          <div className="product-mockup__screen">
+            {img ? (
+              <img src={img} alt={p.name} loading="lazy" className="product-mockup__img" />
+            ) : (
+              <div className="product-blueprint-sim">
+                <div className="blueprint-grid-sim">
+                  <div className="blueprint-cell"><i className="fa-solid fa-map-pin text-crimson"></i> Mz 14 / Lote 08 <span>✓ Vendido</span></div>
+                  <div className="blueprint-cell"><i className="fa-solid fa-map-pin text-emerald"></i> Mz 14 / Lote 09 <span>Disponible</span></div>
+                  <div className="blueprint-cell"><i className="fa-solid fa-map-pin text-crimson"></i> Mz 14 / Lote 10 <span>✓ Vendido</span></div>
+                  <div className="blueprint-cell"><i className="fa-solid fa-map-pin text-emerald"></i> Mz 14 / Lote 11 <span>Disponible</span></div>
+                </div>
+                <span className="blueprint-badge">{lang === 'es' ? 'Plano Interactivo & Recibos DTE' : 'Interactive Mapping & DTE'}</span>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </article>
+  );
+}
+
+function App() {
+  const [lang, setLang] = useState(() => localStorage.getItem('arias-lang') || 'es');
+  const [selected, setSelected] = useState(null);
+  const [form, setForm] = useState({ name: '', email: '', company: '', message: '', project: 'erp' });
+  const [bentoCluster, setBentoCluster] = useState('gathered');
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState('');
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const bentoRef = useRef(null);
+  const t = CONTENT[lang];
+
+  useEffect(() => {
+    localStorage.setItem('arias-lang', lang);
+    document.documentElement.lang = lang;
+  }, [lang]);
+
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.key === 'Escape') {
+        setSelected(null);
+        setMobileMenuOpen(false);
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
+
+  /* Prevenir scroll del body cuando el menú móvil está abierto */
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [mobileMenuOpen]);
+
+  /* Detección de sección activa y scroll para navbar */
+  useEffect(() => {
+    const sections = ['contacto', 'testimonios', 'nosotros', 'productos'];
+    const handleNavScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+      const scrollPos = window.scrollY + 160;
+      let current = '';
+      for (const id of sections) {
+        const el = document.getElementById(id);
+        if (el && el.offsetTop <= scrollPos) {
+          current = id;
+          break;
+        }
+      }
+      setActiveSection(current);
+    };
+
+    window.addEventListener('scroll', handleNavScroll, { passive: true });
+    handleNavScroll();
+    return () => window.removeEventListener('scroll', handleNavScroll);
+  }, []);
+
+  /* Animación de unión y dispersión al hacer scroll / pasar sobre ellos */
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!bentoRef.current) return;
+      const rect = bentoRef.current.getBoundingClientRect();
+      const vh = window.innerHeight;
+
+      // Al aproximarse antes de llegar (ligeramente separados)
+      if (rect.top > vh * 0.75) {
+        setBentoCluster('spread-in');
+      } 
+      // Cuando pasas sobre ellos / en foco en pantalla (se juntan todos)
+      else if (rect.top <= vh * 0.75 && rect.bottom >= vh * 0.22) {
+        setBentoCluster('gathered');
+      } 
+      // Cuando se va bajando la página (se separan hacia afuera)
+      else {
+        setBentoCluster('spread-out');
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const projLabel = t.contact.projectOptions.find((p) => p.id === form.project)?.label || form.project;
+    const body = `${t.contact.projectTypeLabel}: ${projLabel}\n${t.contact.name}: ${form.name}\n${t.contact.email}: ${form.email}\n${t.contact.company}: ${form.company}\n\n${t.contact.message}:\n${form.message}`;
+    window.location.href = `mailto:${CONTACT.branchSV.email}?subject=${encodeURIComponent(t.contact.mailSubject)}&body=${encodeURIComponent(body)}`;
+  };
+
+  const modalProduct = selected ? t.products.items.find((p) => p.id === selected) : null;
+
+  return (
+    <div className="site">
+      {/* NAVBAR */}
+      <header className={`nav${isScrolled ? ' is-scrolled' : ''}`}>
+        <div className="nav__inner">
+          <a href="#inicio" className="nav__logo" aria-label="Arias Defense Components">
+            <img src={logo} alt="Arias Defense Components" />
           </a>
-
-          <nav className="navbar-nav">
-            <ul className="nav-menu">
-              <li><a href="#inicio" className="nav-item">Inicio</a></li>
-              <li><a href="#proyectos" className="nav-item">Proyectos & Software</a></li>
-              <li><a href="#empresa" className="nav-item">Sobre la Empresa</a></li>
-              <li><a href="#servicios" className="nav-item">Servicios</a></li>
-              <li><a href="#testimonios" className="nav-item">Casos de Éxito</a></li>
-              <li><a href="#contacto" className="nav-item">Contacto</a></li>
-            </ul>
+          <nav className="nav__links" aria-label="Principal">
+            <a href="#productos" className={activeSection === 'productos' ? 'is-active' : ''}>{t.nav.products}</a>
+            <a href="#nosotros" className={activeSection === 'nosotros' ? 'is-active' : ''}>{t.nav.why}</a>
+            <a href="#testimonios" className={activeSection === 'testimonios' ? 'is-active' : ''}>{t.nav.testimonials}</a>
+            <a href="#contacto" className={activeSection === 'contacto' ? 'is-active' : ''}>{t.nav.contact}</a>
           </nav>
+          <div className="nav__actions">
+            <div className="lang" role="group" aria-label="Language">
+              {['es', 'en'].map((code) => (
+                <button
+                  key={code}
+                  type="button"
+                  className={`lang__btn${lang === code ? ' is-active' : ''}`}
+                  onClick={() => setLang(code)}
+                  aria-pressed={lang === code}
+                >
+                  {code.toUpperCase()}
+                </button>
+              ))}
+            </div>
+            <a href="#contacto" className="btn btn--primary btn--sm btn--nav">
+              {t.nav.cta} <i className="fa-solid fa-arrow-right" aria-hidden="true"></i>
+            </a>
 
-          <div className="navbar-actions">
-            <a 
-              href="https://wa.me/50379718911?text=Hola%20Arias%20Defense,%20deseo%20informaci%C3%B3n" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="navbar-whatsapp-btn"
+            {/* Botón hamburguesa móvil */}
+            <button
+              type="button"
+              className={`nav__hamburger${mobileMenuOpen ? ' is-open' : ''}`}
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label={mobileMenuOpen ? 'Cerrar menú' : 'Abrir menú'}
+              aria-expanded={mobileMenuOpen}
             >
-              <i className="fa-brands fa-whatsapp"></i>
-              <span>WhatsApp</span>
-            </a>
-            <a href="#contacto" className="btn-glow-primary">
-              <span>Solicitar Demo</span>
-              <i className="fa-solid fa-arrow-right"></i>
-            </a>
+              <span className="hamburger-line"></span>
+              <span className="hamburger-line"></span>
+              <span className="hamburger-line"></span>
+            </button>
           </div>
         </div>
       </header>
 
-      {/* 3. HERO SECTION */}
-      <section id="inicio" className="vibrant-hero">
-        <div className="hero-grid-pattern"></div>
-        <div className="hero-content-wrap">
-          
-          <div className="hero-badge-tag">
-            <span className="badge-flair-icon"><i className="fa-solid fa-shield-halved"></i></span>
-            <span className="badge-text">FIRMA SALVADOREÑA DE INGENIERÍA DE SOFTWARE & SOLUCIONES CLOUD</span>
+      {/* MENÚ MÓVIL DESPLEGABLE / DRAWER */}
+      <div className={`mobile-nav${mobileMenuOpen ? ' is-open' : ''}`} aria-hidden={!mobileMenuOpen}>
+        <div className="mobile-nav__overlay" onClick={() => setMobileMenuOpen(false)}></div>
+        <div className="mobile-nav__drawer">
+          <div className="mobile-nav__head">
+            <img src={logo} alt="Arias Defense Components" className="mobile-nav__logo" />
+            <button 
+              type="button" 
+              className="mobile-nav__close" 
+              onClick={() => setMobileMenuOpen(false)}
+              aria-label="Cerrar menú"
+            >
+              <i className="fa-solid fa-xmark"></i>
+            </button>
           </div>
 
-          <h1 className="hero-super-title">
-            Potencia tu Empresa con <span className="gradient-text-electric">Tecnología de Alto Impacto</span> y Cumplimiento Total
-          </h1>
-
-          <p className="hero-lead-text">
-            Con más de <strong>10 años de experiencia</strong> y más de <strong>500 empresas activas</strong>, construimos y operamos plataformas empresariales de alto rendimiento: 
-            <strong> Facturación Electrónica DTE</strong> homologada con el Ministerio de Hacienda, <strong>ERP Multi-Empresa</strong>, <strong>CRM Comercial</strong>, 
-            <strong> SIPLE Lotificadoras</strong> y <strong>Sistemas para Gasolineras</strong>.
-          </p>
-
-          <div className="hero-buttons-row">
-            <a href="#proyectos" className="btn-action-glow">
-              <i className="fa-solid fa-layer-group"></i> Ver Catálogo de Proyectos
-            </a>
-            <a href="#empresa" className="btn-action-glass">
-              <i className="fa-solid fa-building-columns"></i> Conoce Nuestra Historia
+          <nav className="mobile-nav__links">
+            <a 
+              href="#productos" 
+              className={`mobile-nav__link${activeSection === 'productos' ? ' is-active' : ''}`}
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <i className="fa-solid fa-layer-group text-crimson" aria-hidden="true"></i>
+              <span>{t.nav.products}</span>
             </a>
             <a 
-              href="https://wa.me/50379718911?text=Hola,%20quisiera%20conversar%20con%20un%20ingeniero%20o%20asesor%20comercial%20de%20Arias%20Defense" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="btn-action-whatsapp"
+              href="#nosotros" 
+              className={`mobile-nav__link${activeSection === 'nosotros' ? ' is-active' : ''}`}
+              onClick={() => setMobileMenuOpen(false)}
             >
-              <i className="fa-brands fa-whatsapp"></i> Chat en Vivo (+503)
+              <i className="fa-solid fa-shield-halved text-crimson" aria-hidden="true"></i>
+              <span>{t.nav.why}</span>
             </a>
+            <a 
+              href="#testimonios" 
+              className={`mobile-nav__link${activeSection === 'testimonios' ? ' is-active' : ''}`}
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <i className="fa-solid fa-star text-crimson" aria-hidden="true"></i>
+              <span>{t.nav.testimonials}</span>
+            </a>
+            <a 
+              href="#contacto" 
+              className={`mobile-nav__link${activeSection === 'contacto' ? ' is-active' : ''}`}
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <i className="fa-solid fa-envelope text-crimson" aria-hidden="true"></i>
+              <span>{t.nav.contact}</span>
+            </a>
+          </nav>
+
+          <div className="mobile-nav__footer">
+            <a 
+              href="#contacto" 
+              className="btn btn--primary btn--block mobile-nav__cta"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              {t.nav.cta} <i className="fa-solid fa-arrow-right" aria-hidden="true"></i>
+            </a>
+
+            <div className="mobile-nav__quick">
+              <a href={CONTACT.branchSV.phoneHref} className="mobile-quick-btn">
+                <i className="fa-solid fa-phone"></i>
+                <span>{CONTACT.branchSV.phone}</span>
+              </a>
+              <a href={CONTACT.branchSV.whatsapp} target="_blank" rel="noopener noreferrer" className="mobile-quick-btn mobile-quick-btn--wa">
+                <i className="fa-brands fa-whatsapp"></i>
+                <span>WhatsApp</span>
+              </a>
+            </div>
           </div>
-
-          {/* VIBRANT STATS TICKER */}
-          <div className="hero-stats-banner">
-            <div className="stat-glass-card">
-              <div className="stat-number-glow">10<span className="stat-plus">+</span></div>
-              <div className="stat-text-label">Años de Trayectoria</div>
-              <div className="stat-sub">Construyendo software robusto en Centroamérica</div>
-            </div>
-
-            <div className="stat-glass-card">
-              <div className="stat-number-glow">500<span className="stat-plus">+</span></div>
-              <div className="stat-text-label">Empresas en Producción</div>
-              <div className="stat-sub">PyMEs y corporaciones gestionando su operación</div>
-            </div>
-
-            <div className="stat-glass-card">
-              <div className="stat-number-glow">100<span className="stat-percent">%</span></div>
-              <div className="stat-text-label">Autorizado DTE Hacienda</div>
-              <div className="stat-sub">Cumplimiento tributario en El Salvador</div>
-            </div>
-
-            <div className="stat-glass-card">
-              <div className="stat-number-glow">24<span className="stat-slash">/</span>7</div>
-              <div className="stat-text-label">Soporte Técnico Local</div>
-              <div className="stat-sub">Equipo de ingenieros en San Salvador</div>
-            </div>
-          </div>
-
         </div>
-      </section>
+      </div>
 
-      {/* 4. PROYECTOS & SOFTWARE CORE (BENTO SHOWCASE INTERACTIVO) */}
-      <section id="proyectos" className="vibrant-section section-projects">
-        <div className="section-inner">
+      <main>
+        {/* HERO AUDACIOSO DE ALTO IMPACTO (COMMAND CENTER & 3D STAGE) */}
+        <section id="inicio" className="hero">
+          <div className="hero__bg" aria-hidden="true">
+            <span className="hero__grid"></span>
+            <span className="hero__spotlight"></span>
+            <span className="hero__blob hero__blob--red"></span>
+            <span className="hero__blob hero__blob--gray"></span>
+            <span className="hero__blob hero__blob--rose"></span>
+          </div>
           
-          <div className="section-title-block">
-            <span className="tag-eyebrow"><i className="fa-solid fa-cubes"></i> ECOSISTEMA TECNOLÓGICO ARIAS</span>
-            <h2 className="title-headline">Proyectos y Plataformas de Software Desarrolladas</h2>
-            <p className="title-subheadline">
-              Sistemas probados en campo diseñados para resolver problemas operativos reales. Haz clic en cada proyecto para explorar sus especificaciones y arquitectura.
+          <div className="container hero__inner">
+            {/* Top Eyebrow Badge */}
+            <div className="hero__badge">
+              <span className="pulse-dot"></span>
+              <span className="hero__badge-text">
+                {lang === 'es' ? 'Homologación DTE v4 Oficial • Ministerio de Hacienda El Salvador' : 'Official DTE v4 Compliance • Ministry of Finance El Salvador'}
+              </span>
+              <span className="hero__badge-arrow" aria-hidden="true"><i className="fa-solid fa-arrow-right"></i></span>
+            </div>
+
+            {/* Main Headline */}
+            <h1 className="hero__title">
+              {t.hero.title}
+              <span className="hero__highlight-wrapper">
+                <span className="hero__highlight-text">{t.hero.highlight}</span>
+                <span className="hero__highlight-glow"></span>
+              </span>
+            </h1>
+
+            {/* Subtitle */}
+            <p className="hero__subtitle">{t.hero.subtitle}</p>
+
+            {/* CTA Buttons */}
+            <div className="hero__actions">
+              <a href="#contacto" className="btn btn--primary btn--hero">
+                {t.hero.primary} <i className="fa-solid fa-arrow-right" aria-hidden="true"></i>
+              </a>
+              <a href="#productos" className="btn btn--outline btn--hero-sec">
+                <i className="fa-solid fa-layer-group" aria-hidden="true"></i> {t.hero.secondary}
+              </a>
+            </div>
+
+            {/* Trust Assurances */}
+            <div className="hero__assurances">
+              <span><i className="fa-solid fa-circle-check text-crimson" aria-hidden="true"></i> {lang === 'es' ? 'Puesta en marcha en 48h' : 'Live in 48 hours'}</span>
+              <span><i className="fa-solid fa-circle-check text-crimson" aria-hidden="true"></i> {lang === 'es' ? 'Soporte local en San Salvador' : 'Local support in San Salvador'}</span>
+              <span><i className="fa-solid fa-circle-check text-crimson" aria-hidden="true"></i> {lang === 'es' ? 'Sin contratos forzosos' : 'No lock-in contracts'}</span>
+            </div>
+
+            {/* 3D PERSPECTIVE COMMAND CENTER STAGE WITH FLOATING SATELLITES */}
+            <div className="hero-stage">
+              {/* Satellite 1: DTE Homologado */}
+              <div className="hero-satellite hero-satellite--dte" aria-hidden="true">
+                <div className="hero-satellite__icon hero-satellite__icon--green">
+                  <i className="fa-solid fa-shield-halved"></i>
+                </div>
+                <div>
+                  <strong>{lang === 'es' ? 'DTE 100% Homologado' : '100% Homologated DTE'}</strong>
+                  <span>{lang === 'es' ? 'Sello oficial sub-segundo' : 'Sub-second official seal'}</span>
+                </div>
+              </div>
+
+              {/* Satellite 2: Latencia & Firma */}
+              <div className="hero-satellite hero-satellite--latency" aria-hidden="true">
+                <div className="hero-satellite__icon hero-satellite__icon--amber">
+                  <i className="fa-solid fa-bolt"></i>
+                </div>
+                <div>
+                  <strong>{lang === 'es' ? '< 800ms Latencia MH' : '< 800ms Tax Latency'}</strong>
+                  <span>{lang === 'es' ? 'Firma Digital X.509' : 'X.509 Cryptographic Sign'}</span>
+                </div>
+              </div>
+
+              {/* Satellite 3: Multi-Empresa */}
+              <div className="hero-satellite hero-satellite--multi" aria-hidden="true">
+                <div className="hero-satellite__icon hero-satellite__icon--red">
+                  <i className="fa-solid fa-layer-group"></i>
+                </div>
+                <div>
+                  <strong>{lang === 'es' ? 'Multi-Empresa Centralizada' : 'Multi-Company Scale'}</strong>
+                  <span>{lang === 'es' ? 'Hasta 40 razones sociales' : 'Up to 40 entities'}</span>
+                </div>
+              </div>
+
+              {/* Central Mockup Window Frame */}
+              <div className="hero-stage__window">
+                <div className="hero-stage__bar">
+                  <div className="hero-stage__dots">
+                    <span className="dot dot--red"></span>
+                    <span className="dot dot--yellow"></span>
+                    <span className="dot dot--green"></span>
+                  </div>
+                  <div className="hero-stage__url">
+                    <i className="fa-solid fa-lock text-crimson" aria-hidden="true"></i>
+                    <span>app.ariasdefense.com // enterprise-suite-matrix</span>
+                  </div>
+                  <div className="hero-stage__status">
+                    <span className="pulse-dot"></span>
+                    <span>{lang === 'es' ? 'MH DTE: En Línea' : 'MH DTE: Online'}</span>
+                  </div>
+                </div>
+
+                {/* Live Transmission Ticker */}
+                <div className="hero-stage__ticker">
+                  <span className="ticker-badge"><i className="fa-solid fa-arrows-rotate fa-spin" style={{ animationDuration: '3s' }} aria-hidden="true"></i> {lang === 'es' ? 'TRANSMISIÓN EN VIVO' : 'LIVE TRANSMISSION'}</span>
+                  <span className="ticker-text">{lang === 'es' ? 'Último comprobante: CCF-03 • Firma X.509 validada • Sello de Recepción recibido en 0.42s' : 'Latest document: CCF-03 • X.509 verified • Reception seal confirmed in 0.42s'}</span>
+                </div>
+
+                {/* Dashboard Screenshot Preview */}
+                <div className="hero-stage__screen">
+                  <img src={erpImg} alt="Arias Enterprise Software Suite" className="hero-stage__img" />
+                  <div className="hero-stage__screen-glare"></div>
+                </div>
+              </div>
+
+              {/* Integrated Glass Stats Ribbon */}
+              <div className="hero-stats-ribbon" role="region" aria-label="Estadísticas de impacto">
+                {t.stats.map((s) => (
+                  <div className="hero-stat-item" key={s.label}>
+                    <div className="hero-stat-item__value">
+                      <CountUp end={s.end} suffix={s.suffix} />
+                    </div>
+                    <div className="hero-stat-item__label">{s.label}</div>
+                  </div>
+                ))}
+                <div className="hero-stat-item">
+                  <div className="hero-stat-item__value">&lt; 800ms</div>
+                  <div className="hero-stat-item__label">{lang === 'es' ? 'Respuesta Hacienda' : 'Tax API Response'}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* NUESTROS PRODUCTOS - SHOWCASE EDITORIAL EN FILAS ALTERNADAS */}
+        <section id="productos" className="section section--products">
+          <div className="container">
+            <div className="section__head">
+              <span className="section__eyebrow">
+                <i className="fa-solid fa-layer-group text-crimson" aria-hidden="true"></i> {lang === 'es' ? 'Suite de Software Empresarial' : 'Enterprise Software Suite'}
+              </span>
+              <h2>{t.products.title}</h2>
+              <p>{t.products.subtitle}</p>
+            </div>
+
+            <div className="products-showcase">
+              {t.products.items.map((p, idx) => (
+                <ProductRow
+                  key={p.id}
+                  p={p}
+                  idx={idx}
+                  isEven={idx % 2 === 1}
+                  url={PRODUCT_LINKS[p.id]}
+                  img={PRODUCT_IMAGES[p.id]}
+                  onSelect={setSelected}
+                  lang={lang}
+                  t={t}
+                />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* POR QUÉ ARIAS - DISEÑO ARRIESGADO, ASIMÉTRICO Y DINÁMICO */}
+        <section id="nosotros" className="section section--why">
+          <div className="why__bg" aria-hidden="true">
+            <span className="why__glow"></span>
+          </div>
+          <div className="container">
+            <div className="section__head">
+              <span className="section__eyebrow">
+                <i className="fa-solid fa-shield-halved" aria-hidden="true"></i> {t.why.badge}
+              </span>
+              <h2>{t.why.title}</h2>
+              <p>{t.why.subtitle}</p>
+            </div>
+
+            <div ref={bentoRef} className={`bento-why bento-why--${bentoCluster}`}>
+              {t.why.items.map((item) => (
+                <article className={`bento-card bento-card--${item.id}`} key={item.id}>
+                  <div className="bento-card__header">
+                    <div className="bento-card__badge-row">
+                      <span className="bento-card__tag">{item.tag}</span>
+                      <span className="bento-card__metric">{item.metric}</span>
+                    </div>
+                    <div className="bento-card__icon-halo">
+                      <i className={`fa-solid ${item.icon}`} aria-hidden="true"></i>
+                    </div>
+                  </div>
+
+                  <div className="bento-card__body">
+                    <h3 className="bento-card__title">{item.title}</h3>
+                    <p className="bento-card__text">{item.text}</p>
+                    
+                    {/* Elementos interactivos/visuales distintivos por cada tarjeta */}
+                    {item.id === 'dte' && (
+                      <div className="bento-mini-terminal" aria-label="Simulación validación DTE">
+                        <div className="bento-mini-terminal__bar">
+                          <span className="dot dot--red"></span>
+                          <span className="dot dot--yellow"></span>
+                          <span className="dot dot--green"></span>
+                          <span className="bento-mini-terminal__title">MH_DTE_ENGINE // v4.0</span>
+                        </div>
+                        <div className="bento-mini-terminal__code">
+                          <code><span className="tok-kwd">TRANSMIT</span> DTE-03 (CCF) ➔ <span className="tok-fn">SignX509()</span></code>
+                          <code><span className="tok-str">SELLO_MH:</span> 2026DTE-SV-89A42F0 <span className="tok-ok">✓ 420ms</span></code>
+                        </div>
+                      </div>
+                    )}
+
+                    {item.id === 'support' && (
+                      <div className="bento-support-pill">
+                        <div className="bento-support-pill__avatars">
+                          <span className="avatar avatar--sv">SV</span>
+                          <span className="avatar avatar--eng"><i className="fa-solid fa-code"></i></span>
+                        </div>
+                        <div className="bento-support-pill__text">
+                          <strong>{lang === 'es' ? 'Ingenieros Reales en Directo' : 'Direct Dedicated Engineers'}</strong>
+                          <span>{lang === 'es' ? 'WhatsApp & Llamada • Sin tickets' : 'WhatsApp & Phone • No ticketing queues'}</span>
+                        </div>
+                      </div>
+                    )}
+
+                    {item.id === 'cloud' && (
+                      <div className="bento-cloud-widget">
+                        <div className="bento-uptime-bar">
+                          <div className="bento-uptime-bar__header">
+                            <span><i className="fa-brands fa-aws text-crimson" aria-hidden="true"></i> {lang === 'es' ? 'Clúster Cloud AWS' : 'AWS Cloud Cluster'}</span>
+                            <span className="text-emerald font-bold">100% OPERATIVO</span>
+                          </div>
+                          <div className="bento-uptime-bar__track">
+                            <div className="bento-uptime-bar__fill"></div>
+                          </div>
+                          <span className="bento-uptime-bar__note">{lang === 'es' ? '99.98% SLA garantizado • Respaldos continuos' : '99.98% SLA guaranteed • Continuous backups'}</span>
+                        </div>
+                      </div>
+                    )}
+
+                    {item.id === 'multicompany' && (
+                      <div className="bento-multicompany-preview">
+                        <div className="bento-screen-frame">
+                          <div className="bento-screen-bar">
+                            <div className="bento-screen-dots">
+                              <span className="dot dot--red"></span>
+                              <span className="dot dot--yellow"></span>
+                              <span className="dot dot--green"></span>
+                            </div>
+                            <span className="bento-screen-title">
+                              <i className="fa-solid fa-lock" aria-hidden="true"></i> ariasfintech.com // panel-multi-empresa
+                            </span>
+                            <span className="bento-screen-badge">40 Razones Conectadas</span>
+                          </div>
+                          <div className="bento-screen-img-wrap">
+                            <img src={erpImg} alt="Multi-Empresa Centralizada ERP Arias" className="bento-screen-img" />
+                            <div className="bento-screen-overlay">
+                              <span className="bento-screen-pill">
+                                <i className="fa-solid fa-arrows-rotate fa-spin" style={{ animationDuration: '4s' }} aria-hidden="true"></i> Conmutación instantánea
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="bento-switcher-preview">
+                          <span className="switcher-chip switcher-chip--active">
+                            <i className="fa-solid fa-building-circle-check" aria-hidden="true"></i> Holding Central S.A.
+                          </span>
+                          <span className="switcher-chip">Distribuidora SV</span>
+                          <span className="switcher-chip">+38 más</span>
+                        </div>
+                      </div>
+                    )}
+
+                    <ul className="bento-card__chips">
+                      {item.detailItems.map((chip, cIdx) => (
+                        <li key={cIdx}>{chip}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* TESTIMONIALS - INFINITE MARQUEE CAROUSEL */}
+        <section id="testimonios" className="section section--testimonials">
+          <div className="container">
+            <div className="section__head">
+              <span className="section__eyebrow">
+                <i className="fa-solid fa-star text-crimson" aria-hidden="true"></i> {lang === 'es' ? 'Casos de Éxito' : 'Success Stories'}
+              </span>
+              <h2>{t.testimonials.title}</h2>
+              <p>{t.testimonials.subtitle}</p>
+            </div>
+          </div>
+          <div className="marquee" role="region" aria-label={t.testimonials.title}>
+            <div className="marquee__track">
+              {[...t.testimonials.items, ...t.testimonials.items].map((item, idx) => (
+                <div className="testimonial-card" key={idx}>
+                  <div className="testimonial-card__stars" aria-label="5 estrellas">
+                    {[...Array(5)].map((_, i) => (
+                      <i key={i} className="fa-solid fa-star" aria-hidden="true"></i>
+                    ))}
+                  </div>
+                  <p className="testimonial-card__text">“{item.text}”</p>
+                  <div className="testimonial-card__author">
+                    <div className="testimonial-card__avatar" aria-hidden="true">
+                      {item.name.charAt(0)}
+                    </div>
+                    <div>
+                      <h4>{item.name}</h4>
+                      <span>{item.role}</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* CONTACT */}
+        <section id="contacto" className="section section--contact">
+          <div className="container contact">
+            <div className="contact__info">
+              <span className="section__eyebrow">
+                <i className="fa-solid fa-headset" aria-hidden="true"></i> {t.contact.badge}
+              </span>
+              <h2>{t.contact.title}</h2>
+              <p className="contact__lead">{t.contact.subtitle}</p>
+
+              {/* Puntos clave concisos */}
+              <ul className="contact__bullets">
+                {t.contact.trustPoints.map((tp, idx) => (
+                  <li key={idx} className="contact__bullet">
+                    <span className="contact__bullet-icon">
+                      <i className={`fa-solid ${tp.icon}`} aria-hidden="true"></i>
+                    </span>
+                    <span>{tp.text}</span>
+                  </li>
+                ))}
+              </ul>
+
+              {/* Canales directos de contacto compactos */}
+              <div className="contact__direct">
+                <div className="contact__direct-card">
+                  <div className="contact__direct-head">
+                    <i className="fa-solid fa-headset text-crimson" aria-hidden="true"></i>
+                    <strong>{lang === 'es' ? 'Atención comercial directa' : 'Direct advisory'}</strong>
+                  </div>
+                  <div className="contact__direct-grid">
+                    <a href={CONTACT.branchSV.phoneHref} className="contact__channel">
+                      <i className="fa-solid fa-phone" aria-hidden="true"></i>
+                      <span><strong>SV:</strong> {CONTACT.branchSV.phone}</span>
+                    </a>
+                    <a href={CONTACT.headquarters.phoneHref} className="contact__channel">
+                      <i className="fa-solid fa-phone" aria-hidden="true"></i>
+                      <span><strong>USA:</strong> {CONTACT.headquarters.phone}</span>
+                    </a>
+                    <a href={`mailto:${CONTACT.branchSV.email}`} className="contact__channel">
+                      <i className="fa-solid fa-envelope" aria-hidden="true"></i>
+                      <span>{CONTACT.branchSV.email}</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Formulario */}
+            <div className="contact__form-wrap">
+              <form className="form" onSubmit={handleSubmit}>
+                <div className="form__group">
+                  <label className="form__label">
+                    {t.contact.projectTypeLabel}
+                  </label>
+                  <div className="project-pills" role="radiogroup" aria-label={t.contact.projectTypeLabel}>
+                    {t.contact.projectOptions.map((opt) => (
+                      <button
+                        type="button"
+                        key={opt.id}
+                        className={`project-pill${form.project === opt.id ? ' is-active' : ''}`}
+                        onClick={() => setForm({ ...form, project: opt.id })}
+                        role="radio"
+                        aria-checked={form.project === opt.id}
+                      >
+                        <i className={`fa-solid ${opt.icon}`} aria-hidden="true"></i>
+                        <span>{opt.label.split(' (')[0]}</span>
+                      </button>
+                    ))}
+                  </div>
+                  <select
+                    name="project"
+                    className="form__select"
+                    value={form.project}
+                    onChange={handleChange}
+                    aria-label={t.contact.projectTypeLabel}
+                  >
+                    {t.contact.projectOptions.map((opt) => (
+                      <option key={opt.id} value={opt.id}>{opt.label}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="form__row">
+                  <label className="form__field">
+                    <span>{t.contact.name}</span>
+                    <input
+                      name="name"
+                      placeholder={t.contact.namePlaceholder}
+                      value={form.name}
+                      onChange={handleChange}
+                      required
+                    />
+                  </label>
+                  <label className="form__field">
+                    <span>{t.contact.email}</span>
+                    <input
+                      name="email"
+                      type="email"
+                      placeholder={t.contact.emailPlaceholder}
+                      value={form.email}
+                      onChange={handleChange}
+                      required
+                    />
+                  </label>
+                </div>
+
+                <label className="form__field">
+                  <span>{t.contact.company}</span>
+                  <input
+                    name="company"
+                    placeholder={t.contact.companyPlaceholder}
+                    value={form.company}
+                    onChange={handleChange}
+                    required
+                  />
+                </label>
+
+                <label className="form__field">
+                  <span>{t.contact.message}</span>
+                  <textarea
+                    name="message"
+                    rows="3"
+                    placeholder={t.contact.messagePlaceholder}
+                    value={form.message}
+                    onChange={handleChange}
+                  />
+                </label>
+
+                <button type="submit" className="btn btn--primary btn--submit">
+                  <span>{t.contact.send}</span>
+                  <i className="fa-solid fa-paper-plane" aria-hidden="true"></i>
+                </button>
+
+                <p className="form__security-note">
+                  <i className="fa-solid fa-lock" aria-hidden="true"></i> {t.contact.secureNote}
+                </p>
+              </form>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      {/* FOOTER */}
+      <footer className="footer">
+        <div className="container footer__inner">
+          {/* Columna 1: Marca & Misión & Acreditaciones */}
+          <div className="footer__brand-col">
+            <a href="#inicio" className="footer__logo-link">
+              <img src={logo} alt="Arias Defense Components" />
+            </a>
+            <p className="footer__mission">
+              {t.footer.mission}
             </p>
+            <div className="footer__certifications">
+              <span className="cert-badge">
+                <i className="fa-solid fa-certificate text-crimson" aria-hidden="true"></i>
+                <strong>CAGE CODE:</strong> {CONTACT.codes.cage}
+              </span>
+              <span className="cert-badge">
+                <i className="fa-solid fa-shield-halved text-crimson" aria-hidden="true"></i>
+                <strong>DUNS:</strong> {CONTACT.codes.duns}
+              </span>
+            </div>
           </div>
 
-          {/* PROJECT SELECTOR TABS */}
-          <div className="project-tabs-strip">
-            {Object.keys(projects).map(key => {
-              const p = projects[key];
-              const isActive = activeProjectTab === key;
-              return (
-                <button
-                  key={key}
-                  className={`tab-project-btn ${isActive ? 'active' : ''}`}
-                  onClick={() => setActiveProjectTab(key)}
-                >
-                  <div className="btn-indicator-glow"></div>
-                  <div className="btn-content">
-                    <span className="btn-title">{p.title}</span>
-                    <span className="btn-cat">{p.category.split(',')[0]}</span>
-                  </div>
-                  <span className={`btn-status-pill ${p.badgeType}`}>{p.badge}</span>
-                </button>
-              );
+          {/* Columna 2: Productos */}
+          <div className="footer__col">
+            <h4>{t.footer.productsTitle}</h4>
+            {t.products.items.map((p) => {
+              const url = PRODUCT_LINKS[p.id];
+              return url
+                ? <a key={p.id} href={url} target="_blank" rel="noopener noreferrer">{p.name}</a>
+                : <a key={p.id} href="#productos">{p.name}</a>;
             })}
           </div>
 
-          {/* ACTIVE PROJECT HERO DISPLAY */}
-          {(() => {
-            const p = projects[activeProjectTab];
-            return (
-              <div className="project-feature-bento">
-                <div className="bento-glow-border"></div>
-                
-                <div className="bento-content-grid">
-                  
-                  {/* Left Column: Data & Specs */}
-                  <div className="bento-data-pane">
-                    <div className="bento-header-badges">
-                      <span className="badge-category">{p.category}</span>
-                      <span className={`badge-live-tag ${p.badgeType}`}>
-                        <span className="dot-pulse"></span> {p.badge}
-                      </span>
-                    </div>
-
-                    <h3 className="bento-project-title">{p.title}</h3>
-                    <h4 className="bento-project-subtitle">{p.subtitle}</h4>
-                    <p className="bento-project-desc">{p.description}</p>
-
-                    {/* VIBRANT HIGHLIGHT STATS */}
-                    <div className="bento-metrics-quad">
-                      {p.highlights.map((h, i) => (
-                        <div key={i} className="quad-metric-box">
-                          <span className="metric-primary-val">{h.val}</span>
-                          <span className="metric-primary-label">{h.label}</span>
-                          <span className="metric-primary-desc">{h.desc}</span>
-                        </div>
-                      ))}
-                    </div>
-
-                    {/* BULLET POINTS */}
-                    <div className="bento-bullets-wrap">
-                      <div className="bullets-title">Funcionalidades Principales:</div>
-                      <ul className="bullets-list">
-                        {p.bullets.map((b, i) => (
-                          <li key={i}>
-                            <i className="fa-solid fa-check text-cyan"></i>
-                            <span>{b}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-
-                    {/* TECH STACK BADGES */}
-                    <div className="bento-stack-box">
-                      <span className="stack-label">Stack Tecnológico:</span>
-                      <div className="stack-badges">
-                        {p.techStack.map((tech, i) => (
-                          <span key={i} className="tech-badge">{tech}</span>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* ACTIONS */}
-                    <div className="bento-actions-row">
-                      <a href="#contacto" className="btn-bento-cta">
-                        <i className="fa-solid fa-calendar-check"></i> Agendar Demostración de {p.title}
-                      </a>
-                      <button onClick={() => openTechModal(p)} className="btn-bento-secondary">
-                        <i className="fa-solid fa-code"></i> Ficha Técnica Completa
-                      </button>
-                    </div>
-
-                  </div>
-
-                  {/* Right Column: Visual UI Preview with Interactive Glow */}
-                  <div className="bento-visual-pane">
-                    <div className="visual-card-frame">
-                      <div className="frame-top-controls">
-                        <div className="control-dots">
-                          <span className="dot dot-crimson"></span>
-                          <span className="dot dot-amber"></span>
-                          <span className="dot dot-green"></span>
-                        </div>
-                        <div className="frame-path-bar">
-                          <i className="fa-solid fa-shield-check"></i> ariasdefense.com/enterprise/{p.id}
-                        </div>
-                        <div className="frame-live-tag">
-                          <span className="pulse-beacon"></span> En Línea
-                        </div>
-                      </div>
-
-                      <div className="frame-image-wrapper">
-                        <img src={p.img} alt={p.title} className="showcase-software-image" />
-                        <div className="image-overlay-gradient"></div>
-                        <div className="image-footer-meta">
-                          <div className="meta-left">
-                            <i className="fa-solid fa-laptop-code text-cyan"></i>
-                            <strong>Entorno de Producción Oficial</strong>
-                          </div>
-                          <span className="meta-right">v4.2.8 Enterprise</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-            );
-          })()}
-
-        </div>
-      </section>
-
-      {/* 5. SOBRE LA EMPRESA (TRAYECTORIA, PRESENCIA & CREDIBILIDAD) */}
-      <section id="empresa" className="vibrant-section section-company">
-        <div className="section-inner">
-          
-          <div className="section-title-block">
-            <span className="tag-eyebrow"><i className="fa-solid fa-building"></i> NUESTRA EMPRESA</span>
-            <h2 className="title-headline">Más de una Década Transformando la Tecnología en El Salvador</h2>
-            <p className="title-subheadline">
-              Arias Defense nació para democratizar el software empresarial de alta gama: sin intermediarios, con tecnología propia y total apego a las regulaciones tributarias de la región.
-            </p>
+          {/* Columna 3: Casa Matriz (USA) */}
+          <div className="footer__col footer__col--location">
+            <div className="location-heading">
+              <i className="fa-solid fa-building-flag text-crimson" aria-hidden="true"></i>
+              <h4>{CONTACT.headquarters.title}</h4>
+            </div>
+            <p className="location-address">{CONTACT.headquarters.address}</p>
+            <a href={`mailto:${CONTACT.headquarters.email}`} className="location-link">
+              <i className="fa-solid fa-envelope" aria-hidden="true"></i>
+              <span>{CONTACT.headquarters.email}</span>
+            </a>
+            <a href={CONTACT.headquarters.phoneHref} className="location-link">
+              <i className="fa-solid fa-phone" aria-hidden="true"></i>
+              <span>{CONTACT.headquarters.phone}</span>
+            </a>
           </div>
 
-          <div className="company-dual-grid">
-            
-            {/* Story Card */}
-            <div className="company-story-panel">
-              <div className="story-badge-flag">
-                <span>🇸🇻</span> Sede Principal: San Salvador, El Salvador
-              </div>
-
-              <h3>Ingeniería de Software Propia, No Reventa</h3>
-              <p>
-                A diferencia de agencias que revenden sistemas extranjeros rígidos o plantillas genéricas, en <strong>Arias Defense desarrollamos nuestras plataformas desde el código fuente</strong>. Esto nos permite garantizar actualizaciones instantáneas cada vez que el Ministerio de Hacienda emite nuevas normativas tributarias.
-              </p>
-              <p>
-                Durante más de 10 años, hemos acompañado a contadores públicos, corporaciones comerciales, desarrolladoras inmobiliarias y estaciones de servicio, diseñando sistemas que se adaptan a su operación y no al revés.
-              </p>
-
-              <div className="company-facts-grid">
-                <div className="fact-item">
-                  <div className="fact-icon-sq text-purple"><i className="fa-solid fa-brain"></i></div>
-                  <div>
-                    <strong>Soluciones Adaptativas</strong>
-                    <p>Flujos de trabajo personalizados para cada industria.</p>
-                  </div>
-                </div>
-
-                <div className="fact-item">
-                  <div className="fact-icon-sq text-emerald"><i className="fa-solid fa-file-invoice-dollar"></i></div>
-                  <div>
-                    <strong>Pioneros en DTE El Salvador</strong>
-                    <p>Integración y homologación con Hacienda garantizada.</p>
-                  </div>
-                </div>
-
-                <div className="fact-item">
-                  <div className="fact-icon-sq text-cyan"><i className="fa-solid fa-headset"></i></div>
-                  <div>
-                    <strong>Soporte en Sitio y Remoto</strong>
-                    <p>Ingenieros en San Salvador con línea directa de atención.</p>
-                  </div>
-                </div>
-              </div>
+          {/* Columna 4: Sucursal El Salvador */}
+          <div className="footer__col footer__col--location">
+            <div className="location-heading">
+              <i className="fa-solid fa-building-columns text-crimson" aria-hidden="true"></i>
+              <h4>{CONTACT.branchSV.title}</h4>
             </div>
-
-            {/* Corporate Address & Verified Credentials Card */}
-            <div className="company-credentials-panel">
-              <div className="credentials-inner">
-                <div className="credentials-header">
-                  <i className="fa-solid fa-award text-amber"></i>
-                  <h4>Respaldo y Credenciales Oficiales</h4>
-                </div>
-
-                <div className="credentials-checklist">
-                  <div className="cred-item">
-                    <i className="fa-solid fa-circle-check text-emerald"></i>
-                    <div>
-                      <strong>Certificación Ministerio de Hacienda</strong>
-                      <p>Emisor oficial de Facturación Electrónica DTE en El Salvador.</p>
-                    </div>
-                  </div>
-
-                  <div className="cred-item">
-                    <i className="fa-solid fa-circle-check text-emerald"></i>
-                    <div>
-                      <strong>Infraestructura Cloud de Alta Disponibilidad</strong>
-                      <p>Despliegues en AWS y Google Cloud con respaldo inmutable de datos.</p>
-                    </div>
-                  </div>
-
-                  <div className="cred-item">
-                    <i className="fa-solid fa-circle-check text-emerald"></i>
-                    <div>
-                      <strong>Seguridad y Encriptación TLS 1.3</strong>
-                      <p>Toda la información financiera viaja cifrada con estándares bancarios.</p>
-                    </div>
-                  </div>
-
-                  <div className="cred-item">
-                    <i className="fa-solid fa-circle-check text-emerald"></i>
-                    <div>
-                      <strong>Presencia Física en San Salvador</strong>
-                      <p>Oficinas en Colonia San Benito para atención personalizada y capacitaciones.</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="office-location-box">
-                  <div className="loc-label"><i className="fa-solid fa-map-pin text-crimson"></i> Ubicación Corporativa:</div>
-                  <div className="loc-address">Calle la Mascota, Edif. 533, Col. San Benito, San Salvador, El Salvador.</div>
-                  <div className="loc-contact-strip">
-                    <a href="tel:+50379718911"><i className="fa-solid fa-phone"></i> (503) 7971-8911</a>
-                    <a href="mailto:info@ariasdefense.com"><i className="fa-solid fa-envelope"></i> info@ariasdefense.com</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          </div>
-
-        </div>
-      </section>
-
-      {/* 6. SERVICIOS DE INGENIERÍA DE SOFTWARE A MEDIDA */}
-      <section id="servicios" className="vibrant-section section-services">
-        <div className="section-inner">
-          
-          <div className="section-title-block">
-            <span className="tag-eyebrow"><i className="fa-solid fa-microchip"></i> INGENIERÍA & DESARROLLO</span>
-            <h2 className="title-headline">Servicios de Desarrollo de Software a la Medida</h2>
-            <p className="title-subheadline">
-              ¿Tu empresa tiene requerimientos que ningún software empaquetado resuelve? Diseñamos y construimos sistemas a medida desde cero.
-            </p>
-          </div>
-
-          <div className="services-vibrant-grid">
-            <div className="service-vibrant-card">
-              <div className="service-card-icon icon-cyan"><i className="fa-solid fa-code"></i></div>
-              <h3>Desarrollo Web & Móvil Full-Stack</h3>
-              <p>Construimos plataformas SaaS, portales B2B e interfaces reactivas en React, Node.js y Laravel para altos volúmenes de usuarios.</p>
-              <ul className="service-checks">
-                <li><i className="fa-solid fa-check"></i> Aplicaciones web progresivas (PWA)</li>
-                <li><i className="fa-solid fa-check"></i> Paneles de administración a medida</li>
-                <li><i className="fa-solid fa-check"></i> Arquitecturas modulares y escalables</li>
-              </ul>
-            </div>
-
-            <div className="service-vibrant-card">
-              <div className="service-card-icon icon-purple"><i className="fa-solid fa-network-wired"></i></div>
-              <h3>Integración de APIs & DTE Hacienda</h3>
-              <p>Conectamos tu ERP legado (SAP, Oracle, sistemas propios) con la API de facturación electrónica del Ministerio de Hacienda de El Salvador.</p>
-              <ul className="service-checks">
-                <li><i className="fa-solid fa-check"></i> Generación y firma electrónica JSON DTE</li>
-                <li><i className="fa-solid fa-check"></i> Manejo automático de contingencias</li>
-                <li><i className="fa-solid fa-check"></i> Envío automático a clientes y receptores</li>
-              </ul>
-            </div>
-
-            <div className="service-vibrant-card">
-              <div className="service-card-icon icon-emerald"><i className="fa-solid fa-cloud-arrow-up"></i></div>
-              <h3>Cloud & DevOps en AWS / GCP</h3>
-              <p>Diseño de infraestructura en la nube con balanceo de carga, monitoreo de latencia y copias de seguridad continuas.</p>
-              <ul className="service-checks">
-                <li><i className="fa-solid fa-check"></i> Migración segura de bases de datos</li>
-                <li><i className="fa-solid fa-check"></i> Pipelines de CI/CD automatizados</li>
-                <li><i className="fa-solid fa-check"></i> Monitoreo de disponibilidad 24/7</li>
-              </ul>
-            </div>
-
-            <div className="service-vibrant-card">
-              <div className="service-card-icon icon-crimson"><i className="fa-solid fa-shield-halved"></i></div>
-              <h3>Ciberseguridad & Auditorías</h3>
-              <p>Protección perimetral para salvaguardar la información financiera, contable y tributaria de tu empresa contra filtraciones.</p>
-              <ul className="service-checks">
-                <li><i className="fa-solid fa-check"></i> Análisis de vulnerabilidades web</li>
-                <li><i className="fa-solid fa-check"></i> Respaldos inmutables anti-ransomware</li>
-                <li><i className="fa-solid fa-check"></i> Control estricto de roles y permisos</li>
-              </ul>
-            </div>
-
-            <div className="service-vibrant-card">
-              <div className="service-card-icon icon-amber"><i className="fa-solid fa-chart-pie"></i></div>
-              <h3>Consultoría para Firmas Contables</h3>
-              <p>Asesoramos a auditores y contadores públicos para transformar su despacho contable y multiplicar su cartera de clientes sin estrés.</p>
-              <ul className="service-checks">
-                <li><i className="fa-solid fa-check"></i> Migración de libros físicos a digital</li>
-                <li><i className="fa-solid fa-check"></i> Capacitación presencial del personal</li>
-                <li><i className="fa-solid fa-check"></i> Estandarización de catálogos de cuentas</li>
-              </ul>
-            </div>
-
-            <div className="service-vibrant-card service-card-cta">
-              <div className="service-cta-glow"></div>
-              <div className="cta-inner-text">
-                <i className="fa-solid fa-comments text-cyan"></i>
-                <h3>¿Tienes un proyecto en mente?</h3>
-                <p>Nuestros ingenieros evalúan tu caso y te entregan una propuesta técnica y económica formal sin costo.</p>
-                <a href="#contacto" className="btn-service-action">
-                  <i className="fa-solid fa-paper-plane"></i> Contactar a un Ingeniero
-                </a>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      {/* 7. TESTIMONIOS Y CASOS DE ÉXITO */}
-      <section id="testimonios" className="vibrant-section section-testimonials">
-        <div className="section-inner">
-          
-          <div className="section-title-block">
-            <span className="tag-eyebrow"><i className="fa-solid fa-star text-amber"></i> CASOS DE ÉXITO REALES</span>
-            <h2 className="title-headline">Empresas que Confían en Arias Defense</h2>
-            <p className="title-subheadline">
-              Resultados medibles y opiniones de directores financieros y gerentes de operaciones en El Salvador.
-            </p>
-          </div>
-
-          <div className="testimonials-vibrant-grid">
-            <div className="testimonial-glass-card">
-              <div className="card-quote-glyph">“</div>
-              <p className="quote-text">
-                Arias Defense revolucionó por completo nuestra facturación. Pasamos de procesar 50 facturas manuales al día con múltiples errores a emitir más de 500 DTEs diarios con validación instantánea en Hacienda.
-              </p>
-              <div className="author-row">
-                <div className="author-avatar avatar-purple">MG</div>
-                <div>
-                  <strong>María González</strong>
-                  <span>Directora Financiera · Sector Distribución</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="testimonial-glass-card">
-              <div className="card-quote-glyph">“</div>
-              <p className="quote-text">
-                En nuestra firma contable era impensable que un solo contador llevara más de 15 empresas. Con ERP ARIAS y la gestión multi-empresa, hoy cada contador atiende hasta 35 razones sociales con total fluidez.
-              </p>
-              <div className="author-row">
-                <div className="author-avatar avatar-cyan">CR</div>
-                <div>
-                  <strong>Lic. Carlos Rodríguez</strong>
-                  <span>Socio Fundador · Firma de Auditoría & Contabilidad</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="testimonial-glass-card">
-              <div className="card-quote-glyph">“</div>
-              <p className="quote-text">
-                Gestionamos más de 600 lotes en varios proyectos. SIPLE nos resolvió el control de pagos atrasados, emisión de recibos y cobro de cuotas. El soporte local en San Salvador responde de inmediato.
-              </p>
-              <div className="author-row">
-                <div className="author-avatar avatar-emerald">AM</div>
-                <div>
-                  <strong>Ing. Ana Martínez</strong>
-                  <span>Gerente de Operaciones · Empresa Desarrolladora</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      {/* 8. FORMULARIO DE CONTACTO & CONVERSIÓN */}
-      <section id="contacto" className="vibrant-section section-contact">
-        <div className="section-inner">
-          
-          <div className="contact-super-grid">
-            
-            {/* Info Side */}
-            <div className="contact-info-panel">
-              <span className="tag-eyebrow"><i className="fa-solid fa-headset"></i> ATENCIÓN DIRECTA</span>
-              <h2>Hablemos sobre tu Próximo Proyecto de Software</h2>
-              <p>
-                Agenda una demostración personalizada con un ingeniero especialista de Arias Defense o visítanos en nuestras oficinas en San Salvador.
-              </p>
-
-              <div className="direct-channels-list">
-                <div className="channel-tile">
-                  <div className="channel-icon-circle icon-phone"><i className="fa-solid fa-phone"></i></div>
-                  <div>
-                    <span className="channel-title">Teléfono Directo:</span>
-                    <a href="tel:+50379718911" className="channel-link">(503) 7971-8911</a>
-                    <span className="channel-meta">Lunes a Viernes de 8:00 AM a 6:00 PM</span>
-                  </div>
-                </div>
-
-                <div className="channel-tile">
-                  <div className="channel-icon-circle icon-whatsapp"><i className="fa-brands fa-whatsapp"></i></div>
-                  <div>
-                    <span className="channel-title">WhatsApp Corporativo:</span>
-                    <a 
-                      href="https://wa.me/50379718911?text=Hola%20Arias%20Defense,%20deseo%20agendar%20una%20demostraci%C3%B3n" 
-                      target="_blank" 
-                      rel="noopener noreferrer" 
-                      className="channel-link text-whatsapp"
-                    >
-                      (503) 7971-8911 (Chat en Vivo)
-                    </a>
-                    <span className="channel-meta">Respuesta rápida por ejecutivos técnicos</span>
-                  </div>
-                </div>
-
-                <div className="channel-tile">
-                  <div className="channel-icon-circle icon-email"><i className="fa-solid fa-envelope"></i></div>
-                  <div>
-                    <span className="channel-title">Correo Oficial:</span>
-                    <a href="mailto:info@ariasdefense.com" className="channel-link">info@ariasdefense.com</a>
-                    <span className="channel-meta">Para solicitudes formales y licitaciones</span>
-                  </div>
-                </div>
-
-                <div className="channel-tile">
-                  <div className="channel-icon-circle icon-location"><i className="fa-solid fa-location-dot"></i></div>
-                  <div>
-                    <span className="channel-title">Oficinas Principales:</span>
-                    <span className="channel-text">Calle la Mascota, Edif. 533, Col. San Benito, San Salvador.</span>
-                    <span className="channel-meta">Atención presencial previa cita</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Interactive Form Side */}
-            <div className="contact-form-panel">
-              <div className="form-glass-card">
-                <h3>Solicitar Demostración o Cotización</h3>
-                <p>Selecciona los proyectos o servicios de tu interés:</p>
-
-                {formSubmitted ? (
-                  <div className="form-success-box">
-                    <i className="fa-solid fa-circle-check text-emerald"></i>
-                    <h4>¡Solicitud Recibida con Éxito!</h4>
-                    <p>Un ingeniero o especialista de Arias Defense en San Salvador se comunicará contigo en menos de 24 horas.</p>
-                    <button onClick={() => setFormSubmitted(false)} className="btn-resend-form">
-                      Enviar otra consulta
-                    </button>
-                  </div>
-                ) : (
-                  <form onSubmit={handleContactSubmit}>
-                    
-                    {/* Multi-chip selector */}
-                    <div className="chips-selector-grid">
-                      {[
-                        'ERP ARIAS (DTE El Salvador)',
-                        'CRM ARIAS (Pipeline)',
-                        'SIPLE (Lotificadoras)',
-                        'Gasolinera (Estaciones)',
-                        'Desarrollo a Medida',
-                        'Integración API Hacienda'
-                      ].map(srv => {
-                        const isSelected = selectedServices.includes(srv);
-                        return (
-                          <div
-                            key={srv}
-                            onClick={() => toggleService(srv)}
-                            className={`chip-button ${isSelected ? 'active' : ''}`}
-                          >
-                            <i className={`fa-solid ${isSelected ? 'fa-circle-check text-cyan' : 'fa-circle'}`}></i>
-                            <span>{srv}</span>
-                          </div>
-                        );
-                      })}
-                    </div>
-
-                    <div className="form-two-cols">
-                      <div className="input-field-group">
-                        <label>Nombre y Apellido *</label>
-                        <input type="text" placeholder="Ej. Lic. Fernando Silva" required />
-                      </div>
-                      <div className="input-field-group">
-                        <label>Empresa o Razón Social *</label>
-                        <input type="text" placeholder="Ej. Distribuidora Cuscatlán S.A." required />
-                      </div>
-                    </div>
-
-                    <div className="form-two-cols">
-                      <div className="input-field-group">
-                        <label>Correo Electrónico *</label>
-                        <input type="email" placeholder="fernando@empresa.com.sv" required />
-                      </div>
-                      <div className="input-field-group">
-                        <label>Teléfono o WhatsApp *</label>
-                        <input type="tel" placeholder="(503) 7000-0000" required />
-                      </div>
-                    </div>
-
-                    <div className="input-field-group">
-                      <label>Giro o Sector de tu Negocio *</label>
-                      <select required defaultValue="contable">
-                        <option value="contable">Firma Contable / Despacho de Auditoría</option>
-                        <option value="comercial">Empresa Comercial / Distribución</option>
-                        <option value="inmobiliaria">Desarrolladora Inmobiliaria / Lotificadora</option>
-                        <option value="gasolinera">Estación de Servicio / Gasolinera</option>
-                        <option value="salud">Sector Salud / Clínicas</option>
-                        <option value="otro">Otro Giro Comercial</option>
-                      </select>
-                    </div>
-
-                    <div className="input-field-group">
-                      <label>Detalle de tu Requerimiento</label>
-                      <textarea rows="3" placeholder="Indica el número de empresas a administrar, volumen mensual de DTEs o requerimiento específico..."></textarea>
-                    </div>
-
-                    <button type="submit" className="btn-glow-submit">
-                      <i className="fa-solid fa-paper-plane"></i> Enviar Solicitud a Arias Defense
-                    </button>
-
-                    <div className="form-secure-note">
-                      <i className="fa-solid fa-lock text-cyan"></i> Tratamiento de datos bajo estricta confidencialidad profesional.
-                    </div>
-                  </form>
-                )}
-              </div>
-            </div>
-
-          </div>
-
-        </div>
-      </section>
-
-      {/* 9. MODAL DETALLE TÉCNICO */}
-      {modalOpen && (
-        <div className="modal-dark-overlay">
-          <div className="modal-dark-card">
-            <button className="modal-close-icon" onClick={() => setModalOpen(false)}>&times;</button>
-            
-            <div className="modal-header-block">
-              <span className="tag-eyebrow"><i className="fa-solid fa-microchip"></i> FICHA TÉCNICA</span>
-              <h3>{modalData.title}</h3>
-            </div>
-
-            <div className="modal-body-block">
-              <p className="modal-body-desc">{modalData.desc}</p>
-
-              <div className="modal-stats-grid">
-                {modalData.stats && modalData.stats.map((s, i) => (
-                  <div key={i} className="modal-stat-pill">
-                    <strong>{s.val}</strong>
-                    <span>{s.label}</span>
-                  </div>
-                ))}
-              </div>
-
-              <div className="modal-tech-panel">
-                <strong><i className="fa-solid fa-server text-cyan"></i> Arquitectura & Tecnologías:</strong>
-                <p>{modalData.tech}</p>
-              </div>
-
-              <div className="modal-assurance">
-                <i className="fa-solid fa-shield-halved text-emerald"></i>
-                <span>Garantía de homologación oficial con el Ministerio de Hacienda, respaldos automáticos y soporte local permanente.</span>
-              </div>
-            </div>
-
-            <div className="modal-footer-block">
-              <a href="#contacto" onClick={() => setModalOpen(false)} className="btn-glow-primary">
-                <i className="fa-solid fa-calendar-check"></i> Agendar Demostración
-              </a>
-              <button onClick={() => setModalOpen(false)} className="btn-modal-dismiss">
-                Cerrar
-              </button>
-            </div>
+            <p className="location-address">{CONTACT.branchSV.address}</p>
+            <a href={`mailto:${CONTACT.branchSV.email}`} className="location-link">
+              <i className="fa-solid fa-envelope" aria-hidden="true"></i>
+              <span>{CONTACT.branchSV.email}</span>
+            </a>
+            <a href={CONTACT.branchSV.phoneHref} className="location-link">
+              <i className="fa-solid fa-phone" aria-hidden="true"></i>
+              <span>{CONTACT.branchSV.phone}</span>
+            </a>
           </div>
         </div>
-      )}
 
-      {/* 10. REAL ENTERPRISE DARK FOOTER */}
-      <footer className="vibrant-footer">
-        <div className="footer-inner-wrap">
-          <div className="footer-top-row">
-            
-            <div className="footer-brand-info">
-              <img src={logoCompleto} alt="Arias Defense" className="footer-logo-img" />
-              <p className="footer-about-text">
-                Firma salvadoreña de ingeniería de software e infraestructura tecnológica empresarial. Facturación Electrónica DTE autorizada, ERP Multi-Empresa, CRM comercial y desarrollo por industria.
-              </p>
-              <div className="footer-address-pill">
-                <i className="fa-solid fa-location-dot text-cyan"></i>
-                <span>Calle la Mascota, Edif. 533, Col. San Benito, San Salvador, El Salvador.</span>
-              </div>
-            </div>
-
-            <div className="footer-links-group">
-              <h5>Proyectos & Ecosistema</h5>
-              <ul>
-                <li><a href="#proyectos" onClick={() => setActiveProjectTab('erp')}>ERP ARIAS (Multi-Empresa & DTE)</a></li>
-                <li><a href="#proyectos" onClick={() => setActiveProjectTab('crm')}>CRM ARIAS (Pipeline de Ventas)</a></li>
-                <li><a href="#proyectos" onClick={() => setActiveProjectTab('siple')}>SIPLE (Lotificadoras & Lotes)</a></li>
-                <li><a href="#proyectos" onClick={() => setActiveProjectTab('gasolinera')}>Gasolinera (Estaciones & Pistas)</a></li>
-                <li><a href="#proyectos" onClick={() => setActiveProjectTab('rtms')}>RTMS (Monitoreo en Tiempo Real)</a></li>
-              </ul>
-            </div>
-
-            <div className="footer-links-group">
-              <h5>Servicios de Ingeniería</h5>
-              <ul>
-                <li><a href="#servicios">Facturación Electrónica DTE Hacienda</a></li>
-                <li><a href="#servicios">Desarrollo Web & Móvil a Medida</a></li>
-                <li><a href="#servicios">Arquitectura Cloud en AWS / GCP</a></li>
-                <li><a href="#servicios">Ciberseguridad & Auditorías</a></li>
-                <li><a href="#servicios">Consultoría para Firmas Contables</a></li>
-              </ul>
-            </div>
-
-            <div className="footer-links-group">
-              <h5>Contacto & Soporte</h5>
-              <ul>
-                <li><a href="#empresa">Sobre Arias Defense</a></li>
-                <li><a href="tel:+50379718911"><i className="fa-solid fa-phone"></i> (503) 7971-8911</a></li>
-                <li><a href="https://wa.me/50379718911" target="_blank" rel="noopener noreferrer"><i className="fa-brands fa-whatsapp"></i> WhatsApp Directo</a></li>
-                <li><a href="mailto:info@ariasdefense.com"><i className="fa-solid fa-envelope"></i> info@ariasdefense.com</a></li>
-              </ul>
-            </div>
-
+        <div className="container footer__bottom">
+          <div className="footer__bottom-left">
+            © {new Date().getFullYear()} Arias Defense Components. {t.footer.rights}
           </div>
-
-          <div className="footer-bottom-row">
-            <div className="footer-copyright">
-              © {new Date().getFullYear()} Arias Defense Component. Todos los derechos reservados. San Salvador, El Salvador.
-            </div>
-            <div className="footer-legal">
-              <a href="#inicio">Privacidad</a>
-              <span className="sep">•</span>
-              <a href="#inicio">Términos de Servicio</a>
-              <span className="sep">•</span>
-              <a href="#inicio">Cumplimiento Tributario MH</a>
-            </div>
+          <div className="footer__bottom-right">
+            {t.footer.legal.map((item, idx) => (
+              <React.Fragment key={item}>
+                {idx > 0 && <span className="footer__sep" aria-hidden="true">•</span>}
+                <a href="#contacto">{item}</a>
+              </React.Fragment>
+            ))}
           </div>
         </div>
       </footer>
 
-      {/* 11. FLOATING GLOWING WHATSAPP WIDGET */}
-      <a 
-        href="https://wa.me/50379718911?text=Hola,%20deseo%20conversar%20con%20un%20asesor%20de%20Arias%20Defense" 
-        target="_blank" 
-        rel="noopener noreferrer" 
-        className="floating-whatsapp-btn"
-        title="Contactar por WhatsApp"
-      >
-        <span className="whatsapp-ping-ring"></span>
-        <i className="fa-brands fa-whatsapp"></i>
-      </a>
+      {/* PRODUCT MODAL */}
+      {modalProduct && (
+        <div className="modal" onClick={() => setSelected(null)} role="presentation">
+          <div className="modal__card" role="dialog" aria-modal="true" aria-label={modalProduct.name} onClick={(e) => e.stopPropagation()}>
+            <button type="button" className="modal__close" onClick={() => setSelected(null)} aria-label={t.products.close}>&times;</button>
+            <div className="card__icon"><i className={`fa-solid ${modalProduct.icon}`} aria-hidden="true"></i></div>
+            <h3>{modalProduct.name}</h3>
+            <p>{modalProduct.short}</p>
+            <ul className="modal__list">
+              {modalProduct.bullets.map((b) => <li key={b}>{b}</li>)}
+            </ul>
+            {PRODUCT_LINKS[modalProduct.id] ? (
+              <a href={PRODUCT_LINKS[modalProduct.id]} target="_blank" rel="noopener noreferrer" className="btn btn--primary">
+                {t.products.open} {modalProduct.name} <i className="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+              </a>
+            ) : (
+              <span className="badge">{t.products.soon}</span>
+            )}
+          </div>
+        </div>
+      )}
 
+      {/* WHATSAPP FLOTANTE */}
+      <a href={CONTACT.whatsapp} target="_blank" rel="noopener noreferrer" className="whatsapp" title={t.whatsappTitle} aria-label={t.whatsappTitle}>
+        <i className="fa-brands fa-whatsapp" aria-hidden="true"></i>
+      </a>
     </div>
   );
 }
