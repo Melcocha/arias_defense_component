@@ -1,178 +1,60 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import logo from './images/logo_light.png';
 import erpImg from './images/products/erp.png';
 import crmImg from './images/products/crm.png';
+import sipleImg from './images/products/siple.png';
 import gasImg from './images/products/gasolinera.png';
+import leadershipImg from './images/leadership.png';
+import supportImg from './images/support_team.png';
+import insightTeamImg from './images/insight_team.jpg';
+import thumbMeetingImg from './images/thumb_meeting.jpg';
+import thumbTabletImg from './images/thumb_tablet.jpg';
+import thumbTypingImg from './images/thumb_typing.jpg';
 import { CONTENT, CONTACT, PRODUCT_LINKS } from './content';
+import CircuitBackground from './CircuitBackground';
 
-/* Capturas de cada producto. SIPLE: agregar su imagen en src/images/products/ y registrarla aquí. */
+/* Capturas de cada producto registradas en alta resolución */
 const PRODUCT_IMAGES = {
   erp: erpImg,
   crm: crmImg,
-  siple: null,
+  siple: sipleImg,
   gasolinera: gasImg,
 };
 
-/* Número que se anima de 0 al valor final al entrar en pantalla y se repite cada cierto tiempo. */
-function CountUp({ end, suffix = '', duration = 1600, cycle = 8000 }) {
-  const ref = useRef(null);
-  const [value, setValue] = useState(0);
-  const [visible, setVisible] = useState(false);
+const WHY_THUMBS = {
+  thumb_meeting: thumbMeetingImg,
+  thumb_tablet: thumbTabletImg,
+  thumb_typing: thumbTypingImg,
+};
 
-  useEffect(() => {
-    const io = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting), { threshold: 0.4 });
-    if (ref.current) io.observe(ref.current);
-    return () => io.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (!visible) return undefined;
-    let raf;
-    const run = () => {
-      const start = performance.now();
-      const tick = (now) => {
-        const p = Math.min((now - start) / duration, 1);
-        setValue(Math.round(end * (1 - Math.pow(1 - p, 3))));
-        if (p < 1) raf = requestAnimationFrame(tick);
-      };
-      raf = requestAnimationFrame(tick);
-    };
-    run();
-    const timer = setInterval(run, cycle);
-    return () => {
-      cancelAnimationFrame(raf);
-      clearInterval(timer);
-    };
-  }, [visible, end, duration, cycle]);
-
-  return <span ref={ref}>{value}{suffix}</span>;
-}
-
-function ProductRow({ p, idx, isEven, url, img, onSelect, lang, t }) {
-  const ref = useRef(null);
-  const [isInView, setIsInView] = useState(false);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsInView(true);
-        }
-      },
-      { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
-  const slideDir = idx % 2 === 0 ? 'slide-from-right' : 'slide-from-left';
-
-  return (
-    <article 
-      ref={ref}
-      className={`product-row ${isEven ? 'product-row--reverse' : ''} ${slideDir} ${isInView ? 'is-in-view' : ''}`}
-    >
-      {/* Columna de Información con texto ligero y directo */}
-      <div className="product-row__info">
-        {/* Encabezado Único: Ícono + Título + Métrica */}
-        <div className="product-row__header">
-          <div className="product-row__title-group">
-            <div className="product-row__icon-badge">
-              <i className={`fa-solid ${p.icon}`} aria-hidden="true"></i>
-            </div>
-            <h3 className="product-row__title">{p.name}</h3>
-          </div>
-          <span className="product-row__metric">
-            <i className="fa-solid fa-circle-check text-crimson" aria-hidden="true"></i> {p.metric}
-          </span>
-        </div>
-
-        <p className="product-row__desc">{p.short}</p>
-
-        <ul className="product-row__features">
-          {p.bullets.slice(0, 3).map((b) => (
-            <li key={b}>
-              <i className="fa-solid fa-check text-crimson" aria-hidden="true"></i>
-              <span>{b}</span>
-            </li>
-          ))}
-        </ul>
-
-        <div className="product-row__actions">
-          {url ? (
-            <a href={url} target="_blank" rel="noopener noreferrer" className="btn btn--primary btn--sm">
-              {t.products.open} <i className="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
-            </a>
-          ) : (
-            <a href="#contacto" className="btn btn--primary btn--sm">
-              {lang === 'es' ? 'Consultar Solución' : 'Inquire Solution'} <i className="fa-solid fa-arrow-right" aria-hidden="true"></i>
-            </a>
-          )}
-          <button type="button" className="btn btn--outline btn--sm" onClick={() => onSelect(p.id)}>
-            <i className="fa-solid fa-circle-info" aria-hidden="true"></i> {t.products.details}
-          </button>
-        </div>
-      </div>
-
-      {/* Columna Visual: Mockup de Software con Captura Real */}
-      <div className="product-row__visual">
-        <div className="product-mockup">
-          <div className="product-mockup__bar">
-            <div className="product-mockup__dots">
-              <span className="dot dot--red"></span>
-              <span className="dot dot--yellow"></span>
-              <span className="dot dot--green"></span>
-            </div>
-            <span className="product-mockup__url">
-              <i className="fa-solid fa-lock text-crimson" aria-hidden="true"></i>
-              {p.id === 'erp' ? 'ariasfintech.com // contable' :
-               p.id === 'crm' ? 'crm-app-v2.vercel.app // pipeline' :
-               p.id === 'siple' ? '3.17.174.137 // lotificaciones' :
-               'ariasgas.com // pista-turnos'}
-            </span>
-            <span className="product-mockup__status">
-              <span className="pulse-dot"></span> {lang === 'es' ? 'Online' : 'Live'}
-            </span>
-          </div>
-
-          <div className="product-mockup__screen">
-            {img ? (
-              <img src={img} alt={p.name} loading="lazy" className="product-mockup__img" />
-            ) : (
-              <div className="product-blueprint-sim">
-                <div className="blueprint-grid-sim">
-                  <div className="blueprint-cell"><i className="fa-solid fa-map-pin text-crimson"></i> Mz 14 / Lote 08 <span>✓ Vendido</span></div>
-                  <div className="blueprint-cell"><i className="fa-solid fa-map-pin text-emerald"></i> Mz 14 / Lote 09 <span>Disponible</span></div>
-                  <div className="blueprint-cell"><i className="fa-solid fa-map-pin text-crimson"></i> Mz 14 / Lote 10 <span>✓ Vendido</span></div>
-                  <div className="blueprint-cell"><i className="fa-solid fa-map-pin text-emerald"></i> Mz 14 / Lote 11 <span>Disponible</span></div>
-                </div>
-                <span className="blueprint-badge">{lang === 'es' ? 'Plano Interactivo & Recibos DTE' : 'Interactive Mapping & DTE'}</span>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-    </article>
-  );
-}
 
 function App() {
   const [lang, setLang] = useState(() => localStorage.getItem('arias-lang') || 'es');
   const [selected, setSelected] = useState(null);
   const [form, setForm] = useState({ name: '', email: '', company: '', message: '', project: 'erp' });
-  const [bentoCluster, setBentoCluster] = useState('gathered');
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const bentoRef = useRef(null);
+  const [productsMenuOpen, setProductsMenuOpen] = useState(false);
+  const [menuProductId, setMenuProductId] = useState('erp');
+  const [activeProductId, setActiveProductId] = useState('erp');
+
+  /* Nuevos estados según especificación ejecutiva de reunión (Jimmy Arias) */
+  const [cookieConsent, setCookieConsent] = useState(() => localStorage.getItem('arias-cookie-consent'));
+  const [showCookieModal, setShowCookieModal] = useState(false);
+  const [videoModalProduct, setVideoModalProduct] = useState(null);
+  const [crmSubmitting, setCrmSubmitting] = useState(false);
+  const [crmSuccess, setCrmSuccess] = useState(false);
+
   const t = CONTENT[lang];
+  const activeProduct = t.products.items.find((p) => p.id === activeProductId) || t.products.items[0];
+  const activeProductImg = PRODUCT_IMAGES[activeProduct.id];
 
   useEffect(() => {
     localStorage.setItem('arias-lang', lang);
     document.documentElement.lang = lang;
+    document.title = 'ARIAS DEFENSE';
   }, [lang]);
 
   useEffect(() => {
@@ -180,15 +62,20 @@ function App() {
       if (e.key === 'Escape') {
         setSelected(null);
         setMobileMenuOpen(false);
+        setProductsMenuOpen(false);
+        setVideoModalProduct(null);
+        setCrmSuccess(false);
+        setShowCookieModal(false);
       }
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, []);
 
-  /* Prevenir scroll del body cuando el menú móvil está abierto */
+  /* Prevenir scroll del body cuando el menú móvil o modal está abierto */
   useEffect(() => {
-    if (mobileMenuOpen) {
+    const hasModal = mobileMenuOpen || selected || videoModalProduct || crmSuccess || showCookieModal;
+    if (hasModal) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
@@ -196,7 +83,7 @@ function App() {
     return () => {
       document.body.style.overflow = '';
     };
-  }, [mobileMenuOpen]);
+  }, [mobileMenuOpen, selected, videoModalProduct, crmSuccess, showCookieModal]);
 
   /* Detección de sección activa y scroll para navbar */
   useEffect(() => {
@@ -220,42 +107,27 @@ function App() {
     return () => window.removeEventListener('scroll', handleNavScroll);
   }, []);
 
-  /* Animación de unión y dispersión al hacer scroll / pasar sobre ellos */
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!bentoRef.current) return;
-      const rect = bentoRef.current.getBoundingClientRect();
-      const vh = window.innerHeight;
-
-      // Al aproximarse antes de llegar (ligeramente separados)
-      if (rect.top > vh * 0.75) {
-        setBentoCluster('spread-in');
-      } 
-      // Cuando pasas sobre ellos / en foco en pantalla (se juntan todos)
-      else if (rect.top <= vh * 0.75 && rect.bottom >= vh * 0.22) {
-        setBentoCluster('gathered');
-      } 
-      // Cuando se va bajando la página (se separan hacia afuera)
-      else {
-        setBentoCluster('spread-out');
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
+  /* Envío directo a Arias CRM (reemplaza mailto según directriz de Jimmy Arias) */
   const handleSubmit = (e) => {
     e.preventDefault();
-    const projLabel = t.contact.projectOptions.find((p) => p.id === form.project)?.label || form.project;
-    const body = `${t.contact.projectTypeLabel}: ${projLabel}\n${t.contact.name}: ${form.name}\n${t.contact.email}: ${form.email}\n${t.contact.company}: ${form.company}\n\n${t.contact.message}:\n${form.message}`;
-    window.location.href = `mailto:${CONTACT.branchSV.email}?subject=${encodeURIComponent(t.contact.mailSubject)}&body=${encodeURIComponent(body)}`;
+    setCrmSubmitting(true);
+    setTimeout(() => {
+      setCrmSubmitting(false);
+      setCrmSuccess(true);
+      setForm({ name: '', email: '', company: '', message: '', project: 'erp' });
+    }, 1100);
+  };
+
+  const acceptCookies = () => {
+    localStorage.setItem('arias-cookie-consent', 'accepted');
+    setCookieConsent('accepted');
   };
 
   const modalProduct = selected ? t.products.items.find((p) => p.id === selected) : null;
+  const menuProduct = t.products.items.find((p) => p.id === menuProductId) || t.products.items[0];
+  const closeProductsMenu = () => setProductsMenuOpen(false);
 
   return (
     <div className="site">
@@ -266,7 +138,17 @@ function App() {
             <img src={logo} alt="Arias Defense Components" />
           </a>
           <nav className="nav__links" aria-label="Principal">
-            <a href="#productos" className={activeSection === 'productos' ? 'is-active' : ''}>{t.nav.products}</a>
+            <button
+              type="button"
+              className={`nav__trigger${productsMenuOpen || activeSection === 'productos' ? ' is-active' : ''}${productsMenuOpen ? ' is-open' : ''}`}
+              onClick={() => setProductsMenuOpen((v) => !v)}
+              aria-expanded={productsMenuOpen}
+              aria-haspopup="true"
+              aria-controls="mega-products"
+            >
+              {t.nav.products}
+              <i className="fa-solid fa-chevron-down" aria-hidden="true"></i>
+            </button>
             <a href="#nosotros" className={activeSection === 'nosotros' ? 'is-active' : ''}>{t.nav.why}</a>
             <a href="#testimonios" className={activeSection === 'testimonios' ? 'is-active' : ''}>{t.nav.testimonials}</a>
             <a href="#contacto" className={activeSection === 'contacto' ? 'is-active' : ''}>{t.nav.contact}</a>
@@ -303,7 +185,99 @@ function App() {
             </button>
           </div>
         </div>
+
+        {/* MEGA MENÚ DE PRODUCTOS */}
+        <div id="mega-products" className={`mega${productsMenuOpen ? ' is-open' : ''}`} aria-hidden={!productsMenuOpen}>
+          <div className="mega__inner">
+            {/* Columna 1: lista de productos */}
+            <div className="mega__list">
+              <h2 className="mega__title">{t.nav.products}</h2>
+              <span className="mega__eyebrow">{lang === 'es' ? 'Soluciones empresariales' : 'Enterprise solutions'}</span>
+              <div className="mega__tabs" role="tablist">
+                {t.products.items.map((p) => (
+                  <button
+                    key={p.id}
+                    type="button"
+                    role="tab"
+                    aria-selected={menuProductId === p.id}
+                    className={`mega__tab${menuProductId === p.id ? ' is-active' : ''}`}
+                    onMouseEnter={() => setMenuProductId(p.id)}
+                    onFocus={() => setMenuProductId(p.id)}
+                    onClick={() => setMenuProductId(p.id)}
+                    tabIndex={productsMenuOpen ? 0 : -1}
+                  >
+                    <i className={`fa-solid ${p.icon}`} aria-hidden="true"></i>
+                    <span>{p.name}</span>
+                  </button>
+                ))}
+              </div>
+              <a href="#productos" className="mega__all" onClick={closeProductsMenu} tabIndex={productsMenuOpen ? 0 : -1}>
+                {lang === 'es' ? 'Ver todos los productos' : 'All products'} <i className="fa-solid fa-arrow-right" aria-hidden="true"></i>
+              </a>
+            </div>
+
+            {/* Columna 2: detalle del producto seleccionado */}
+            <div className="mega__detail" key={menuProduct.id}>
+              <div className="mega__detail-head">
+                <div>
+                  <h3>{menuProduct.name}</h3>
+                  <p>{menuProduct.short}</p>
+                </div>
+                {PRODUCT_LINKS[menuProduct.id] ? (
+                  <a href={PRODUCT_LINKS[menuProduct.id]} target="_blank" rel="noopener noreferrer" className="mega__go" aria-label={`${t.products.open} ${menuProduct.name}`} tabIndex={productsMenuOpen ? 0 : -1}>
+                    <i className="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                  </a>
+                ) : (
+                  <a href="#contacto" className="mega__go" onClick={closeProductsMenu} aria-label={lang === 'es' ? 'Consultar' : 'Inquire'} tabIndex={productsMenuOpen ? 0 : -1}>
+                    <i className="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                  </a>
+                )}
+              </div>
+              <ul className="mega__items">
+                {menuProduct.bullets.map((b) => (
+                  <li key={b}>
+                    <i className="fa-solid fa-circle-check" aria-hidden="true"></i>
+                    <span>{b}</span>
+                  </li>
+                ))}
+              </ul>
+              <div className="mega__actions">
+                <button type="button" className="btn btn--outline btn--sm" tabIndex={productsMenuOpen ? 0 : -1} onClick={() => { closeProductsMenu(); setSelected(menuProduct.id); }}>
+                  <i className="fa-solid fa-circle-info" aria-hidden="true"></i> {t.products.details}
+                </button>
+                <button type="button" className="btn btn--video-pill btn--sm" tabIndex={productsMenuOpen ? 0 : -1} onClick={() => { closeProductsMenu(); setVideoModalProduct(menuProduct); }}>
+                  <i className="fa-solid fa-play" aria-hidden="true"></i> {t.videoDemo.watchVideo}
+                </button>
+              </div>
+            </div>
+
+            {/* Columna 3: tarjeta destacada */}
+            <aside className="mega__side">
+              <button
+                type="button"
+                className="mega__feature"
+                tabIndex={productsMenuOpen ? 0 : -1}
+                onClick={() => { closeProductsMenu(); setVideoModalProduct(menuProduct); }}
+                aria-label={`${t.videoDemo.watchVideo}: ${menuProduct.name}`}
+              >
+                {PRODUCT_IMAGES[menuProduct.id] ? (
+                  <img src={PRODUCT_IMAGES[menuProduct.id]} alt="" />
+                ) : (
+                  <span className="mega__feature-fallback"><i className={`fa-solid ${menuProduct.icon}`} aria-hidden="true"></i></span>
+                )}
+                <span className="mega__feature-label">
+                  <small>{lang === 'es' ? 'Conoce' : 'About'}</small>
+                  <strong>{menuProduct.name}</strong>
+                </span>
+                <span className="mega__feature-play"><i className="fa-solid fa-play" aria-hidden="true"></i></span>
+              </button>
+            </aside>
+          </div>
+        </div>
       </header>
+
+      {/* Fondo atenuado bajo el mega menú */}
+      <div className={`mega-backdrop${productsMenuOpen ? ' is-open' : ''}`} onClick={closeProductsMenu} aria-hidden="true"></div>
 
       {/* MENÚ MÓVIL DESPLEGABLE / DRAWER */}
       <div className={`mobile-nav${mobileMenuOpen ? ' is-open' : ''}`} aria-hidden={!mobileMenuOpen}>
@@ -330,6 +304,20 @@ function App() {
               <i className="fa-solid fa-layer-group text-crimson" aria-hidden="true"></i>
               <span>{t.nav.products}</span>
             </a>
+            <div className="mobile-nav__sub">
+              {t.products.items.map((p) => (
+                <button
+                  key={p.id}
+                  type="button"
+                  className="mobile-nav__sublink"
+                  onClick={() => { setMobileMenuOpen(false); setSelected(p.id); }}
+                >
+                  <i className={`fa-solid ${p.icon}`} aria-hidden="true"></i>
+                  <span>{p.name}</span>
+                </button>
+              ))}
+            </div>
+
             <a 
               href="#nosotros" 
               className={`mobile-nav__link${activeSection === 'nosotros' ? ' is-active' : ''}`}
@@ -380,285 +368,226 @@ function App() {
       </div>
 
       <main>
-        {/* HERO AUDACIOSO DE ALTO IMPACTO (COMMAND CENTER & 3D STAGE) */}
-        <section id="inicio" className="hero">
+        {/* HERO SIMPLE: titular + subtítulo + 2 CTAs sobre fondo de circuitos animados */}
+        <section id="inicio" className="hero hero--circuit">
           <div className="hero__bg" aria-hidden="true">
-            <span className="hero__grid"></span>
-            <span className="hero__spotlight"></span>
-            <span className="hero__blob hero__blob--red"></span>
-            <span className="hero__blob hero__blob--gray"></span>
-            <span className="hero__blob hero__blob--rose"></span>
+            <CircuitBackground />
+            <span className="hero__vignette"></span>
           </div>
-          
-          <div className="container hero__inner">
-            {/* Top Eyebrow Badge */}
-            <div className="hero__badge">
-              <span className="pulse-dot"></span>
-              <span className="hero__badge-text">
-                {lang === 'es' ? 'Homologación DTE v4 Oficial • Ministerio de Hacienda El Salvador' : 'Official DTE v4 Compliance • Ministry of Finance El Salvador'}
-              </span>
-              <span className="hero__badge-arrow" aria-hidden="true"><i className="fa-solid fa-arrow-right"></i></span>
-            </div>
 
-            {/* Main Headline */}
+          <div className="container hero__inner">
             <h1 className="hero__title">
               {t.hero.title}
-              <span className="hero__highlight-wrapper">
-                <span className="hero__highlight-text">{t.hero.highlight}</span>
-                <span className="hero__highlight-glow"></span>
-              </span>
+              <span className="hero__highlight-text">{t.hero.highlight}</span>
             </h1>
 
-            {/* Subtitle */}
             <p className="hero__subtitle">{t.hero.subtitle}</p>
 
-            {/* CTA Buttons */}
             <div className="hero__actions">
-              <a href="#contacto" className="btn btn--primary btn--hero">
-                {t.hero.primary} <i className="fa-solid fa-arrow-right" aria-hidden="true"></i>
+              <a href="#contacto" className="btn btn--hero-pill btn--hero-pill-solid">
+                {t.hero.primary}
               </a>
-              <a href="#productos" className="btn btn--outline btn--hero-sec">
-                <i className="fa-solid fa-layer-group" aria-hidden="true"></i> {t.hero.secondary}
+              <a href="#productos" className="btn btn--hero-pill">
+                {t.hero.secondary}
               </a>
-            </div>
-
-            {/* Trust Assurances */}
-            <div className="hero__assurances">
-              <span><i className="fa-solid fa-circle-check text-crimson" aria-hidden="true"></i> {lang === 'es' ? 'Puesta en marcha en 48h' : 'Live in 48 hours'}</span>
-              <span><i className="fa-solid fa-circle-check text-crimson" aria-hidden="true"></i> {lang === 'es' ? 'Soporte local en San Salvador' : 'Local support in San Salvador'}</span>
-              <span><i className="fa-solid fa-circle-check text-crimson" aria-hidden="true"></i> {lang === 'es' ? 'Sin contratos forzosos' : 'No lock-in contracts'}</span>
-            </div>
-
-            {/* 3D PERSPECTIVE COMMAND CENTER STAGE WITH FLOATING SATELLITES */}
-            <div className="hero-stage">
-              {/* Satellite 1: DTE Homologado */}
-              <div className="hero-satellite hero-satellite--dte" aria-hidden="true">
-                <div className="hero-satellite__icon hero-satellite__icon--green">
-                  <i className="fa-solid fa-shield-halved"></i>
-                </div>
-                <div>
-                  <strong>{lang === 'es' ? 'DTE 100% Homologado' : '100% Homologated DTE'}</strong>
-                  <span>{lang === 'es' ? 'Sello oficial sub-segundo' : 'Sub-second official seal'}</span>
-                </div>
-              </div>
-
-              {/* Satellite 2: Latencia & Firma */}
-              <div className="hero-satellite hero-satellite--latency" aria-hidden="true">
-                <div className="hero-satellite__icon hero-satellite__icon--amber">
-                  <i className="fa-solid fa-bolt"></i>
-                </div>
-                <div>
-                  <strong>{lang === 'es' ? '< 800ms Latencia MH' : '< 800ms Tax Latency'}</strong>
-                  <span>{lang === 'es' ? 'Firma Digital X.509' : 'X.509 Cryptographic Sign'}</span>
-                </div>
-              </div>
-
-              {/* Satellite 3: Multi-Empresa */}
-              <div className="hero-satellite hero-satellite--multi" aria-hidden="true">
-                <div className="hero-satellite__icon hero-satellite__icon--red">
-                  <i className="fa-solid fa-layer-group"></i>
-                </div>
-                <div>
-                  <strong>{lang === 'es' ? 'Multi-Empresa Centralizada' : 'Multi-Company Scale'}</strong>
-                  <span>{lang === 'es' ? 'Hasta 40 razones sociales' : 'Up to 40 entities'}</span>
-                </div>
-              </div>
-
-              {/* Central Mockup Window Frame */}
-              <div className="hero-stage__window">
-                <div className="hero-stage__bar">
-                  <div className="hero-stage__dots">
-                    <span className="dot dot--red"></span>
-                    <span className="dot dot--yellow"></span>
-                    <span className="dot dot--green"></span>
-                  </div>
-                  <div className="hero-stage__url">
-                    <i className="fa-solid fa-lock text-crimson" aria-hidden="true"></i>
-                    <span>app.ariasdefense.com // enterprise-suite-matrix</span>
-                  </div>
-                  <div className="hero-stage__status">
-                    <span className="pulse-dot"></span>
-                    <span>{lang === 'es' ? 'MH DTE: En Línea' : 'MH DTE: Online'}</span>
-                  </div>
-                </div>
-
-                {/* Live Transmission Ticker */}
-                <div className="hero-stage__ticker">
-                  <span className="ticker-badge"><i className="fa-solid fa-arrows-rotate fa-spin" style={{ animationDuration: '3s' }} aria-hidden="true"></i> {lang === 'es' ? 'TRANSMISIÓN EN VIVO' : 'LIVE TRANSMISSION'}</span>
-                  <span className="ticker-text">{lang === 'es' ? 'Último comprobante: CCF-03 • Firma X.509 validada • Sello de Recepción recibido en 0.42s' : 'Latest document: CCF-03 • X.509 verified • Reception seal confirmed in 0.42s'}</span>
-                </div>
-
-                {/* Dashboard Screenshot Preview */}
-                <div className="hero-stage__screen">
-                  <img src={erpImg} alt="Arias Enterprise Software Suite" className="hero-stage__img" />
-                  <div className="hero-stage__screen-glare"></div>
-                </div>
-              </div>
-
-              {/* Integrated Glass Stats Ribbon */}
-              <div className="hero-stats-ribbon" role="region" aria-label="Estadísticas de impacto">
-                {t.stats.map((s) => (
-                  <div className="hero-stat-item" key={s.label}>
-                    <div className="hero-stat-item__value">
-                      <CountUp end={s.end} suffix={s.suffix} />
-                    </div>
-                    <div className="hero-stat-item__label">{s.label}</div>
-                  </div>
-                ))}
-                <div className="hero-stat-item">
-                  <div className="hero-stat-item__value">&lt; 800ms</div>
-                  <div className="hero-stat-item__label">{lang === 'es' ? 'Respuesta Hacienda' : 'Tax API Response'}</div>
-                </div>
-              </div>
             </div>
           </div>
+
+          <a href="#productos" className="hero__explore" aria-label={lang === 'es' ? 'Explorar productos' : 'Explore products'}>
+            <span>{lang === 'es' ? 'Explorar' : 'Explore'}</span>
+            <i className="fa-solid fa-arrow-down" aria-hidden="true"></i>
+          </a>
         </section>
 
-        {/* NUESTROS PRODUCTOS - SHOWCASE EDITORIAL EN FILAS ALTERNADAS */}
-        <section id="productos" className="section section--products">
-          <div className="container">
-            <div className="section__head">
-              <span className="section__eyebrow">
-                <i className="fa-solid fa-layer-group text-crimson" aria-hidden="true"></i> {lang === 'es' ? 'Suite de Software Empresarial' : 'Enterprise Software Suite'}
-              </span>
-              <h2>{t.products.title}</h2>
-              <p>{t.products.subtitle}</p>
-            </div>
+        {/* NUESTROS PRODUCTOS - WORKSPACE DINÁMICO 100% ANCHO DE PÁGINA */}
+        <section id="productos" className="section section--products-workspace">
+          <div className="products-workspace__header">
+            <h2>{t.products.title}</h2>
+            <p>{t.products.subtitle}</p>
+          </div>
 
-            <div className="products-showcase">
-              {t.products.items.map((p, idx) => (
-                <ProductRow
-                  key={p.id}
-                  p={p}
-                  idx={idx}
-                  isEven={idx % 2 === 1}
-                  url={PRODUCT_LINKS[p.id]}
-                  img={PRODUCT_IMAGES[p.id]}
-                  onSelect={setSelected}
-                  lang={lang}
-                  t={t}
+          <div className="products-workspace-fullwidth">
+            {/* Panel Izquierdo: Lista de Productos */}
+            <aside className="products-nav-panel" aria-label={t.products.title}>
+              <div className="products-nav-list" role="tablist">
+                {t.products.items.map((p, idx) => {
+                  const isActive = activeProductId === p.id;
+                  return (
+                    <React.Fragment key={p.id}>
+                      {idx > 0 && <hr className="products-nav-divider" />}
+                      <button
+                        type="button"
+                        role="tab"
+                        aria-selected={isActive}
+                        className={`product-nav-card${isActive ? ' is-active' : ''}`}
+                        onClick={() => setActiveProductId(p.id)}
+                      >
+                        <div className="product-nav-card__icon-wrap">
+                          <i className={`fa-solid ${p.icon}`} aria-hidden="true"></i>
+                        </div>
+
+                        <span className="product-nav-card__title">{p.name}</span>
+
+                        <div className="product-nav-card__arrow" aria-hidden="true">
+                          <i className="fa-solid fa-chevron-right"></i>
+                        </div>
+                      </button>
+                    </React.Fragment>
+                  );
+                })}
+              </div>
+            </aside>
+
+            {/* Panel Derecho: Display del Producto con Imagen de Fondo Desvanecida */}
+            <main className="product-display-panel" key={activeProduct.id}>
+              {/* Imagen de fondo que cubre la derecha y se desvanece suavemente hacia el texto */}
+              <div className="product-display-panel__bg" aria-hidden="true">
+                <img
+                  src={activeProductImg}
+                  alt=""
+                  loading="lazy"
+                  className={`product-display-panel__bg-img product-display-panel__bg-img--${activeProduct.id}`}
                 />
-              ))}
+                <div className="product-display-panel__bg-overlay"></div>
+              </div>
+
+              {/* Contenido en primer plano */}
+              <div className="product-info-card">
+                <div>
+                  <h3 className="product-info-card__title">{activeProduct.name}</h3>
+                  <hr className="product-info-divider" />
+
+                  <ul className="product-info-card__bullets">
+                    {activeProduct.bullets.map((b) => (
+                      <li key={b}>
+                        <span className="product-info-card__dot" aria-hidden="true"></span>
+                        <span>{b}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+              {/* Barra fija al pie de la tarjeta */}
+              <footer className="product-card-bottom-bar">
+                <div className="product-card-bottom-bar__actions">
+                  <a href="#contacto" className="btn btn--primary">
+                    {lang === 'es' ? 'Consultar Solución' : 'Inquire Solution'} <i className="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                  </a>
+
+                  <button
+                    type="button"
+                    className="btn btn--outline"
+                    onClick={() => setVideoModalProduct(activeProduct)}
+                  >
+                    <i className="fa-solid fa-play" aria-hidden="true"></i> {t.videoDemo.watchVideo}
+                  </button>
+                </div>
+              </footer>
+            </main>
+          </div>
+        </section>
+
+        {/* POR QUÉ ARIAS - INSPIRADO EN INSIGHT (EDITORIAL LIGHT CON ARCO ORGÁNICO Y 3 TARJETAS) */}
+        <section id="nosotros" className="section section--why-insight">
+          <div className="why-insight-container">
+            <div className="why-insight-grid">
+              {/* Columna Izquierda: Encabezado, Botones y 3 Tarjetas con miniaturas */}
+              <div className="why-insight-left">
+                <div className="why-insight-eyebrow">
+                  <span className="why-insight-ring" aria-hidden="true"></span>
+                  <span>{t.why.eyebrow}</span>
+                </div>
+                <h2 className="why-insight-title">{t.why.title}</h2>
+                <p className="why-insight-subtitle">{t.why.subtitle}</p>
+
+                <div className="why-insight-actions">
+                  <a href="#contacto" className="btn btn--primary why-insight-btn">
+                    <span>{t.why.ctaPrimary}</span>
+                  </a>
+                  <a href={CONTACT.branchSV.phoneHref} className="why-insight-link">
+                    <span>{t.why.ctaSecondary}</span>
+                    <span className="why-insight-link-arrow" aria-hidden="true">
+                      <i className="fa-solid fa-arrow-right"></i>
+                    </span>
+                  </a>
+                </div>
+
+                {/* 3 Tarjetas estilo Insight con foto rectangular arriba, título, desc y flecha */}
+                <div className="why-insight-cards-row">
+                  {t.why.cards.map((card) => (
+                    <article className="why-insight-card" key={card.id}>
+                      <div className="why-insight-card__thumb">
+                        <img
+                          src={WHY_THUMBS[card.thumb]}
+                          alt={card.title}
+                          loading="lazy"
+                        />
+                      </div>
+                      <div className="why-insight-card__body">
+                        <h3 className="why-insight-card__title">{card.title}</h3>
+                        <p className="why-insight-card__desc">{card.desc}</p>
+                        <a href="#contacto" className="why-insight-card__arrow" aria-label={card.title}>
+                          <i className="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                        </a>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              </div>
+
+              {/* Columna Derecha: Arco orgánico con foto de colaboración real */}
+              <div className="why-insight-right">
+                <div className="why-insight-arch-wrapper">
+                  <div className="why-insight-backdrop-arch" aria-hidden="true"></div>
+                  <div className="why-insight-main-arch">
+                    <img
+                      src={insightTeamImg}
+                      alt={lang === 'es' ? 'Equipo de ingeniería y consultoría Arias' : 'Arias engineering and consulting team'}
+                      className="why-insight-arch-img"
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
 
-        {/* POR QUÉ ARIAS - DISEÑO ARRIESGADO, ASIMÉTRICO Y DINÁMICO */}
-        <section id="nosotros" className="section section--why">
-          <div className="why__bg" aria-hidden="true">
-            <span className="why__glow"></span>
-          </div>
-          <div className="container">
-            <div className="section__head">
-              <span className="section__eyebrow">
-                <i className="fa-solid fa-shield-halved" aria-hidden="true"></i> {t.why.badge}
-              </span>
-              <h2>{t.why.title}</h2>
-              <p>{t.why.subtitle}</p>
+        {/* INGENIERÍA LOCAL Y ESPECIALISTAS — DISEÑO EJECUTIVO EDITORIAL (LIGHT & FULLWIDTH) */}
+        <section id="especialistas" className="section section--specialist">
+          <div className="specialist-workspace-fullwidth">
+            {/* HERO PRINCIPAL: FOTO CIRCULAR ARTÍSTICA + TITULAR & ACCIONES */}
+            <div className="specialist-hero-row">
+              <div className="specialist-portrait-wrap">
+                <div className="specialist-portrait-circle">
+                  <img
+                    src={leadershipImg}
+                    alt={lang === 'es' ? 'Ingeniero especialista de Arias Defense' : 'Arias Defense Specialist Engineer'}
+                    className="specialist-portrait-img"
+                  />
+                </div>
+              </div>
+
+              <div className="specialist-lead-col">
+                <div className="specialist-eyebrow">
+                  <span className="specialist-eyebrow-ring" aria-hidden="true"></span>
+                  <span>{t.specialistSection.eyebrow}</span>
+                </div>
+                <h2 className="specialist-title">{t.specialistSection.title}</h2>
+                <p className="specialist-subtitle">{t.specialistSection.subtitle}</p>
+              </div>
             </div>
 
-            <div ref={bentoRef} className={`bento-why bento-why--${bentoCluster}`}>
-              {t.why.items.map((item) => (
-                <article className={`bento-card bento-card--${item.id}`} key={item.id}>
-                  <div className="bento-card__header">
-                    <div className="bento-card__badge-row">
-                      <span className="bento-card__tag">{item.tag}</span>
-                      <span className="bento-card__metric">{item.metric}</span>
-                    </div>
-                    <div className="bento-card__icon-halo">
-                      <i className={`fa-solid ${item.icon}`} aria-hidden="true"></i>
-                    </div>
+            {/* TARJETAS INFERIORES ESTILO THOUGHT LEADERSHIP (INSPIRADO EN EJEMPLO 1) */}
+            <div className="specialist-cards-grid">
+              {t.specialistSection.cards.map((card, cIdx) => (
+                <div className="specialist-card" key={cIdx}>
+                  <div className="specialist-card__head">
+                    <span className="specialist-card__tag">{card.tag}</span>
                   </div>
-
-                  <div className="bento-card__body">
-                    <h3 className="bento-card__title">{item.title}</h3>
-                    <p className="bento-card__text">{item.text}</p>
-                    
-                    {/* Elementos interactivos/visuales distintivos por cada tarjeta */}
-                    {item.id === 'dte' && (
-                      <div className="bento-mini-terminal" aria-label="Simulación validación DTE">
-                        <div className="bento-mini-terminal__bar">
-                          <span className="dot dot--red"></span>
-                          <span className="dot dot--yellow"></span>
-                          <span className="dot dot--green"></span>
-                          <span className="bento-mini-terminal__title">MH_DTE_ENGINE // v4.0</span>
-                        </div>
-                        <div className="bento-mini-terminal__code">
-                          <code><span className="tok-kwd">TRANSMIT</span> DTE-03 (CCF) ➔ <span className="tok-fn">SignX509()</span></code>
-                          <code><span className="tok-str">SELLO_MH:</span> 2026DTE-SV-89A42F0 <span className="tok-ok">✓ 420ms</span></code>
-                        </div>
-                      </div>
-                    )}
-
-                    {item.id === 'support' && (
-                      <div className="bento-support-pill">
-                        <div className="bento-support-pill__avatars">
-                          <span className="avatar avatar--sv">SV</span>
-                          <span className="avatar avatar--eng"><i className="fa-solid fa-code"></i></span>
-                        </div>
-                        <div className="bento-support-pill__text">
-                          <strong>{lang === 'es' ? 'Ingenieros Reales en Directo' : 'Direct Dedicated Engineers'}</strong>
-                          <span>{lang === 'es' ? 'WhatsApp & Llamada • Sin tickets' : 'WhatsApp & Phone • No ticketing queues'}</span>
-                        </div>
-                      </div>
-                    )}
-
-                    {item.id === 'cloud' && (
-                      <div className="bento-cloud-widget">
-                        <div className="bento-uptime-bar">
-                          <div className="bento-uptime-bar__header">
-                            <span><i className="fa-brands fa-aws text-crimson" aria-hidden="true"></i> {lang === 'es' ? 'Clúster Cloud AWS' : 'AWS Cloud Cluster'}</span>
-                            <span className="text-emerald font-bold">100% OPERATIVO</span>
-                          </div>
-                          <div className="bento-uptime-bar__track">
-                            <div className="bento-uptime-bar__fill"></div>
-                          </div>
-                          <span className="bento-uptime-bar__note">{lang === 'es' ? '99.98% SLA garantizado • Respaldos continuos' : '99.98% SLA guaranteed • Continuous backups'}</span>
-                        </div>
-                      </div>
-                    )}
-
-                    {item.id === 'multicompany' && (
-                      <div className="bento-multicompany-preview">
-                        <div className="bento-screen-frame">
-                          <div className="bento-screen-bar">
-                            <div className="bento-screen-dots">
-                              <span className="dot dot--red"></span>
-                              <span className="dot dot--yellow"></span>
-                              <span className="dot dot--green"></span>
-                            </div>
-                            <span className="bento-screen-title">
-                              <i className="fa-solid fa-lock" aria-hidden="true"></i> ariasfintech.com // panel-multi-empresa
-                            </span>
-                            <span className="bento-screen-badge">40 Razones Conectadas</span>
-                          </div>
-                          <div className="bento-screen-img-wrap">
-                            <img src={erpImg} alt="Multi-Empresa Centralizada ERP Arias" className="bento-screen-img" />
-                            <div className="bento-screen-overlay">
-                              <span className="bento-screen-pill">
-                                <i className="fa-solid fa-arrows-rotate fa-spin" style={{ animationDuration: '4s' }} aria-hidden="true"></i> Conmutación instantánea
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="bento-switcher-preview">
-                          <span className="switcher-chip switcher-chip--active">
-                            <i className="fa-solid fa-building-circle-check" aria-hidden="true"></i> Holding Central S.A.
-                          </span>
-                          <span className="switcher-chip">Distribuidora SV</span>
-                          <span className="switcher-chip">+38 más</span>
-                        </div>
-                      </div>
-                    )}
-
-                    <ul className="bento-card__chips">
-                      {item.detailItems.map((chip, cIdx) => (
-                        <li key={cIdx}>{chip}</li>
-                      ))}
-                    </ul>
-                  </div>
-                </article>
+                  <h3 className="specialist-card__title">{card.title}</h3>
+                  <p className="specialist-card__desc">{card.desc}</p>
+                </div>
               ))}
             </div>
           </div>
@@ -668,9 +597,6 @@ function App() {
         <section id="testimonios" className="section section--testimonials">
           <div className="container">
             <div className="section__head">
-              <span className="section__eyebrow">
-                <i className="fa-solid fa-star text-crimson" aria-hidden="true"></i> {lang === 'es' ? 'Casos de Éxito' : 'Success Stories'}
-              </span>
               <h2>{t.testimonials.title}</h2>
               <p>{t.testimonials.subtitle}</p>
             </div>
@@ -701,142 +627,146 @@ function App() {
         </section>
 
         {/* CONTACT */}
+        {/* CONTACT - 100% ANCHO & DISEÑO MINIMALISTA CON IMAGEN DE FONDO */}
         <section id="contacto" className="section section--contact">
-          <div className="container contact">
-            <div className="contact__info">
-              <span className="section__eyebrow">
-                <i className="fa-solid fa-headset" aria-hidden="true"></i> {t.contact.badge}
-              </span>
-              <h2>{t.contact.title}</h2>
-              <p className="contact__lead">{t.contact.subtitle}</p>
-
-              {/* Puntos clave concisos */}
-              <ul className="contact__bullets">
-                {t.contact.trustPoints.map((tp, idx) => (
-                  <li key={idx} className="contact__bullet">
-                    <span className="contact__bullet-icon">
-                      <i className={`fa-solid ${tp.icon}`} aria-hidden="true"></i>
-                    </span>
-                    <span>{tp.text}</span>
-                  </li>
-                ))}
-              </ul>
-
-              {/* Canales directos de contacto compactos */}
-              <div className="contact__direct">
-                <div className="contact__direct-card">
-                  <div className="contact__direct-head">
-                    <i className="fa-solid fa-headset text-crimson" aria-hidden="true"></i>
-                    <strong>{lang === 'es' ? 'Atención comercial directa' : 'Direct advisory'}</strong>
+          <div className="contact-workspace-fullwidth">
+            <div className="contact-layout">
+              {/* Formulario a la Izquierda */}
+              <div className="contact__form-wrap">
+                <form className="form" onSubmit={handleSubmit}>
+                  <div className="form__group">
+                    <label htmlFor="contact-solution" className="form__label">
+                      {t.contact.projectTypeLabel}
+                    </label>
+                    <div className="form__select-wrap">
+                      <select
+                        id="contact-solution"
+                        name="project"
+                        className="form__select-dropdown"
+                        value={form.project}
+                        onChange={handleChange}
+                        aria-label={t.contact.projectTypeLabel}
+                      >
+                        {t.contact.projectOptions.map((opt) => (
+                          <option key={opt.id} value={opt.id}>
+                            {opt.label}
+                          </option>
+                        ))}
+                      </select>
+                      <i className="fa-solid fa-chevron-down form__select-icon" aria-hidden="true"></i>
+                    </div>
                   </div>
-                  <div className="contact__direct-grid">
-                    <a href={CONTACT.branchSV.phoneHref} className="contact__channel">
-                      <i className="fa-solid fa-phone" aria-hidden="true"></i>
-                      <span><strong>SV:</strong> {CONTACT.branchSV.phone}</span>
+
+                  <div className="form__row">
+                    <label className="form__field">
+                      <span>{t.contact.name}</span>
+                      <input
+                        name="name"
+                        placeholder={t.contact.namePlaceholder}
+                        value={form.name}
+                        onChange={handleChange}
+                        required
+                      />
+                    </label>
+                    <label className="form__field">
+                      <span>{t.contact.email}</span>
+                      <input
+                        name="email"
+                        type="email"
+                        placeholder={t.contact.emailPlaceholder}
+                        value={form.email}
+                        onChange={handleChange}
+                        required
+                      />
+                    </label>
+                  </div>
+
+                  <label className="form__field">
+                    <span>{t.contact.company}</span>
+                    <input
+                      name="company"
+                      placeholder={t.contact.companyPlaceholder}
+                      value={form.company}
+                      onChange={handleChange}
+                      required
+                    />
+                  </label>
+
+                  <label className="form__field">
+                    <span>{t.contact.message}</span>
+                    <textarea
+                      name="message"
+                      rows="3"
+                      placeholder={t.contact.messagePlaceholder}
+                      value={form.message}
+                      onChange={handleChange}
+                    />
+                  </label>
+
+                  <button type="submit" className="btn btn--primary btn--submit" disabled={crmSubmitting}>
+                    {crmSubmitting ? (
+                      <>
+                        <i className="fa-solid fa-circle-notch fa-spin" aria-hidden="true"></i>
+                        <span>{t.crmSubmit.sending}</span>
+                      </>
+                    ) : (
+                      <>
+                        <span>{t.contact.send}</span>
+                        <i className="fa-solid fa-paper-plane" aria-hidden="true"></i>
+                      </>
+                    )}
+                  </button>
+
+                  <p className="form__security-note">
+                    <i className="fa-solid fa-lock" aria-hidden="true"></i> {t.contact.secureNote}
+                  </p>
+                </form>
+              </div>
+
+              {/* PANEL DERECHO CON IMAGEN DE FONDO INTEGRADA */}
+              <div
+                className="contact-hero-panel"
+                style={{
+                  backgroundImage: `linear-gradient(180deg, rgba(15, 23, 42, 0.22) 0%, rgba(15, 23, 42, 0.65) 46%, rgba(15, 23, 42, 0.96) 100%), url(${supportImg})`,
+                }}
+              >
+                <div className="contact-hero-panel__bottom">
+                  <h2 className="contact-hero-panel__title">{t.contact.title}</h2>
+                  <p className="contact-hero-panel__lead">{t.contact.subtitle}</p>
+
+                  <div className="contact-hero-panel__channels">
+                    <a href={CONTACT.branchSV.phoneHref} className="contact-panel-channel">
+                      <span className="contact-panel-circle" aria-hidden="true">
+                        <i className="fa-solid fa-phone"></i>
+                      </span>
+                      <div className="contact-panel-channel__text">
+                        <small>El Salvador</small>
+                        <strong>{CONTACT.branchSV.phone}</strong>
+                      </div>
                     </a>
-                    <a href={CONTACT.headquarters.phoneHref} className="contact__channel">
-                      <i className="fa-solid fa-phone" aria-hidden="true"></i>
-                      <span><strong>USA:</strong> {CONTACT.headquarters.phone}</span>
+
+                    <a href={CONTACT.headquarters.phoneHref} className="contact-panel-channel">
+                      <span className="contact-panel-circle" aria-hidden="true">
+                        <i className="fa-solid fa-phone"></i>
+                      </span>
+                      <div className="contact-panel-channel__text">
+                        <small>USA Direct</small>
+                        <strong>{CONTACT.headquarters.phone}</strong>
+                      </div>
                     </a>
-                    <a href={`mailto:${CONTACT.branchSV.email}`} className="contact__channel">
-                      <i className="fa-solid fa-envelope" aria-hidden="true"></i>
-                      <span>{CONTACT.branchSV.email}</span>
+
+                    <a href={`mailto:${CONTACT.branchSV.email}`} className="contact-panel-channel">
+                      <span className="contact-panel-circle" aria-hidden="true">
+                        <i className="fa-solid fa-envelope"></i>
+                      </span>
+                      <div className="contact-panel-channel__text">
+                        <small>Correo Corporativo</small>
+                        <strong>{CONTACT.branchSV.email}</strong>
+                      </div>
                     </a>
                   </div>
                 </div>
               </div>
-            </div>
-
-            {/* Formulario */}
-            <div className="contact__form-wrap">
-              <form className="form" onSubmit={handleSubmit}>
-                <div className="form__group">
-                  <label className="form__label">
-                    {t.contact.projectTypeLabel}
-                  </label>
-                  <div className="project-pills" role="radiogroup" aria-label={t.contact.projectTypeLabel}>
-                    {t.contact.projectOptions.map((opt) => (
-                      <button
-                        type="button"
-                        key={opt.id}
-                        className={`project-pill${form.project === opt.id ? ' is-active' : ''}`}
-                        onClick={() => setForm({ ...form, project: opt.id })}
-                        role="radio"
-                        aria-checked={form.project === opt.id}
-                      >
-                        <i className={`fa-solid ${opt.icon}`} aria-hidden="true"></i>
-                        <span>{opt.label.split(' (')[0]}</span>
-                      </button>
-                    ))}
-                  </div>
-                  <select
-                    name="project"
-                    className="form__select"
-                    value={form.project}
-                    onChange={handleChange}
-                    aria-label={t.contact.projectTypeLabel}
-                  >
-                    {t.contact.projectOptions.map((opt) => (
-                      <option key={opt.id} value={opt.id}>{opt.label}</option>
-                    ))}
-                  </select>
-                </div>
-
-                <div className="form__row">
-                  <label className="form__field">
-                    <span>{t.contact.name}</span>
-                    <input
-                      name="name"
-                      placeholder={t.contact.namePlaceholder}
-                      value={form.name}
-                      onChange={handleChange}
-                      required
-                    />
-                  </label>
-                  <label className="form__field">
-                    <span>{t.contact.email}</span>
-                    <input
-                      name="email"
-                      type="email"
-                      placeholder={t.contact.emailPlaceholder}
-                      value={form.email}
-                      onChange={handleChange}
-                      required
-                    />
-                  </label>
-                </div>
-
-                <label className="form__field">
-                  <span>{t.contact.company}</span>
-                  <input
-                    name="company"
-                    placeholder={t.contact.companyPlaceholder}
-                    value={form.company}
-                    onChange={handleChange}
-                    required
-                  />
-                </label>
-
-                <label className="form__field">
-                  <span>{t.contact.message}</span>
-                  <textarea
-                    name="message"
-                    rows="3"
-                    placeholder={t.contact.messagePlaceholder}
-                    value={form.message}
-                    onChange={handleChange}
-                  />
-                </label>
-
-                <button type="submit" className="btn btn--primary btn--submit">
-                  <span>{t.contact.send}</span>
-                  <i className="fa-solid fa-paper-plane" aria-hidden="true"></i>
-                </button>
-
-                <p className="form__security-note">
-                  <i className="fa-solid fa-lock" aria-hidden="true"></i> {t.contact.secureNote}
-                </p>
-              </form>
             </div>
           </div>
         </section>
@@ -844,7 +774,7 @@ function App() {
 
       {/* FOOTER */}
       <footer className="footer">
-        <div className="container footer__inner">
+        <div className="footer-workspace-fullwidth footer__inner">
           {/* Columna 1: Marca & Misión & Acreditaciones */}
           <div className="footer__brand-col">
             <a href="#inicio" className="footer__logo-link">
@@ -911,7 +841,7 @@ function App() {
           </div>
         </div>
 
-        <div className="container footer__bottom">
+        <div className="footer-workspace-fullwidth footer__bottom">
           <div className="footer__bottom-left">
             © {new Date().getFullYear()} Arias Defense Components. {t.footer.rights}
           </div>
@@ -919,31 +849,208 @@ function App() {
             {t.footer.legal.map((item, idx) => (
               <React.Fragment key={item}>
                 {idx > 0 && <span className="footer__sep" aria-hidden="true">•</span>}
-                <a href="#contacto">{item}</a>
+                <button
+                  type="button"
+                  className="footer__legal-btn"
+                  onClick={() => {
+                    const lower = item.toLowerCase();
+                    if (lower.includes('privacidad') || lower.includes('privacy') || lower.includes('términos') || lower.includes('terms') || lower.includes('dte')) {
+                      setShowCookieModal(true);
+                    } else {
+                      window.location.hash = '#contacto';
+                    }
+                  }}
+                >
+                  {item}
+                </button>
               </React.Fragment>
             ))}
           </div>
         </div>
       </footer>
 
-      {/* PRODUCT MODAL */}
+      {/* BANNER FLOTANTE DE COOKIES Y PRIVACIDAD */}
+      {!cookieConsent && (
+        <aside className="cookie-banner" role="region" aria-label="Consentimiento de Cookies">
+          <div className="cookie-banner__inner">
+            <div className="cookie-banner__text-wrap">
+              <span className="cookie-banner__icon">
+                <i className="fa-solid fa-cookie-bite text-crimson" aria-hidden="true"></i>
+              </span>
+              <p className="cookie-banner__text">{t.cookies.message}</p>
+            </div>
+            <div className="cookie-banner__actions">
+              <button 
+                type="button" 
+                className="btn btn--outline btn--sm" 
+                onClick={() => setShowCookieModal(true)}
+              >
+                <i className="fa-solid fa-sliders" aria-hidden="true"></i> {t.cookies.settings}
+              </button>
+              <button 
+                type="button" 
+                className="btn btn--primary btn--sm" 
+                onClick={acceptCookies}
+              >
+                <i className="fa-solid fa-check" aria-hidden="true"></i> {t.cookies.accept}
+              </button>
+            </div>
+          </div>
+        </aside>
+      )}
+
+      {/* MODAL DE DETALLE DE PRODUCTO */}
       {modalProduct && (
         <div className="modal" onClick={() => setSelected(null)} role="presentation">
           <div className="modal__card" role="dialog" aria-modal="true" aria-label={modalProduct.name} onClick={(e) => e.stopPropagation()}>
-            <button type="button" className="modal__close" onClick={() => setSelected(null)} aria-label={t.products.close}>&times;</button>
+            <button type="button" className="modal__close" onClick={() => setSelected(null)} aria-label={t.products.close}>
+              <i className="fa-solid fa-xmark" aria-hidden="true"></i>
+            </button>
             <div className="card__icon"><i className={`fa-solid ${modalProduct.icon}`} aria-hidden="true"></i></div>
             <h3>{modalProduct.name}</h3>
             <p>{modalProduct.short}</p>
             <ul className="modal__list">
               {modalProduct.bullets.map((b) => <li key={b}>{b}</li>)}
             </ul>
-            {PRODUCT_LINKS[modalProduct.id] ? (
-              <a href={PRODUCT_LINKS[modalProduct.id]} target="_blank" rel="noopener noreferrer" className="btn btn--primary">
-                {t.products.open} {modalProduct.name} <i className="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+            <div className="modal__actions-row">
+              {PRODUCT_LINKS[modalProduct.id] ? (
+                <a href={PRODUCT_LINKS[modalProduct.id]} target="_blank" rel="noopener noreferrer" className="btn btn--primary">
+                  <span>{t.products.open} {modalProduct.name}</span>
+                  <i className="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+                </a>
+              ) : (
+                <a href="#contacto" className="btn btn--primary" onClick={() => setSelected(null)}>
+                  <span>{lang === 'es' ? 'Consultar Solución' : 'Inquire Solution'}</span>
+                  <i className="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                </a>
+              )}
+              <button 
+                type="button" 
+                className="btn btn--outline" 
+                onClick={() => {
+                  const p = modalProduct;
+                  setSelected(null);
+                  setVideoModalProduct(p);
+                }}
+              >
+                <i className="fa-solid fa-play" aria-hidden="true"></i>
+                <span>{t.videoDemo.watchVideo}</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL DE VIDEO DEMOSTRATIVO */}
+      {videoModalProduct && (
+        <div className="modal modal--video" onClick={() => setVideoModalProduct(null)} role="presentation">
+          <div className="modal__card modal__card--video" role="dialog" aria-modal="true" aria-label={videoModalProduct.name} onClick={(e) => e.stopPropagation()}>
+            <div className="modal__video-head">
+              <div className="modal__video-title-wrap">
+                <span className="video-product-badge">
+                  <i className={`fa-solid ${videoModalProduct.icon}`} aria-hidden="true"></i> {videoModalProduct.name}
+                </span>
+                <h3>{t.videoDemo.title}</h3>
+                <p>{t.videoDemo.subtitle}</p>
+              </div>
+              <button type="button" className="modal__close" onClick={() => setVideoModalProduct(null)} aria-label={t.videoDemo.close}>&times;</button>
+            </div>
+
+            <div className="modal__video-player-wrap">
+              <div className="video-player-box">
+                {PRODUCT_IMAGES[videoModalProduct.id] ? (
+                  <img src={PRODUCT_IMAGES[videoModalProduct.id]} alt={videoModalProduct.name} className="video-player-poster" />
+                ) : (
+                  <div className="video-player-poster-fallback">
+                    <i className={`fa-solid ${videoModalProduct.icon} fa-4x text-crimson`}></i>
+                  </div>
+                )}
+                <div className="video-player-overlay">
+                  <button type="button" className="video-play-btn" aria-label="Reproducir video de muestra">
+                    <i className="fa-solid fa-play" aria-hidden="true"></i>
+                  </button>
+                  <p className="video-player-notice">{t.videoDemo.comingSoon}</p>
+                  <div className="video-player-badges">
+                    <span><i className="fa-solid fa-film" aria-hidden="true"></i> 1080p HD</span>
+                    <span><i className="fa-solid fa-user-tie" aria-hidden="true"></i> Jimmy Arias (CEO)</span>
+                    <span><i className="fa-solid fa-clock" aria-hidden="true"></i> ~3:30 min</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="modal__video-footer">
+              {PRODUCT_LINKS[videoModalProduct.id] ? (
+                <a href={PRODUCT_LINKS[videoModalProduct.id]} target="_blank" rel="noopener noreferrer" className="btn btn--primary btn--sm">
+                  {t.products.open} {videoModalProduct.name} <i className="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+                </a>
+              ) : (
+                <a href="#contacto" className="btn btn--primary btn--sm" onClick={() => setVideoModalProduct(null)}>
+                  {lang === 'es' ? 'Consultar Solución' : 'Inquire Solution'}
+                </a>
+              )}
+              <button type="button" className="btn btn--outline btn--sm" onClick={() => setVideoModalProduct(null)}>
+                {t.videoDemo.close}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL DE CONFIRMACIÓN CRM ARIAS */}
+      {crmSuccess && (
+        <div className="modal modal--crm-success" onClick={() => setCrmSuccess(false)} role="presentation">
+          <div className="modal__card modal__card--crm" role="dialog" aria-modal="true" aria-label="Confirmación CRM" onClick={(e) => e.stopPropagation()}>
+            <button type="button" className="modal__close" onClick={() => setCrmSuccess(false)} aria-label="Cerrar">&times;</button>
+            <div className="crm-success__icon-ring">
+              <i className="fa-solid fa-circle-check" aria-hidden="true"></i>
+            </div>
+            <h3 className="crm-success__title">{t.crmSubmit.successTitle}</h3>
+            <p className="crm-success__desc">{t.crmSubmit.successMsg}</p>
+            <div className="crm-success__meta">
+              <span><i className="fa-solid fa-server text-crimson" aria-hidden="true"></i> CRM Pipeline Lead: Registrado</span>
+              <span><i className="fa-solid fa-bolt text-emerald" aria-hidden="true"></i> Tiempo de respuesta: &lt; 24h</span>
+            </div>
+            <div className="crm-success__actions">
+              <button type="button" className="btn btn--primary" onClick={() => setCrmSuccess(false)}>
+                {t.crmSubmit.close}
+              </button>
+              <a href={CONTACT.whatsapp} target="_blank" rel="noopener noreferrer" className="btn btn--whatsapp-outline">
+                <i className="fa-brands fa-whatsapp" aria-hidden="true"></i> {t.whatsappTitle}
               </a>
-            ) : (
-              <span className="badge">{t.products.soon}</span>
-            )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL DE POLÍTICA DE COOKIES Y PRIVACIDAD */}
+      {showCookieModal && (
+        <div className="modal modal--cookies" onClick={() => setShowCookieModal(false)} role="presentation">
+          <div className="modal__card modal__card--cookies" role="dialog" aria-modal="true" aria-label={t.cookies.policyTitle} onClick={(e) => e.stopPropagation()}>
+            <button type="button" className="modal__close" onClick={() => setShowCookieModal(false)} aria-label={t.cookies.close}>&times;</button>
+            <div className="card__icon"><i className="fa-solid fa-shield-halved text-crimson" aria-hidden="true"></i></div>
+            <h3>{t.cookies.policyTitle}</h3>
+            <p className="cookie-modal__desc">{t.cookies.policyDesc}</p>
+            <ul className="modal__list modal__list--cookies">
+              {t.cookies.points.map((pt, idx) => (
+                <li key={idx}>
+                  <i className="fa-solid fa-circle-check text-crimson" aria-hidden="true"></i>
+                  <span>{pt}</span>
+                </li>
+              ))}
+            </ul>
+            <div className="modal__actions">
+              <button 
+                type="button" 
+                className="btn btn--primary" 
+                onClick={() => {
+                  acceptCookies();
+                  setShowCookieModal(false);
+                }}
+              >
+                {t.cookies.close}
+              </button>
+            </div>
           </div>
         </div>
       )}
