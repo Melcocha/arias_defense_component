@@ -5,6 +5,18 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+// Prevenir que la advertencia benigna de ResizeObserver active el overlay de error de Webpack
+window.addEventListener('error', (e) => {
+  if (
+    typeof e.message === 'string' &&
+    (e.message.includes('ResizeObserver loop completed with undelivered notifications') ||
+     e.message.includes('ResizeObserver loop limit exceeded'))
+  ) {
+    e.stopImmediatePropagation();
+    e.preventDefault();
+  }
+});
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>

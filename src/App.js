@@ -7,10 +7,10 @@ import sipleImg from './images/products/siple.png';
 import gasImg from './images/products/gasolinera.png';
 import leadershipImg from './images/leadership.png';
 import supportImg from './images/support_team.png';
-import insightTeamImg from './images/insight_team.jpg';
-import thumbMeetingImg from './images/thumb_meeting.jpg';
-import thumbTabletImg from './images/thumb_tablet.jpg';
-import thumbTypingImg from './images/thumb_typing.jpg';
+import insightTeamImg from './images/insight_office_team.png';
+import thumbDteImg from './images/thumb_dte.png';
+import thumbCloudImg from './images/thumb_cloud.jpg';
+import thumbMulticompanyImg from './images/thumb_multicompany.png';
 import { CONTENT, CONTACT, PRODUCT_LINKS } from './content';
 import CircuitBackground from './CircuitBackground';
 
@@ -23,9 +23,12 @@ const PRODUCT_IMAGES = {
 };
 
 const WHY_THUMBS = {
-  thumb_meeting: thumbMeetingImg,
-  thumb_tablet: thumbTabletImg,
-  thumb_typing: thumbTypingImg,
+  thumb_meeting: thumbDteImg,
+  thumb_tablet: thumbCloudImg,
+  thumb_typing: thumbMulticompanyImg,
+  thumb_dte: thumbDteImg,
+  thumb_cloud: thumbCloudImg,
+  thumb_multicompany: thumbMulticompanyImg,
 };
 
 
@@ -494,29 +497,13 @@ function App() {
             <div className="why-insight-grid">
               {/* Columna Izquierda: Encabezado, Botones y 3 Tarjetas con miniaturas */}
               <div className="why-insight-left">
-                <div className="why-insight-eyebrow">
-                  <span className="why-insight-ring" aria-hidden="true"></span>
-                  <span>{t.why.eyebrow}</span>
-                </div>
                 <h2 className="why-insight-title">{t.why.title}</h2>
                 <p className="why-insight-subtitle">{t.why.subtitle}</p>
 
-                <div className="why-insight-actions">
-                  <a href="#contacto" className="btn btn--primary why-insight-btn">
-                    <span>{t.why.ctaPrimary}</span>
-                  </a>
-                  <a href={CONTACT.branchSV.phoneHref} className="why-insight-link">
-                    <span>{t.why.ctaSecondary}</span>
-                    <span className="why-insight-link-arrow" aria-hidden="true">
-                      <i className="fa-solid fa-arrow-right"></i>
-                    </span>
-                  </a>
-                </div>
-
-                {/* 3 Tarjetas estilo Insight con foto rectangular arriba, título, desc y flecha */}
+                {/* 3 Tarjetas estilo Insight con foto rectangular arriba, título y desc */}
                 <div className="why-insight-cards-row">
                   {t.why.cards.map((card) => (
-                    <article className="why-insight-card" key={card.id}>
+                    <article className={`why-insight-card why-insight-card--${card.id}`} key={card.id}>
                       <div className="why-insight-card__thumb">
                         <img
                           src={WHY_THUMBS[card.thumb]}
@@ -527,9 +514,6 @@ function App() {
                       <div className="why-insight-card__body">
                         <h3 className="why-insight-card__title">{card.title}</h3>
                         <p className="why-insight-card__desc">{card.desc}</p>
-                        <a href="#contacto" className="why-insight-card__arrow" aria-label={card.title}>
-                          <i className="fa-solid fa-arrow-right" aria-hidden="true"></i>
-                        </a>
                       </div>
                     </article>
                   ))}
@@ -569,10 +553,6 @@ function App() {
               </div>
 
               <div className="specialist-lead-col">
-                <div className="specialist-eyebrow">
-                  <span className="specialist-eyebrow-ring" aria-hidden="true"></span>
-                  <span>{t.specialistSection.eyebrow}</span>
-                </div>
                 <h2 className="specialist-title">{t.specialistSection.title}</h2>
                 <p className="specialist-subtitle">{t.specialistSection.subtitle}</p>
               </div>
@@ -767,6 +747,29 @@ function App() {
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* SOCIOS ESTRATÉGICOS — ALIANZAS TECNOLÓGICAS (CARRUSEL 100% ANCHO DE PANTALLA) */}
+        <section id="socios" className="section section--partners">
+          <div className="partners-container">
+            <div className="partners-header">
+              <h2 className="partners-title">{t.partners.title}</h2>
+            </div>
+          </div>
+
+          {/* Tira 100% de ancho de borde a borde */}
+          <div className="partners-carousel-strip">
+            <div className="partners-carousel-track">
+              {[...t.partners.items, ...t.partners.items, ...t.partners.items, ...t.partners.items].map((partner, idx) => (
+                <div className={`partner-card-sleek partner-card-sleek--${partner.id}`} key={`${partner.id}-${idx}`}>
+                  <div className="partner-card-sleek__icon" aria-hidden="true">
+                    <i className={partner.icon}></i>
+                  </div>
+                  <span className="partner-card-sleek__name">{partner.name}</span>
+                </div>
+              ))}
             </div>
           </div>
         </section>

@@ -181,16 +181,25 @@ function CircuitBackground() {
       raf = requestAnimationFrame(loop);
     };
 
+    let resizeRaf = 0;
+    const safeResize = () => {
+      cancelAnimationFrame(resizeRaf);
+      resizeRaf = requestAnimationFrame(() => {
+        resize();
+      });
+    };
+
     resize();
     if (!reduce) raf = requestAnimationFrame(loop);
 
-    const ro = new ResizeObserver(resize);
+    const ro = new ResizeObserver(safeResize);
     ro.observe(canvas.parentElement);
     const io = new IntersectionObserver(([e]) => { running = e.isIntersecting; });
     io.observe(canvas);
 
     return () => {
       cancelAnimationFrame(raf);
+      cancelAnimationFrame(resizeRaf);
       ro.disconnect();
       io.disconnect();
     };
