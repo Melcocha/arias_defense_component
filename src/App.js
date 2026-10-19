@@ -132,12 +132,33 @@ function App() {
   const menuProduct = t.products.items.find((p) => p.id === menuProductId) || t.products.items[0];
   const closeProductsMenu = () => setProductsMenuOpen(false);
 
+  const closeMobileNavAndScroll = (e, targetId) => {
+    if (e && e.preventDefault) e.preventDefault();
+    setMobileMenuOpen(false);
+    setTimeout(() => {
+      const el = document.getElementById(targetId);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+        window.history.pushState(null, '', `#${targetId}`);
+      }
+    }, 100);
+  };
+
   return (
     <div className="site">
       {/* NAVBAR */}
       <header className={`nav${isScrolled ? ' is-scrolled' : ''}`}>
         <div className="nav__inner">
-          <a href="#inicio" className="nav__logo" aria-label="Arias Defense Components">
+          <a
+            href="#inicio"
+            className="nav__logo"
+            aria-label="Arias Defense Components"
+            onClick={(e) => {
+              e.preventDefault();
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+              window.history.pushState(null, '', '#inicio');
+            }}
+          >
             <img src={logo} alt="Arias Defense Components" />
           </a>
           <nav className="nav__links" aria-label="Principal">
@@ -302,7 +323,7 @@ function App() {
             <a 
               href="#productos" 
               className={`mobile-nav__link${activeSection === 'productos' ? ' is-active' : ''}`}
-              onClick={() => setMobileMenuOpen(false)}
+              onClick={(e) => closeMobileNavAndScroll(e, 'productos')}
             >
               <i className="fa-solid fa-layer-group text-crimson" aria-hidden="true"></i>
               <span>{t.nav.products}</span>
@@ -324,7 +345,7 @@ function App() {
             <a 
               href="#nosotros" 
               className={`mobile-nav__link${activeSection === 'nosotros' ? ' is-active' : ''}`}
-              onClick={() => setMobileMenuOpen(false)}
+              onClick={(e) => closeMobileNavAndScroll(e, 'nosotros')}
             >
               <i className="fa-solid fa-shield-halved text-crimson" aria-hidden="true"></i>
               <span>{t.nav.why}</span>
@@ -332,7 +353,7 @@ function App() {
             <a 
               href="#testimonios" 
               className={`mobile-nav__link${activeSection === 'testimonios' ? ' is-active' : ''}`}
-              onClick={() => setMobileMenuOpen(false)}
+              onClick={(e) => closeMobileNavAndScroll(e, 'testimonios')}
             >
               <i className="fa-solid fa-star text-crimson" aria-hidden="true"></i>
               <span>{t.nav.testimonials}</span>
@@ -340,7 +361,7 @@ function App() {
             <a 
               href="#contacto" 
               className={`mobile-nav__link${activeSection === 'contacto' ? ' is-active' : ''}`}
-              onClick={() => setMobileMenuOpen(false)}
+              onClick={(e) => closeMobileNavAndScroll(e, 'contacto')}
             >
               <i className="fa-solid fa-envelope text-crimson" aria-hidden="true"></i>
               <span>{t.nav.contact}</span>
@@ -351,7 +372,7 @@ function App() {
             <a 
               href="#contacto" 
               className="btn btn--primary btn--block mobile-nav__cta"
-              onClick={() => setMobileMenuOpen(false)}
+              onClick={(e) => closeMobileNavAndScroll(e, 'contacto')}
             >
               {t.nav.cta} <i className="fa-solid fa-arrow-right" aria-hidden="true"></i>
             </a>
