@@ -16,6 +16,11 @@ export const CONTACT = {
     phoneHref: 'tel:+50379718911',
   },
   whatsapp: 'https://wa.me/50379718911?text=Hola%20Arias%20Defense,%20deseo%20informaci%C3%B3n',
+  social: {
+    facebook: 'https://www.facebook.com/AriasDefense',
+    instagram: 'https://www.instagram.com/ariasdefense/',
+    youtube: 'https://www.youtube.com/@ariasdefensecomponents',
+  },
   codes: {
     cage: '8NRF4',
     duns: '117596665',
@@ -28,6 +33,25 @@ export const PRODUCT_LINKS = {
   siple: 'https://3.17.174.137/',
   gasolinera: null,
 };
+
+// Videos demostrativos de cada producto (Configurable con enlace o ID de YouTube)
+export const PRODUCT_VIDEOS = {
+  default: 'https://www.youtube.com/watch?v=eL-_2m1uaWw',
+  erp: 'https://www.youtube.com/watch?v=eL-_2m1uaWw',
+  crm: 'https://www.youtube.com/watch?v=eL-_2m1uaWw',
+  siple: 'https://www.youtube.com/watch?v=eL-_2m1uaWw',
+  gasolinera: 'https://www.youtube.com/watch?v=eL-_2m1uaWw',
+};
+
+export function getYouTubeEmbedUrl(urlOrId) {
+  if (!urlOrId) return 'https://www.youtube-nocookie.com/embed/eL-_2m1uaWw?autoplay=1&rel=0';
+  if (urlOrId.includes('/embed/')) return urlOrId;
+  const match = urlOrId.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
+  if (match && match[1]) {
+    return `https://www.youtube-nocookie.com/embed/${match[1]}?autoplay=1&rel=0`;
+  }
+  return `https://www.youtube-nocookie.com/embed/${urlOrId}?autoplay=1&rel=0`;
+}
 
 export const CONTENT = {
   es: {

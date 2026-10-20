@@ -11,7 +11,8 @@ import insightTeamImg from './images/insight_office_team.png';
 import thumbDteImg from './images/thumb_dte.png';
 import thumbCloudImg from './images/thumb_cloud.jpg';
 import thumbMulticompanyImg from './images/thumb_multicompany.png';
-import { CONTENT, CONTACT, PRODUCT_LINKS } from './content';
+import haciendaEscudoImg from './images/hacienda_escudo.png';
+import { CONTENT, CONTACT, PRODUCT_LINKS, PRODUCT_VIDEOS, getYouTubeEmbedUrl } from './content';
 import CircuitBackground from './CircuitBackground';
 
 /* Capturas de cada producto registradas en alta resolución */
@@ -786,7 +787,11 @@ function App() {
               {[...t.partners.items, ...t.partners.items, ...t.partners.items, ...t.partners.items].map((partner, idx) => (
                 <div className={`partner-card-sleek partner-card-sleek--${partner.id}`} key={`${partner.id}-${idx}`}>
                   <div className="partner-card-sleek__icon" aria-hidden="true">
-                    <i className={partner.icon}></i>
+                    {partner.id === 'hacienda' ? (
+                      <img src={haciendaEscudoImg} alt={partner.name} className="partner-card-sleek__img" />
+                    ) : (
+                      <i className={partner.icon}></i>
+                    )}
                   </div>
                   <span className="partner-card-sleek__name">{partner.name}</span>
                 </div>
@@ -816,6 +821,40 @@ function App() {
                 <i className="fa-solid fa-shield-halved text-crimson" aria-hidden="true"></i>
                 <strong>DUNS:</strong> {CONTACT.codes.duns}
               </span>
+            </div>
+
+            {/* Redes Sociales Oficiales */}
+            <div className="footer__socials">
+              <a
+                href={CONTACT.social.facebook}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="footer__social-btn footer__social-btn--fb"
+                aria-label="Facebook Arias Defense"
+                title="Facebook"
+              >
+                <i className="fa-brands fa-facebook-f" aria-hidden="true"></i>
+              </a>
+              <a
+                href={CONTACT.social.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="footer__social-btn footer__social-btn--ig"
+                aria-label="Instagram Arias Defense"
+                title="Instagram"
+              >
+                <i className="fa-brands fa-instagram" aria-hidden="true"></i>
+              </a>
+              <a
+                href={CONTACT.social.youtube}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="footer__social-btn footer__social-btn--yt"
+                aria-label="YouTube Arias Defense"
+                title="YouTube"
+              >
+                <i className="fa-brands fa-youtube" aria-hidden="true"></i>
+              </a>
             </div>
           </div>
 
@@ -982,24 +1021,14 @@ function App() {
 
             <div className="modal__video-player-wrap">
               <div className="video-player-box">
-                {PRODUCT_IMAGES[videoModalProduct.id] ? (
-                  <img src={PRODUCT_IMAGES[videoModalProduct.id]} alt={videoModalProduct.name} className="video-player-poster" />
-                ) : (
-                  <div className="video-player-poster-fallback">
-                    <i className={`fa-solid ${videoModalProduct.icon} fa-4x text-crimson`}></i>
-                  </div>
-                )}
-                <div className="video-player-overlay">
-                  <button type="button" className="video-play-btn" aria-label="Reproducir video de muestra">
-                    <i className="fa-solid fa-play" aria-hidden="true"></i>
-                  </button>
-                  <p className="video-player-notice">{t.videoDemo.comingSoon}</p>
-                  <div className="video-player-badges">
-                    <span><i className="fa-solid fa-film" aria-hidden="true"></i> 1080p HD</span>
-                    <span><i className="fa-solid fa-user-tie" aria-hidden="true"></i> Jimmy Arias (CEO)</span>
-                    <span><i className="fa-solid fa-clock" aria-hidden="true"></i> ~3:30 min</span>
-                  </div>
-                </div>
+                <iframe
+                  className="video-player-iframe"
+                  src={getYouTubeEmbedUrl(PRODUCT_VIDEOS[videoModalProduct.id] || PRODUCT_VIDEOS.default)}
+                  title={`${t.videoDemo.title} - ${videoModalProduct.name}`}
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                ></iframe>
               </div>
             </div>
 
