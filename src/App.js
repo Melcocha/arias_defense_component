@@ -747,16 +747,6 @@ function App() {
                       </div>
                     </a>
 
-                    <a href={CONTACT.headquarters.phoneHref} className="contact-panel-channel">
-                      <span className="contact-panel-circle" aria-hidden="true">
-                        <i className="fa-solid fa-phone"></i>
-                      </span>
-                      <div className="contact-panel-channel__text">
-                        <small>USA Direct</small>
-                        <strong>{CONTACT.headquarters.phone}</strong>
-                      </div>
-                    </a>
-
                     <a href={`mailto:${CONTACT.branchSV.email}`} className="contact-panel-channel">
                       <span className="contact-panel-circle" aria-hidden="true">
                         <i className="fa-solid fa-envelope"></i>
