@@ -383,7 +383,7 @@ function App() {
                 <i className="fa-solid fa-phone"></i>
                 <span>{CONTACT.branchSV.phone}</span>
               </a>
-              <a href={CONTACT.branchSV.whatsapp} target="_blank" rel="noopener noreferrer" className="mobile-quick-btn mobile-quick-btn--wa">
+              <a href={CONTACT.whatsapp} target="_blank" rel="noopener noreferrer" className="mobile-quick-btn mobile-quick-btn--wa">
                 <i className="fa-brands fa-whatsapp"></i>
                 <span>WhatsApp</span>
               </a>
@@ -869,24 +869,7 @@ function App() {
             })}
           </div>
 
-          {/* Columna 3: Casa Matriz (USA) */}
-          <div className="footer__col footer__col--location">
-            <div className="location-heading">
-              <i className="fa-solid fa-building-flag text-crimson" aria-hidden="true"></i>
-              <h4>{CONTACT.headquarters.title}</h4>
-            </div>
-            <p className="location-address">{CONTACT.headquarters.address}</p>
-            <a href={`mailto:${CONTACT.headquarters.email}`} className="location-link">
-              <i className="fa-solid fa-envelope" aria-hidden="true"></i>
-              <span>{CONTACT.headquarters.email}</span>
-            </a>
-            <a href={CONTACT.headquarters.phoneHref} className="location-link">
-              <i className="fa-solid fa-phone" aria-hidden="true"></i>
-              <span>{CONTACT.headquarters.phone}</span>
-            </a>
-          </div>
-
-          {/* Columna 4: Sucursal El Salvador */}
+          {/* Columna 3: Sucursal El Salvador */}
           <div className="footer__col footer__col--location">
             <div className="location-heading">
               <i className="fa-solid fa-building-columns text-crimson" aria-hidden="true"></i>
